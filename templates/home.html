@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - LittleLoop{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center align-items-center" style="min-height: 60vh;">
+        <div class="col-md-8 text-center">
+            <h1 class="display-4 mb-4">
+                <i class="bi bi-bag-heart text-success"></i> Welcome to LittleLoop
+            </h1>
+            <p class="lead mb-4">
+                A community platform where parents connect to donate or sell used baby clothes
+            </p>
+            <p class="text-muted mb-5">
+                Help other parents while keeping clothes in circulation. It's eco-friendly and budget-friendly!
+            </p>
+            
+            {% if user.is_authenticated %}
+                <div class="alert alert-success">
+                    <i class="bi bi-check-circle"></i> You are logged in as <strong>{{ user.email }}</strong>
+                </div>
+                <a href="{% url 'accounts:profile_complete' %}" class="btn btn-lg btn-success">
+                    <i class="bi bi-person-circle"></i> Complete Your Profile
+                </a>
+            {% else %}
+                <a href="{% url 'account_login' %}" class="btn btn-lg btn-primary">
+                    <i class="bi bi-box-arrow-in-right"></i> Get Started - Login
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- Features Section -->
+    <div class="row mt-5">
+        <div class="col-md-4 text-center mb-4">
+            <div class="card h-100 p-4">
+                <i class="bi bi-people display-4 text-primary mb-3"></i>
+                <h5>Connect with Parents</h5>
+                <p class="text-muted">Find parents in your community who share the same values</p>
+            </div>
+        </div>
+        <div class="col-md-4 text-center mb-4">
+            <div class="card h-100 p-4">
+                <i class="bi bi-arrow-repeat display-4 text-success mb-3"></i>
+                <h5>Donate or Sell</h5>
+                <p class="text-muted">Give baby clothes a second life while helping other families</p>
+            </div>
+        </div>
+        <div class="col-md-4 text-center mb-4">
+            <div class="card h-100 p-4">
+                <i class="bi bi-geo-alt display-4 text-warning mb-3"></i>
+                <h5>Meet in Person</h5>
+                <p class="text-muted">Arrange your own meetup or delivery - we connect, you decide</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

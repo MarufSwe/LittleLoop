@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Complete Your Profile - LittleLoop{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card mt-5">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <i class="bi bi-person-circle display-1 text-primary"></i>
+                    </div>
+                    
+                    <h2 class="text-center mb-3">Welcome to LittleLoop!</h2>
+                    <p class="text-center text-muted mb-5">
+                        You're almost there! Let's complete your profile to get started.
+                    </p>
+                    
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle"></i> 
+                        <strong>Note:</strong> This is a placeholder page for STEP 3 - User Profile & Mandatory Completion.
+                        The full profile form will be implemented in the next step.
+                    </div>
+                    
+                    <div class="card bg-light border-0 mb-4">
+                        <div class="card-body">
+                            <h5 class="mb-3">What we'll need:</h5>
+                            <ul class="list-unstyled">
+                                <li class="mb-2">
+                                    <i class="bi bi-check-circle text-success"></i> Your full name
+                                </li>
+                                <li class="mb-2">
+                                    <i class="bi bi-check-circle text-success"></i> Phone number
+                                </li>
+                                <li class="mb-2">
+                                    <i class="bi bi-check-circle text-success"></i> Location (city/area)
+                                </li>
+                                <li class="mb-2">
+                                    <i class="bi bi-check-circle text-success"></i> Brief bio about you
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <p class="text-muted mb-3">
+                            <strong>Currently logged in as:</strong> {{ user.email }}
+                        </p>
+                        <a href="{% url 'home' %}" class="btn btn-primary btn-lg">
+                            <i class="bi bi-house"></i> Go to Home (Temporary)
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

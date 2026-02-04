@@ -37,7 +37,26 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    # Django Allauth - for social authentication
+    'django.contrib.sites',  # Required by allauth
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    
+    # Social providers - Google & Facebook
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.facebook',
+    
+    # SSL Server for HTTPS in development
+    'sslserver',
+    
+    # Custom apps
+    'accounts',  # User accounts & profile management
 ]
+
+# Required by django-allauth
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -47,6 +66,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
+    # Allauth middleware (required for django-allauth)
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -54,7 +76,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],  # Project-level templates
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -131,3 +153,67 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# ============================================================================
+# DJANGO ALLAUTH CONFIGURATION
+# ============================================================================
+
+# Authentication backends - Django default + Allauth
+AUTHENTICATION_BACKENDS = [
+    # Django default backend (for username/password in admin)
+    'django.contrib.auth.backends.ModelBackend',
+    
+    # Allauth backend (for social authentication)
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+# Allauth Account Settings
+ACCOUNT_LOGIN_METHODS = {'email'}  # Use email for login
+ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']  # Signup fields (no username)
+ACCOUNT_EMAIL_VERIFICATION = 'none'  # No email verification (as per your requirement)
+ACCOUNT_UNIQUE_EMAIL = True  # Each email must be unique
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True  # Auto login after confirmation (if enabled later)
+
+# Social Account Settings
+SOCIALACCOUNT_AUTO_SIGNUP = True  # Automatically create account on social login
+SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'  # No email verification for social accounts
+SOCIALACCOUNT_QUERY_EMAIL = True  # Request email from social providers
+SOCIALACCOUNT_STORE_TOKENS = True  # Store OAuth tokens
+
+# Redirect URLs after login/logout
+LOGIN_REDIRECT_URL = '/profile/complete/'  # Redirect to profile completion after login
+LOGOUT_REDIRECT_URL = '/'  # Redirect to home after logout
+ACCOUNT_LOGOUT_REDIRECT_URL = '/'
+
+# Provider-specific settings
+# NOTE: Credentials are managed via Django Admin (Sites > Social applications)
+# Do NOT add 'APP' configurations here as it can cause conflicts
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+    },
+    'facebook': {
+        'METHOD': 'oauth2',
+        'SCOPE': ['email', 'public_profile'],
+        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+        'INIT_PARAMS': {'cookie': True},
+        'FIELDS': [
+            'id',
+            'email',
+            'name',
+            'first_name',
+            'last_name',
+            'verified',
+        ],
+        'EXCHANGE_TOKEN': True,
+        'VERIFIED_EMAIL': False,
+        'VERSION': 'v21.0',
+    }
+}
