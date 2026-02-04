@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}My Profile - LittleLoop{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card mt-5">
+                <div class="card-body p-5">
+                    <h2 class="mb-4">
+                        <i class="bi bi-person-circle"></i> My Profile
+                    </h2>
+                    
+                    <div class="row">
+                        <!-- Profile Picture -->
+                        <div class="col-md-4 text-center mb-4">
+                            {% if profile.profile_picture %}
+                                <img src="{{ profile.profile_picture.url }}" alt="Profile Picture" 
+                                     class="img-fluid rounded-circle" style="width: 150px; height: 150px; object-fit: cover;">
+                            {% else %}
+                                <div class="rounded-circle bg-light d-flex align-items-center justify-content-center mx-auto" 
+                                     style="width: 150px; height: 150px;">
+                                    <i class="bi bi-person-circle display-1 text-muted"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Profile Details -->
+                        <div class="col-md-8">
+                            <div class="mb-3">
+                                <label class="fw-bold text-muted">Full Name</label>
+                                <p class="fs-5">{{ profile.full_name|default:"Not set" }}</p>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="fw-bold text-muted">Email</label>
+                                <p>{{ user.email }}</p>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="fw-bold text-muted">Phone Number</label>
+                                <p>{{ profile.phone_number|default:"Not set" }}</p>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="fw-bold text-muted">Location</label>
+                                <p>{{ profile.location|default:"Not set" }}</p>
+                            </div>
+                            
+                            {% if profile.bio %}
+                            <div class="mb-3">
+                                <label class="fw-bold text-muted">About Me</label>
+                                <p>{{ profile.bio }}</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="mt-4 d-flex gap-2">
+                        <a href="{% url 'accounts:profile_complete' %}" class="btn btn-primary">
+                            <i class="bi bi-pencil"></i> Edit Profile
+                        </a>
+                        <a href="{% url 'home' %}" class="btn btn-outline-secondary">
+                            <i class="bi bi-house"></i> Back to Home
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -13,45 +13,101 @@
                     </div>
                     
                     <h2 class="text-center mb-3">Welcome to LittleLoop!</h2>
-                    <p class="text-center text-muted mb-5">
+                    <p class="text-center text-muted mb-4">
                         You're almost there! Let's complete your profile to get started.
                     </p>
                     
-                    <div class="alert alert-info">
-                        <i class="bi bi-info-circle"></i> 
-                        <strong>Note:</strong> This is a placeholder page for STEP 3 - User Profile & Mandatory Completion.
-                        The full profile form will be implemented in the next step.
-                    </div>
-                    
-                    <div class="card bg-light border-0 mb-4">
-                        <div class="card-body">
-                            <h5 class="mb-3">What we'll need:</h5>
-                            <ul class="list-unstyled">
-                                <li class="mb-2">
-                                    <i class="bi bi-check-circle text-success"></i> Your full name
-                                </li>
-                                <li class="mb-2">
-                                    <i class="bi bi-check-circle text-success"></i> Phone number
-                                </li>
-                                <li class="mb-2">
-                                    <i class="bi bi-check-circle text-success"></i> Location (city/area)
-                                </li>
-                                <li class="mb-2">
-                                    <i class="bi bi-check-circle text-success"></i> Brief bio about you
-                                </li>
-                            </ul>
+                    <!-- Profile Completion Form -->
+                    <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                        {% csrf_token %}
+                        
+                        <!-- Profile Picture -->
+                        <div class="mb-3">
+                            <label for="{{ form.profile_picture.id_for_label }}" class="form-label">
+                                <i class="bi bi-image"></i> {{ form.profile_picture.label }}
+                            </label>
+                            {{ form.profile_picture }}
+                            {% if form.profile_picture.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.profile_picture.errors.0 }}
+                                </div>
+                            {% endif %}
                         </div>
-                    </div>
-                    
-                    <div class="text-center">
-                        <p class="text-muted mb-3">
-                            <strong>Currently logged in as:</strong> {{ user.email }}
-                        </p>
-                        <a href="{% url 'home' %}" class="btn btn-primary btn-lg">
-                            <i class="bi bi-house"></i> Go to Home (Temporary)
-                        </a>
-                    </div>
+                        
+                        <!-- Full Name -->
+                        <div class="mb-3">
+                            <label for="{{ form.full_name.id_for_label }}" class="form-label">
+                                <i class="bi bi-person"></i> {{ form.full_name.label }} <span class="text-danger">*</span>
+                            </label>
+                            {{ form.full_name }}
+                            {% if form.full_name.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.full_name.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Phone Number -->
+                        <div class="mb-3">
+                            <label for="{{ form.phone_number.id_for_label }}" class="form-label">
+                                <i class="bi bi-telephone"></i> {{ form.phone_number.label }} <span class="text-danger">*</span>
+                            </label>
+                            {{ form.phone_number }}
+                            {% if form.phone_number.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.phone_number.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Location -->
+                        <div class="mb-3">
+                            <label for="{{ form.location.id_for_label }}" class="form-label">
+                                <i class="bi bi-geo-alt"></i> {{ form.location.label }} <span class="text-danger">*</span>
+                            </label>
+                            {{ form.location }}
+                            {% if form.location.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.location.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Bio -->
+                        <div class="mb-4">
+                            <label for="{{ form.bio.id_for_label }}" class="form-label">
+                                <i class="bi bi-chat-left-text"></i> {{ form.bio.label }}
+                            </label>
+                            {{ form.bio }}
+                            {% if form.bio.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.bio.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Current User Info -->
+                        <div class="alert alert-info mb-4">
+                            <i class="bi bi-info-circle"></i> 
+                            <strong>Email:</strong> {{ user.email }}
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="bi bi-check-circle"></i> Complete Profile
+                            </button>
+                        </div>
+                    </form>
                 </div>
+            </div>
+            
+            <!-- Privacy Note -->
+            <div class="text-center mt-3">
+                <small class="text-muted">
+                    <i class="bi bi-shield-check"></i> 
+                    Your information is secure and private
+                </small>
             </div>
         </div>
     </div>

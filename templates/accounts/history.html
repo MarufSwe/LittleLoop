@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+
+{% block title %}My History - LittleLoop{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card mt-5">
+                <div class="card-body p-5">
+                    <h2 class="mb-4">
+                        <i class="bi bi-clock-history"></i> My History
+                    </h2>
+                    
+                    <p class="text-muted mb-4">
+                        Track all your donations, sales, and purchases in one place
+                    </p>
+                    
+                    <!-- Tabs for different history types -->
+                    <ul class="nav nav-tabs mb-4" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="donated-tab" data-bs-toggle="tab" 
+                                    data-bs-target="#donated" type="button">
+                                <i class="bi bi-gift"></i> Donated
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="sold-tab" data-bs-toggle="tab" 
+                                    data-bs-target="#sold" type="button">
+                                <i class="bi bi-tag"></i> Sold
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="collected-tab" data-bs-toggle="tab" 
+                                    data-bs-target="#collected" type="button">
+                                <i class="bi bi-bag-check"></i> Collected
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="purchased-tab" data-bs-toggle="tab" 
+                                    data-bs-target="#purchased" type="button">
+                                <i class="bi bi-cart-check"></i> Purchased
+                            </button>
+                        </li>
+                    </ul>
+                    
+                    <!-- Tab Content -->
+                    <div class="tab-content">
+                        <!-- Donated Items -->
+                        <div class="tab-pane fade show active" id="donated">
+                            <div class="alert alert-info">
+                                <i class="bi bi-info-circle"></i> 
+                                <strong>Coming Soon!</strong> This feature will be available when you start adding items to donate.
+                            </div>
+                            <div class="text-center py-5">
+                                <i class="bi bi-gift display-1 text-muted"></i>
+                                <p class="text-muted mt-3">No donated items yet</p>
+                                <a href="{% url 'home' %}" class="btn btn-primary mt-2">
+                                    <i class="bi bi-plus-circle"></i> Start Donating
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- Sold Items -->
+                        <div class="tab-pane fade" id="sold">
+                            <div class="alert alert-info">
+                                <i class="bi bi-info-circle"></i> 
+                                <strong>Coming Soon!</strong> This feature will be available when you start selling items.
+                            </div>
+                            <div class="text-center py-5">
+                                <i class="bi bi-tag display-1 text-muted"></i>
+                                <p class="text-muted mt-3">No sold items yet</p>
+                                <a href="{% url 'home' %}" class="btn btn-primary mt-2">
+                                    <i class="bi bi-plus-circle"></i> Start Selling
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- Collected Items -->
+                        <div class="tab-pane fade" id="collected">
+                            <div class="alert alert-info">
+                                <i class="bi bi-info-circle"></i> 
+                                <strong>Coming Soon!</strong> Track items you've collected from other parents.
+                            </div>
+                            <div class="text-center py-5">
+                                <i class="bi bi-bag-check display-1 text-muted"></i>
+                                <p class="text-muted mt-3">No collected items yet</p>
+                                <a href="{% url 'home' %}" class="btn btn-primary mt-2">
+                                    <i class="bi bi-search"></i> Browse Items
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- Purchased Items -->
+                        <div class="tab-pane fade" id="purchased">
+                            <div class="alert alert-info">
+                                <i class="bi bi-info-circle"></i> 
+                                <strong>Coming Soon!</strong> Track items you've purchased from other parents.
+                            </div>
+                            <div class="text-center py-5">
+                                <i class="bi bi-cart-check display-1 text-muted"></i>
+                                <p class="text-muted mt-3">No purchased items yet</p>
+                                <a href="{% url 'home' %}" class="btn btn-primary mt-2">
+                                    <i class="bi bi-search"></i> Browse Items
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Back Button -->
+                    <div class="mt-4">
+                        <a href="{% url 'home' %}" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left"></i> Back to Home
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
