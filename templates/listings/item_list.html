@@ -1,0 +1,516 @@
+{% extends 'base.html' %}
+
+{% block title %}Browse Baby Clothes - LittleLoop{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Hero + Filter Integrated Section */
+    .hero-filter-section {
+        background: linear-gradient(180deg, #667eea 0%, #764ba2 40%, #f7fafc 100%);
+        padding: 50px 0 120px 0;
+        margin-bottom: -100px;
+        position: relative;
+    }
+    
+    .hero-content {
+        text-align: center;
+        margin-bottom: 35px;
+    }
+    
+    .hero-content h1 {
+        color: white;
+        font-weight: 900;
+        font-size: 2.8rem;
+        text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        margin-bottom: 1rem;
+        font-family: 'Segoe UI', 'Arial Black', sans-serif;
+        letter-spacing: -1px;
+        animation: fadeInDown 0.8s ease-out;
+    }
+    
+    .hero-content p {
+        color: rgba(255,255,255,0.95);
+        font-size: 1.2rem;
+        font-weight: 500;
+        margin-bottom: 0;
+        animation: fadeInUp 0.8s ease-out 0.2s backwards;
+        text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+    
+    @keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @keyframes pulse {
+        0%, 100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.05);
+        }
+    }
+    
+    .hero-content i.bi-bag-heart {
+        animation: pulse 2s ease-in-out infinite;
+    }
+    
+    /* Floating Filter Card */
+    .filter-card {
+        background: white;
+        border-radius: 20px;
+        padding: 24px;
+        box-shadow: 0 10px 40px rgba(102, 126, 234, 0.25);
+        position: relative;
+        z-index: 10;
+    }
+    
+    .filter-card .form-label {
+        font-weight: 600;
+        color: #4a5568;
+        margin-bottom: 6px;
+        font-size: 0.85rem;
+    }
+    
+    .filter-card .form-label i {
+        color: #667eea;
+    }
+    
+    .filter-buttons {
+        display: flex;
+        gap: 10px;
+    }
+    
+    .results-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 20px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+    
+    /* Item Cards with Colorful Info Section */
+    .item-card {
+        border-radius: 20px;
+        overflow: hidden;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        background: white;
+        box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+        height: 100%;
+    }
+    
+    .item-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 40px rgba(102, 126, 234, 0.25);
+    }
+    
+    .item-card .card-img-container {
+        position: relative;
+        overflow: hidden;
+        height: 220px;
+    }
+    
+    .item-card .card-img-top {
+        height: 220px;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+    
+    .item-card:hover .card-img-top {
+        transform: scale(1.05);
+    }
+    
+    .item-card .image-nav {
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 6px;
+        z-index: 10;
+    }
+    
+    .item-card .image-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.5);
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .item-card .image-dot.active {
+        background: white;
+        width: 24px;
+        border-radius: 4px;
+    }
+    
+    .item-card .card-body {
+        padding: 20px;
+        background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 50%, #e6fffa 100%);
+    }
+    
+    .item-card .card-title {
+        font-weight: 700;
+        color: #2d3748;
+        font-size: 1.1rem;
+        margin-bottom: 12px;
+    }
+    
+    /* Badge Row - Gender and Type side by side */
+    .badge-row {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 12px;
+        flex-wrap: wrap;
+    }
+    
+    .gender-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 14px;
+        background: rgba(102, 126, 234, 0.1);
+        border: 2px solid rgba(102, 126, 234, 0.3);
+        border-radius: 50px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: #667eea;
+    }
+    
+    .type-badge-donate {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 14px;
+        background: rgba(72, 187, 120, 0.15);
+        border: 2px solid rgba(72, 187, 120, 0.4);
+        border-radius: 50px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: #38a169;
+    }
+    
+    .type-badge-sell {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 14px;
+        background: rgba(240, 147, 251, 0.15);
+        border: 2px solid rgba(240, 147, 251, 0.4);
+        border-radius: 50px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: #d946ef;
+    }
+    
+    .info-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    
+    .info-item i {
+        font-size: 1.1rem;
+    }
+    
+    /* Price Display */
+    .price-tag {
+        font-size: 1.6rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #667eea 0%, #f093fb 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    /* Empty State */
+    .empty-state {
+        padding: 80px 20px;
+        text-align: center;
+    }
+    
+    .empty-state i {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero + Filter Integrated Section -->
+<div class="hero-filter-section">
+    <div class="container">
+        <!-- Hero Content with Animation -->
+        <div class="hero-content">
+            <h1><i class="bi bi-bag-heart"></i> Discover Baby Clothes</h1>
+            <p>Browse, donate, sell, and buy from parents nearby</p>
+        </div>
+        
+        <!-- Floating Filter Card -->
+        <div class="filter-card">
+            <form method="get" class="row g-3 align-items-end">
+                <!-- Type Filter -->
+                <div class="col-6 col-md-3 col-lg-2">
+                    <label class="form-label">
+                        <i class="bi bi-tag-fill"></i> Type
+                    </label>
+                    <select name="type" class="form-select">
+                        <option value="">All</option>
+                        {% for value, label in item_type_choices %}
+                            <option value="{{ value }}" {% if selected_type == value %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <!-- Gender Filter -->
+                <div class="col-6 col-md-3 col-lg-2">
+                    <label class="form-label">
+                        <i class="bi bi-gender-ambiguous"></i> Gender
+                    </label>
+                    <select name="gender" class="form-select">
+                        <option value="">All</option>
+                        {% for value, label in gender_choices %}
+                            <option value="{{ value }}" {% if selected_gender == value %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <!-- Age Range Filter -->
+                <div class="col-6 col-md-3 col-lg-2">
+                    <label class="form-label">
+                        <i class="bi bi-calendar-check"></i> Age
+                    </label>
+                    <select name="age" class="form-select">
+                        <option value="">All</option>
+                        {% for value, label in age_range_choices %}
+                            <option value="{{ value }}" {% if selected_age == value %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <!-- Area Search -->
+                <div class="col-6 col-md-3 col-lg-3">
+                    <label class="form-label">
+                        <i class="bi bi-geo-alt-fill"></i> Location
+                    </label>
+                    <input type="text" name="area" class="form-control" 
+                           placeholder="Search..." value="{{ selected_area|default:'' }}">
+                </div>
+                
+                <!-- Filter Actions -->
+                <div class="col-12 col-lg-3">
+                    <div class="filter-buttons w-100">
+                        <button type="submit" class="btn btn-primary flex-grow-1">
+                            <i class="bi bi-funnel-fill"></i> Filter
+                        </button>
+                        <a href="{% url 'listings:item_list' %}" class="btn btn-outline-secondary flex-grow-1">
+                            <i class="bi bi-x-circle"></i> Clear
+                        </a>
+                    </div>
+                </div>
+            </form>
+            
+            <!-- Results Badge -->
+            <div class="mt-3 text-end">
+                <span class="results-badge">
+                    <i class="bi bi-check-circle-fill"></i>
+                    {{ items.count }} item(s) available
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Items Grid -->
+<div class="container mt-4">
+    {% if items %}
+        <div class="row g-4 mb-5">
+            {% for item in items %}
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <div class="card item-card">
+                    <!-- Item Image with Carousel -->
+                    <div class="card-img-container">
+                        {% with images=item.get_all_images %}
+                            {% if images %}
+                                {% for image in images %}
+                                    <img src="{{ image.url }}" 
+                                         class="card-img-top item-image-{{ item.pk }}" 
+                                         alt="{{ item.title }}"
+                                         style="{% if not forloop.first %}display: none;{% endif %}">
+                                {% endfor %}
+                                
+                                <!-- Image Navigation Dots -->
+                                {% if images|length > 1 %}
+                                <div class="image-nav">
+                                    {% for image in images %}
+                                        <span class="image-dot {% if forloop.first %}active{% endif %}" 
+                                              onclick="changeCardImage({{ item.pk }}, {{ forloop.counter0 }})"></span>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                            {% else %}
+                                <div class="card-img-top d-flex align-items-center justify-content-center"
+                                     style="height: 220px; background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);">
+                                    <i class="bi bi-image" style="font-size: 4rem; color: #cbd5e0;"></i>
+                                </div>
+                            {% endif %}
+                        {% endwith %}
+                    </div>
+                    
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.title|truncatewords:6 }}</h5>
+                        
+                        <!-- Badge Row - Gender and Type side by side -->
+                        <div class="badge-row">
+                            <!-- Gender Badge -->
+                            <div class="gender-badge">
+                                <i class="bi bi-gender-ambiguous"></i>
+                                <span>{{ item.get_baby_gender_display }}</span>
+                            </div>
+                            
+                            <!-- Type Badge -->
+                            {% if item.item_type == 'donate' %}
+                                <div class="type-badge-donate">
+                                    <i class="bi bi-gift-fill"></i>
+                                    <span>Donate</span>
+                                </div>
+                            {% else %}
+                                <div class="type-badge-sell">
+                                    <i class="bi bi-tag-fill"></i>
+                                    <span>Sell</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Item Info with Colorful Design -->
+                        <div class="d-flex flex-column gap-2 mb-3">
+                            <!-- Age Range -->
+                            <div class="info-item">
+                                <i class="bi bi-calendar3" style="color: #667eea;"></i>
+                                <span class="small">{{ item.get_age_range_display }}</span>
+                            </div>
+                            
+                            <!-- Location -->
+                            <div class="info-item">
+                                <i class="bi bi-geo-alt-fill" style="color: #f093fb;"></i>
+                                <span class="small">{{ item.area|truncatewords:3 }}</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Price -->
+                        <div class="mb-3">
+                            {% if item.item_type == 'sell' and item.price %}
+                                <div class="price-tag">৳{{ item.price }}</div>
+                            {% else %}
+                                <div class="price-tag">Free</div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- View Button -->
+                        <a href="{% url 'listings:item_detail' item.pk %}" class="btn btn-outline-primary w-100">
+                            <i class="bi bi-eye-fill"></i> View Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <!-- No Items Found -->
+        <div class="empty-state">
+            <i class="bi bi-inbox display-1"></i>
+            <h3 class="mt-4" style="color: #2d3748; font-weight: 700;">No items found</h3>
+            <p class="text-muted mb-4">Try adjusting your filters or be the first to post!</p>
+            {% if user.is_authenticated %}
+                <a href="{% url 'listings:item_create' %}" class="btn btn-success btn-lg">
+                    <i class="bi bi-plus-circle"></i> Post Your First Item
+                </a>
+            {% else %}
+                <a href="{% url 'account_login' %}" class="btn btn-primary btn-lg">
+                    <i class="bi bi-box-arrow-in-right"></i> Login to Post
+                </a>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+
+<script>
+// Card image carousel functionality
+function changeCardImage(itemId, imageIndex) {
+    const images = document.querySelectorAll('.item-image-' + itemId);
+    
+    images.forEach(img => img.style.display = 'none');
+    
+    if (images[imageIndex]) {
+        images[imageIndex].style.display = 'block';
+    }
+    
+    const card = images[0].closest('.item-card');
+    const cardDots = card.querySelectorAll('.image-dot');
+    cardDots.forEach((dot, index) => {
+        if (index === imageIndex) {
+            dot.classList.add('active');
+        } else {
+            dot.classList.remove('active');
+        }
+    });
+}
+
+// Auto-rotate images on hover
+document.querySelectorAll('.item-card').forEach(card => {
+    let rotateInterval;
+    let currentIndex = 0;
+    
+    card.addEventListener('mouseenter', function() {
+        const images = card.querySelectorAll('[class*="item-image-"]');
+        if (images.length <= 1) return;
+        
+        const itemId = images[0].className.match(/item-image-(\d+)/)[1];
+        
+        rotateInterval = setInterval(() => {
+            currentIndex = (currentIndex + 1) % images.length;
+            changeCardImage(itemId, currentIndex);
+        }, 1500);
+    });
+    
+    card.addEventListener('mouseleave', function() {
+        clearInterval(rotateInterval);
+        currentIndex = 0;
+        const images = card.querySelectorAll('[class*="item-image-"]');
+        if (images.length > 0) {
+            const itemId = images[0].className.match(/item-image-(\d+)/)[1];
+            changeCardImage(itemId, 0);
+        }
+    });
+});
+</script>
+{% endblock %}

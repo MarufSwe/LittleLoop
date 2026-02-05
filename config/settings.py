@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     
     # Custom apps
     'accounts',  # User accounts & profile management
+    'listings',  # Baby clothes listings (donate/sell)
 ]
 
 # Required by django-allauth
@@ -188,7 +189,7 @@ SOCIALACCOUNT_STORE_TOKENS = True  # Store OAuth tokens
 
 # Redirect URLs after login/logout
 LOGIN_REDIRECT_URL = '/profile/complete/'  # Redirect to profile completion after login
-LOGOUT_REDIRECT_URL = '/'  # Redirect to home after logout
+LOGOUT_REDIRECT_URL = '/'  # Redirect to item list homepage after logout
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
 
 # Provider-specific settings

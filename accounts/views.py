@@ -28,7 +28,7 @@ def profile_complete(request):
             profile.mark_complete()  # Mark as complete and save
             
             messages.success(request, 'Profile completed successfully! Welcome to LittleLoop.')
-            return redirect('home')  # Redirect to home page
+            return redirect('listings:item_list')  # Redirect to item list homepage
         else:
             messages.error(request, 'Please correct the errors below.')
     else:

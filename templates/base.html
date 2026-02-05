@@ -14,31 +14,101 @@
     <!-- Custom CSS -->
     <style>
         :root {
-            --primary-color: #4CAF50;
-            --secondary-color: #FF9800;
-            --text-dark: #333;
-            --bg-light: #f8f9fa;
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-success: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-info: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-warning: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            --gradient-hero: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            --shadow-sm: 0 2px 10px rgba(102, 126, 234, 0.1);
+            --shadow-md: 0 4px 20px rgba(102, 126, 234, 0.2);
+            --shadow-lg: 0 8px 30px rgba(102, 126, 234, 0.3);
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: var(--text-dark);
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #2d3748;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            background: linear-gradient(to bottom, #f7fafc 0%, #edf2f7 100%);
+        }
+        
+        /* Navbar Styling - Distinct from Hero */
+        .navbar {
+            background: white !important;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.15);
+            padding: 1rem 0;
+            border-bottom: 3px solid transparent;
+            border-image: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            border-image-slice: 1;
         }
         
         .navbar-brand {
-            font-weight: bold;
-            font-size: 1.5rem;
-            color: var(--primary-color) !important;
+            font-weight: 800;
+            font-size: 1.6rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            transition: all 0.3s ease;
         }
         
-        .btn-social {
-            padding: 12px 24px;
-            border-radius: 8px;
+        .navbar-brand:hover {
+            transform: scale(1.05);
+        }
+        
+        .navbar-brand i {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-link {
+            color: #4a5568 !important;
             font-weight: 500;
             transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: #667eea !important;
+        }
+        
+        /* Profile Dropdown Styling */
+        .dropdown-toggle {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            border: none;
+            border-radius: 50px;
+            padding: 6px 16px 6px 6px !important;
+            transition: all 0.3s ease;
+        }
+        
+        .dropdown-toggle:hover {
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .dropdown-toggle span {
+            color: white;
+            font-weight: 600;
+        }
+        
+        .dropdown-toggle .rounded-circle {
+            border: 3px solid white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .dropdown-toggle i.bi-person-circle {
+            color: white;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+        
+        /* Button Styling */
+        .btn-social {
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: inline-flex;
             align-items: center;
             gap: 10px;
@@ -52,45 +122,128 @@
         .btn-google {
             background-color: #fff;
             color: #333;
-            border: 2px solid #ddd;
+            border: 2px solid #e2e8f0;
+            box-shadow: var(--shadow-sm);
         }
         
         .btn-google:hover {
-            background-color: #f8f8f8;
-            border-color: #bbb;
+            background-color: #f8fafc;
+            border-color: #cbd5e0;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-md);
         }
         
         .btn-facebook {
-            background-color: #1877f2;
+            background: linear-gradient(135deg, #1877f2 0%, #0d65d9 100%);
             color: white;
+            box-shadow: var(--shadow-sm);
         }
         
         .btn-facebook:hover {
-            background-color: #0d65d9;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(24,119,242,0.3);
+            box-shadow: var(--shadow-md);
         }
         
+        .btn-primary {
+            background: var(--gradient-primary) !important;
+            border: none !important;
+            font-weight: 600;
+            border-radius: 10px;
+            padding: 10px 24px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-success {
+            background: var(--gradient-success) !important;
+            border: none !important;
+            font-weight: 600;
+            border-radius: 10px;
+            padding: 10px 24px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-outline-primary {
+            border: 2px solid #667eea !important;
+            color: #667eea !important;
+            font-weight: 600;
+            border-radius: 10px;
+        }
+        
+        .btn-outline-primary:hover {
+            background: var(--gradient-primary) !important;
+            border-color: transparent !important;
+            color: white !important;
+            transform: translateY(-2px);
+        }
+        
+        /* Content Wrapper */
         .content-wrapper {
             flex: 1;
-            padding: 40px 0;
         }
         
+        /* Footer */
         footer {
-            background-color: var(--bg-light);
-            padding: 20px 0;
+            background: white;
+            padding: 24px 0;
             margin-top: auto;
-            border-top: 1px solid #ddd;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
         }
         
+        /* Card Styling */
         .card {
             border: none;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            border-radius: 12px;
+            box-shadow: var(--shadow-sm);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
         }
         
+        .card:hover {
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Form Controls */
+        .form-control, .form-select {
+            border-radius: 10px;
+            border: 2px solid #e2e8f0;
+            padding: 10px 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        /* Dropdown Styling */
+        .dropdown-menu {
+            border-radius: 12px;
+            border: none;
+            box-shadow: var(--shadow-md);
+            padding: 8px;
+        }
+        
+        .dropdown-item {
+            border-radius: 8px;
+            padding: 10px 16px;
+            transition: all 0.2s ease;
+        }
+        
+        .dropdown-item:hover {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+        }
+        
+        /* Divider */
         .divider {
             display: flex;
             align-items: center;
@@ -102,13 +255,27 @@
         .divider::after {
             content: '';
             flex: 1;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid #e2e8f0;
         }
         
         .divider span {
-            padding: 0 10px;
-            color: #666;
+            padding: 0 12px;
+            color: #718096;
             font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        /* Badge Styling */
+        .badge {
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.75rem;
+        }
+        
+        /* Profile Image in Navbar */
+        .rounded-circle {
+            border: 2px solid #667eea;
         }
     </style>
     
@@ -116,17 +283,25 @@
 </head>
 <body>
     <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
-            <a class="navbar-brand" href="{% url 'home' %}">
+            <a class="navbar-brand" href="{% url 'listings:item_list' %}">
                 <i class="bi bi-bag-heart"></i> LittleLoop
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto align-items-center gap-2">
                     {% if user.is_authenticated %}
+                        <!-- Post Item Button -->
+                        <li class="nav-item">
+                            <a href="{% url 'listings:item_create' %}" class="btn btn-success" 
+                               style="border-radius: 50px; padding: 8px 20px; font-weight: 600;">
+                                <i class="bi bi-plus-circle"></i> Post Item
+                            </a>
+                        </li>
+                        
                         <!-- Profile Dropdown -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="profileDropdown" 
@@ -134,7 +309,7 @@
                                 {% if user.profile.profile_picture %}
                                     <img src="{{ user.profile.profile_picture.url }}" alt="Profile" 
                                          class="rounded-circle me-2" 
-                                         style="width: 32px; height: 32px; object-fit: cover;">
+                                         style="width: 36px; height: 36px; object-fit: cover;">
                                 {% else %}
                                     <i class="bi bi-person-circle fs-4 me-2"></i>
                                 {% endif %}
@@ -153,8 +328,8 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="{% url 'accounts:history' %}">
-                                        <i class="bi bi-clock-history"></i> History
+                                    <a class="dropdown-item" href="{% url 'listings:my_items' %}">
+                                        <i class="bi bi-bag"></i> My Items
                                     </a>
                                 </li>
                                 <li><hr class="dropdown-divider"></li>
@@ -167,7 +342,10 @@
                         </li>
                     {% else %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'account_login' %}">Login</a>
+                            <a class="btn" href="{% url 'account_login' %}" 
+                               style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 50px; padding: 8px 24px; font-weight: 600;">
+                                <i class="bi bi-box-arrow-in-right"></i> Login
+                            </a>
                         </li>
                     {% endif %}
                 </ul>

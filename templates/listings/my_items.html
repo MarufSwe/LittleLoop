@@ -1,0 +1,206 @@
+{% extends 'base.html' %}
+
+{% block title %}My Items - LittleLoop{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="bi bi-bag"></i> My Items</h2>
+        <a href="{% url 'listings:item_create' %}" class="btn btn-success">
+            <i class="bi bi-plus-circle"></i> Post New Item
+        </a>
+    </div>
+    
+    {% if items %}
+        <!-- Items Table -->
+        <div class="card shadow">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Image</th>
+                                <th>Title</th>
+                                <th>Type</th>
+                                <th>Price</th>
+                                <th>Status</th>
+                                <th>Posted</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in items %}
+                            <tr>
+                                <!-- Image -->
+                                <td>
+                                    {% if item.get_primary_image %}
+                                        <img src="{{ item.get_primary_image.url }}" alt="{{ item.title }}" 
+                                             class="rounded" style="width: 60px; height: 60px; object-fit: cover;">
+                                    {% else %}
+                                        <div class="bg-light rounded d-flex align-items-center justify-content-center"
+                                             style="width: 60px; height: 60px;">
+                                            <i class="bi bi-image text-muted"></i>
+                                        </div>
+                                    {% endif %}
+                                </td>
+                                
+                                <!-- Title -->
+                                <td>
+                                    <a href="{% url 'listings:item_detail' item.pk %}" class="text-decoration-none">
+                                        <strong>{{ item.title|truncatewords:5 }}</strong>
+                                    </a>
+                                    <br>
+                                    <small class="text-muted">
+                                        {{ item.get_age_range_display }} • {{ item.area|truncatewords:2 }}
+                                    </small>
+                                </td>
+                                
+                                <!-- Type -->
+                                <td>
+                                    {% if item.item_type == 'donate' %}
+                                        <span class="badge bg-success">
+                                            <i class="bi bi-gift"></i> Donate
+                                        </span>
+                                    {% else %}
+                                        <span class="badge bg-primary">
+                                            <i class="bi bi-tag"></i> Sell
+                                        </span>
+                                    {% endif %}
+                                </td>
+                                
+                                <!-- Price -->
+                                <td>
+                                    {% if item.item_type == 'sell' and item.price %}
+                                        <strong>৳{{ item.price }}</strong>
+                                    {% else %}
+                                        <span class="text-muted">Free</span>
+                                    {% endif %}
+                                </td>
+                                
+                                <!-- Status -->
+                                <td>
+                                    {% if item.status == 'available' %}
+                                        <span class="badge bg-success">
+                                            <i class="bi bi-check-circle"></i> Available
+                                        </span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">
+                                            <i class="bi bi-x-circle"></i> Done
+                                        </span>
+                                    {% endif %}
+                                </td>
+                                
+                                <!-- Posted Date -->
+                                <td>
+                                    <small class="text-muted">{{ item.created_at|date:"M d, Y" }}</small>
+                                </td>
+                                
+                                <!-- Actions -->
+                                <td>
+                                    <div class="btn-group btn-group-sm">
+                                        <a href="{% url 'listings:item_detail' item.pk %}" 
+                                           class="btn btn-outline-primary" title="View">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        {% if item.status == 'available' %}
+                                            <a href="{% url 'listings:item_edit' item.pk %}"
+                                               class="btn btn-outline-info" title="Edit">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                            <button type="button" class="btn btn-outline-danger" 
+                                                    data-bs-toggle="modal" 
+                                                    data-bs-target="#markDoneModal{{ item.pk }}"
+                                                    title="Mark as Done">
+                                                <i class="bi bi-check"></i>
+                                            </button>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <!-- Mark Done Modal -->
+                            <div class="modal fade" id="markDoneModal{{ item.pk }}" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">
+                                                <i class="bi bi-exclamation-triangle text-warning"></i> Confirm
+                                            </h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Are you sure you want to mark <strong>"{{ item.title }}"</strong> as done?</p>
+                                            <p class="text-muted small">This will remove it from the public listing.</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                Cancel
+                                            </button>
+                                            <form method="post" action="{% url 'listings:item_mark_done' item.pk %}" style="display: inline;">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-danger">
+                                                    <i class="bi bi-check"></i> Mark as Done
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Summary Cards -->
+        <div class="row g-3 mt-4">
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h3 class="text-success">{{ items.count }}</h3>
+                        <p class="mb-0 text-muted">Total Items</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h3 class="text-primary">{{ available_count }}</h3>
+                        <p class="mb-0 text-muted">Available</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h3 class="text-secondary">{{ done_count }}</h3>
+                        <p class="mb-0 text-muted">Done</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    {% else %}
+        <!-- Empty State -->
+        <div class="card shadow">
+            <div class="card-body text-center py-5">
+                <i class="bi bi-inbox display-1 text-muted"></i>
+                <h3 class="mt-4">No Items Yet</h3>
+                <p class="text-muted mb-4">You haven't posted any items yet. Start sharing!</p>
+                <a href="{% url 'listings:item_create' %}" class="btn btn-success btn-lg">
+                    <i class="bi bi-plus-circle"></i> Post Your First Item
+                </a>
+            </div>
+        </div>
+    {% endif %}
+    
+    <!-- Back Button -->
+    <div class="mt-4">
+        <a href="{% url 'listings:item_list' %}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Back to Home
+        </a>
+    </div>
+</div>
+{% endblock %}

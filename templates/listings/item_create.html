@@ -1,0 +1,262 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if is_edit %}Edit Item{% else %}Post Item{% endif %} - LittleLoop{% endblock %}
+
+{% block extra_css %}
+<style>
+    .image-preview-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 16px;
+        margin-top: 12px;
+    }
+    
+    .image-preview-item {
+        position: relative;
+        border: 2px dashed #cbd5e0;
+        border-radius: 12px;
+        padding: 8px;
+        min-height: 150px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .image-preview-item img {
+        max-width: 100%;
+        max-height: 200px;
+        border-radius: 8px;
+    }
+    
+    .image-preview-item.has-image {
+        border-color: #667eea;
+        border-style: solid;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card shadow">
+                <div class="card-body p-4">
+                    <!-- Header -->
+                    <div class="text-center mb-4">
+                        {% if is_edit %}
+                            <h2><i class="bi bi-pencil-square" style="color: #667eea;"></i> Edit Your Item</h2>
+                            <p class="text-muted">Update your listing details</p>
+                        {% else %}
+                            <h2><i class="bi bi-plus-circle" style="color: #f093fb;"></i> Post Your Item</h2>
+                            <p class="text-muted">Share baby clothes with your community</p>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Form -->
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <!-- Item Type (Donate/Sell) -->
+                        <div class="mb-4">
+                            <label for="{{ form.item_type.id_for_label }}" class="form-label">
+                                <strong>{{ form.item_type.label }}</strong>
+                            </label>
+                            {{ form.item_type }}
+                            {% if form.item_type.errors %}
+                                <div class="text-danger small mt-1">{{ form.item_type.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Title -->
+                        <div class="mb-3">
+                            <label for="{{ form.title.id_for_label }}" class="form-label">{{ form.title.label }}</label>
+                            {{ form.title }}
+                            {% if form.title.errors %}
+                                <div class="text-danger small mt-1">{{ form.title.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Description -->
+                        <div class="mb-3">
+                            <label for="{{ form.description.id_for_label }}" class="form-label">{{ form.description.label }}</label>
+                            {{ form.description }}
+                            {% if form.description.errors %}
+                                <div class="text-danger small mt-1">{{ form.description.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Image Uploads (3 images) -->
+                        <div class="mb-4">
+                            <label class="form-label"><strong><i class="bi bi-images"></i> Upload Images (Up to 3)</strong></label>
+                            <small class="text-muted d-block mb-2">First image will be the primary display image</small>
+                            
+                            <div class="row g-3">
+                                <!-- Image 1 -->
+                                <div class="col-md-4">
+                                    <label for="{{ form.image1.id_for_label }}" class="form-label small">{{ form.image1.label }}</label>
+                                    {{ form.image1 }}
+                                    <div id="preview1" class="image-preview-item mt-2">
+                                        {% if is_edit and item.image1 %}
+                                            <img src="{{ item.image1.url }}" alt="Current image 1">
+                                        {% else %}
+                                            <span class="text-muted small">No image</span>
+                                        {% endif %}
+                                    </div>
+                                    {% if form.image1.errors %}
+                                        <div class="text-danger small mt-1">{{ form.image1.errors }}</div>
+                                    {% endif %}
+                                </div>
+                                
+                                <!-- Image 2 -->
+                                <div class="col-md-4">
+                                    <label for="{{ form.image2.id_for_label }}" class="form-label small">{{ form.image2.label }}</label>
+                                    {{ form.image2 }}
+                                    <div id="preview2" class="image-preview-item mt-2">
+                                        {% if is_edit and item.image2 %}
+                                            <img src="{{ item.image2.url }}" alt="Current image 2">
+                                        {% else %}
+                                            <span class="text-muted small">No image</span>
+                                        {% endif %}
+                                    </div>
+                                    {% if form.image2.errors %}
+                                        <div class="text-danger small mt-1">{{ form.image2.errors }}</div>
+                                    {% endif %}
+                                </div>
+                                
+                                <!-- Image 3 -->
+                                <div class="col-md-4">
+                                    <label for="{{ form.image3.id_for_label }}" class="form-label small">{{ form.image3.label }}</label>
+                                    {{ form.image3 }}
+                                    <div id="preview3" class="image-preview-item mt-2">
+                                        {% if is_edit and item.image3 %}
+                                            <img src="{{ item.image3.url }}" alt="Current image 3">
+                                        {% else %}
+                                            <span class="text-muted small">No image</span>
+                                        {% endif %}
+                                    </div>
+                                    {% if form.image3.errors %}
+                                        <div class="text-danger small mt-1">{{ form.image3.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Baby Details Row -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.baby_gender.id_for_label }}" class="form-label">{{ form.baby_gender.label }}</label>
+                                {{ form.baby_gender }}
+                                {% if form.baby_gender.errors %}
+                                    <div class="text-danger small mt-1">{{ form.baby_gender.errors }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.age_range.id_for_label }}" class="form-label">{{ form.age_range.label }}</label>
+                                {{ form.age_range }}
+                                {% if form.age_range.errors %}
+                                    <div class="text-danger small mt-1">{{ form.age_range.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <!-- Size & Condition Row -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.size.id_for_label }}" class="form-label">{{ form.size.label }}</label>
+                                {{ form.size }}
+                                {% if form.size.errors %}
+                                    <div class="text-danger small mt-1">{{ form.size.errors }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.condition.id_for_label }}" class="form-label">{{ form.condition.label }}</label>
+                                {{ form.condition }}
+                                {% if form.condition.errors %}
+                                    <div class="text-danger small mt-1">{{ form.condition.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <!-- Price (shown only for Sell) -->
+                        <div class="mb-3" id="priceField" style="display: none;">
+                            <label for="{{ form.price.id_for_label }}" class="form-label">{{ form.price.label }}</label>
+                            {{ form.price }}
+                            {% if form.price.errors %}
+                                <div class="text-danger small mt-1">{{ form.price.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Area -->
+                        <div class="mb-4">
+                            <label for="{{ form.area.id_for_label }}" class="form-label">{{ form.area.label }}</label>
+                            {{ form.area }}
+                            {% if form.area.errors %}
+                                <div class="text-danger small mt-1">{{ form.area.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Submit Buttons -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                {% if is_edit %}
+                                    <i class="bi bi-check-circle"></i> Update Item
+                                {% else %}
+                                    <i class="bi bi-check-circle"></i> Post Item
+                                {% endif %}
+                            </button>
+                            <a href="{% if is_edit %}{% url 'listings:my_items' %}{% else %}{% url 'listings:item_list' %}{% endif %}" class="btn btn-outline-secondary">
+                                <i class="bi bi-x-circle"></i> Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Toggle price field based on item type
+document.addEventListener('DOMContentLoaded', function() {
+    const itemTypeSelect = document.getElementById('id_item_type');
+    const priceField = document.getElementById('priceField');
+    const priceInput = document.getElementById('id_price');
+    
+    function togglePriceField() {
+        if (itemTypeSelect.value === 'sell') {
+            priceField.style.display = 'block';
+            priceInput.required = true;
+        } else {
+            priceField.style.display = 'none';
+            priceInput.required = false;
+            priceInput.value = '';
+        }
+    }
+    
+    togglePriceField();
+    itemTypeSelect.addEventListener('change', togglePriceField);
+    
+    // Image previews
+    function setupImagePreview(inputId, previewId) {
+        const input = document.getElementById(inputId);
+        const preview = document.getElementById(previewId);
+        
+        input.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    preview.innerHTML = '<img src="' + event.target.result + '" alt="Preview">';
+                    preview.classList.add('has-image');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+    
+    setupImagePreview('id_image1', 'preview1');
+    setupImagePreview('id_image2', 'preview2');
+    setupImagePreview('id_image3', 'preview3');
+});
+</script>
+{% endblock %}
