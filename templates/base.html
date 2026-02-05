@@ -103,6 +103,43 @@
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
         }
         
+        /* Mobile Responsiveness Enhancements */
+        @media (max-width: 768px) {
+            .navbar-brand {
+                font-size: 1.3rem;
+            }
+            
+            .navbar-nav {
+                padding-top: 1rem;
+            }
+            
+            .navbar-nav .nav-item {
+                margin-bottom: 0.5rem;
+            }
+            
+            .dropdown-toggle span {
+                font-size: 0.9rem;
+            }
+            
+            /* Make buttons full width on mobile */
+            .navbar-nav .btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .navbar-brand {
+                font-size: 1.2rem;
+            }
+            
+            /* Compact profile image on mobile */
+            .dropdown-toggle .rounded-circle {
+                width: 28px !important;
+                height: 28px !important;
+            }
+        }
+        
         /* Button Styling */
         .btn-social {
             padding: 12px 24px;
@@ -353,16 +390,31 @@
         </div>
     </nav>
 
-    <!-- Messages Display -->
+    <!-- Messages Display with Auto-Dismiss -->
     {% if messages %}
     <div class="container mt-3">
         {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-            {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show message-toast" role="alert" 
+             style="border-radius: 12px; box-shadow: 0 4px 20px rgba(102, 126, 234, 0.2); border: none; background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); color: white; font-size: 0.9rem; padding: 12px 20px;">
+            <i class="bi bi-check-circle-fill me-2"></i>
+            <strong>{{ message }}</strong>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
         </div>
         {% endfor %}
     </div>
+    
+    <script>
+    // Auto-dismiss messages after 5 seconds
+    document.addEventListener('DOMContentLoaded', function() {
+        const alerts = document.querySelectorAll('.message-toast');
+        alerts.forEach(function(alert) {
+            setTimeout(function() {
+                const bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
+            }, 5000);
+        });
+    });
+    </script>
     {% endif %}
 
     <!-- Main Content -->
