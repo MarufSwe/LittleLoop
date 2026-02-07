@@ -1,3 +1,4 @@
+{% load i18n %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,7 +34,7 @@
             background: linear-gradient(to bottom, #f7fafc 0%, #edf2f7 100%);
         }
         
-        /* Navbar Styling - Distinct from Hero */
+        /* Navbar Styling - Fixed/Sticky */
         .navbar {
             background: white !important;
             box-shadow: 0 4px 20px rgba(102, 126, 234, 0.15);
@@ -41,6 +42,10 @@
             border-bottom: 3px solid transparent;
             border-image: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
             border-image-slice: 1;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
         }
         
         .navbar-brand {
@@ -74,9 +79,58 @@
             color: #667eea !important;
         }
         
-        /* Profile Dropdown Styling */
+        /* Post Item Button - Multi-Purple with Rotating Icon */
+        .btn-post-item {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%) !important;
+            border: none !important;
+            color: white !important;
+            border-radius: 50px !important;
+            padding: 10px 24px !important;
+            font-weight: 700 !important;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .btn-post-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.6);
+        }
+        
+        .btn-post-item i {
+            display: inline-block;
+            animation: rotate 3s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        /* Language Toggle Button - Multi-Purple */
+        .btn-language {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%) !important;
+            border: none !important;
+            color: white !important;
+            border-radius: 50px !important;
+            padding: 8px 18px !important;
+            font-weight: 600 !important;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-language:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(102, 126, 234, 0.5);
+        }
+        
+        /* Profile Dropdown Styling - Multi-Purple */
         .dropdown-toggle {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%) !important;
             border: none;
             border-radius: 50px;
             padding: 6px 16px 6px 6px !important;
@@ -309,6 +363,14 @@
             font-weight: 600;
             font-size: 0.75rem;
         }
+
+        i.bi-bag-heart {
+            animation: heartbeat 2s ease-in-out infinite;
+            display: inline-block;
+            color: #f093fb;
+            filter: drop-shadow(0 0 10px rgba(240, 147, 251, 0.6));
+        }
+    
         
         /* Profile Image in Navbar */
         .rounded-circle {
@@ -330,12 +392,31 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center gap-2">
+                    <!-- Language Toggle -->
+                    <li class="nav-item">
+                        {% get_current_language as LANGUAGE_CODE %}
+                        <form action="{% url 'set_language' %}" method="post" style="margin: 0;">
+                            {% csrf_token %}
+                            <input name="next" type="hidden" value="{{ request.get_full_path }}">
+                            {% if LANGUAGE_CODE == 'bn' %}
+                                <button type="submit" name="language" value="en" 
+                                        class="btn btn-sm btn-language">
+                                    <i class="bi bi-translate"></i> English
+                                </button>
+                            {% else %}
+                                <button type="submit" name="language" value="bn" 
+                                        class="btn btn-sm btn-language">
+                                    <i class="bi bi-translate"></i> বাংলা
+                                </button>
+                            {% endif %}
+                        </form>
+                    </li>
+                    
                     {% if user.is_authenticated %}
                         <!-- Post Item Button -->
                         <li class="nav-item">
-                            <a href="{% url 'listings:item_create' %}" class="btn btn-success" 
-                               style="border-radius: 50px; padding: 8px 20px; font-weight: 600;">
-                                <i class="bi bi-plus-circle"></i> Post Item
+                            <a href="{% url 'listings:item_create' %}" class="btn btn-post-item">
+                                <i class="bi bi-plus-circle"></i> <span>{% trans "Post Item" %}</span>
                             </a>
                         </li>
                         
@@ -361,18 +442,18 @@
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
                                     <a class="dropdown-item" href="{% url 'accounts:profile_view' %}">
-                                        <i class="bi bi-person"></i> My Profile
+                                        <i class="bi bi-person"></i> {% trans "My Profile" %}
                                     </a>
                                 </li>
                                 <li>
                                     <a class="dropdown-item" href="{% url 'listings:my_items' %}">
-                                        <i class="bi bi-bag"></i> My Items
+                                        <i class="bi bi-bag"></i> {% trans "My Items" %}
                                     </a>
                                 </li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
                                     <a class="dropdown-item text-danger" href="{% url 'account_logout' %}">
-                                        <i class="bi bi-box-arrow-right"></i> Logout
+                                        <i class="bi bi-box-arrow-right"></i> {% trans "Logout" %}
                                     </a>
                                 </li>
                             </ul>
@@ -381,7 +462,7 @@
                         <li class="nav-item">
                             <a class="btn" href="{% url 'account_login' %}" 
                                style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 50px; padding: 8px 24px; font-weight: 600;">
-                                <i class="bi bi-box-arrow-in-right"></i> Login
+                                <i class="bi bi-box-arrow-in-right"></i> {% trans "Login" %}
                             </a>
                         </li>
                     {% endif %}

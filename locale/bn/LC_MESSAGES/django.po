@@ -1,0 +1,447 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-08 00:58+0600\n"
+"PO-Revision-Date: 2026-02-07 20:50+0600\n"
+"Last-Translator: LittleLoop Team\n"
+"Language-Team: Bangla\n"
+"Language: bn\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: accounts/views.py:31
+msgid "Profile completed successfully! Welcome to LittleLoop."
+msgstr "প্রোফাইল সফলভাবে সম্পন্ন হয়েছে! লিটলুপে স্বাগতম।"
+
+#: listings/forms.py:26
+msgid "e.g., Blue Cotton Shirt for Baby Boy"
+msgstr "যেমন: নীল সুতির শার্ট শিশু ছেলের জন্য"
+
+#: listings/forms.py:31
+msgid "Describe the condition, brand, features, etc."
+msgstr "অবস্থা, ব্র্যান্ড, বৈশিষ্ট্য ইত্যাদি বর্ণনা করুন"
+
+#: listings/forms.py:56
+msgid "e.g., 6M, 12M, 2T"
+msgstr "যেমন: ৬M, ১২M, ২T"
+
+#: listings/forms.py:64
+msgid "Enter amount in BDT"
+msgstr "টাকায় পরিমাণ লিখুন"
+
+#: listings/forms.py:73
+msgid "e.g., Road 01, House 20, Block A (Optional)"
+msgstr "যেমন: রোড ০১, হাউজ ২০, ব্লক এ (ঐচ্ছিক)"
+
+#: listings/forms.py:81
+msgid "e.g., Guard, House Helper, Family Member"
+msgstr ""
+
+#: listings/forms.py:85
+msgid "e.g., 01712345678"
+msgstr ""
+
+#: listings/forms.py:89
+msgid "What do you want to do?"
+msgstr "আপনি কী করতে চান?"
+
+#: listings/forms.py:90
+msgid "Item Title"
+msgstr "আইটেমের শিরোনাম"
+
+#: listings/forms.py:91 templates/listings/item_detail.html:179
+msgid "Description"
+msgstr "বিবরণ"
+
+#: listings/forms.py:92
+msgid "Upload Image 1 (Required)"
+msgstr "ছবি ১ আপলোড করুন (আবশ্যক)"
+
+#: listings/forms.py:93
+msgid "Upload Image 2 (Optional)"
+msgstr "ছবি ২ আপলোড করুন (ঐচ্ছিক)"
+
+#: listings/forms.py:94
+msgid "Upload Image 3 (Optional)"
+msgstr "ছবি ৩ আপলোড করুন (ঐচ্ছিক)"
+
+#: listings/forms.py:95 templates/listings/item_detail.html:142
+#: templates/listings/item_list.html:468
+msgid "Gender"
+msgstr "লিঙ্গ"
+
+#: listings/forms.py:96 templates/listings/item_detail.html:148
+msgid "Age Range"
+msgstr "বয়স"
+
+#: listings/forms.py:97 templates/listings/item_detail.html:154
+msgid "Size"
+msgstr "সাইজ"
+
+#: listings/forms.py:98 templates/listings/item_detail.html:160
+msgid "Condition"
+msgstr "অবস্থা"
+
+#: listings/forms.py:99
+msgid "Price (BDT)"
+msgstr "মূল্য (টাকা)"
+
+#: listings/forms.py:100
+msgid "Select Area"
+msgstr "এলাকা নির্বাচন করুন"
+
+#: listings/forms.py:101
+msgid "Detailed Address (Optional)"
+msgstr "বিস্তারিত ঠিকানা (ঐচ্ছিক)"
+
+#: listings/forms.py:102
+msgid "Use Alternative Contact?"
+msgstr "বিকল্প যোগাযোগ ব্যবহার করবেন?"
+
+#: listings/forms.py:103
+msgid "Contact Person Name"
+msgstr "যোগাযোগকারী ব্যক্তির নাম"
+
+#: listings/forms.py:104
+msgid "Alternative Phone Number"
+msgstr "বিকল্প ফোন নম্বর"
+
+#: listings/forms.py:137
+msgid "Contact person name is required."
+msgstr "যোগাযোগকারী ব্যক্তির নাম আবশ্যক।"
+
+#: listings/forms.py:139
+msgid "Alternative phone number is required."
+msgstr "বিকল্প ফোন নম্বর আবশ্যক।"
+
+#: listings/models.py:17
+msgid "Donate"
+msgstr "দান করুন"
+
+#: listings/models.py:18
+msgid "Sell"
+msgstr "বিক্রয় করুন"
+
+#: listings/models.py:23
+msgid "Boy"
+msgstr "ছেলে"
+
+#: listings/models.py:24
+msgid "Girl"
+msgstr "মেয়ে"
+
+#: listings/models.py:25
+msgid "Unisex"
+msgstr "সবার জন্য"
+
+#: listings/models.py:30
+msgid "0-3 months"
+msgstr "০-৩ মাস"
+
+#: listings/models.py:31
+msgid "3-6 months"
+msgstr "৩-৬ মাস"
+
+#: listings/models.py:32
+msgid "6-12 months"
+msgstr "৬-১২ মাস"
+
+#: listings/models.py:33
+msgid "1-2 years"
+msgstr "১-২ বছর"
+
+#: listings/models.py:34
+msgid "2-3 years"
+msgstr "২-৩ বছর"
+
+#: listings/models.py:35
+msgid "3-4 years"
+msgstr "৩-৪ বছর"
+
+#: listings/models.py:36
+msgid "4-5 years"
+msgstr "৪-৫ বছর"
+
+#: listings/models.py:37
+msgid "5+ years"
+msgstr "৫+ বছর"
+
+#: listings/models.py:42
+msgid "Like New"
+msgstr "নতুনের মত"
+
+#: listings/models.py:43
+msgid "Excellent"
+msgstr "চমৎকার"
+
+#: listings/models.py:44
+msgid "Good"
+msgstr "ভাল"
+
+#: listings/models.py:45
+msgid "Fair"
+msgstr "মোটামুটি"
+
+#: listings/models.py:50
+msgid "Available"
+msgstr "পাওয়া যাচ্ছে"
+
+#: listings/models.py:51
+msgid "Done"
+msgstr "সম্পন্ন"
+
+#: listings/models.py:56 templates/listings/item_list.html:498
+msgid "Mirpur"
+msgstr "মিরপুর"
+
+#: listings/models.py:57 templates/listings/item_list.html:499
+msgid "Mohammadpur"
+msgstr "মোহাম্মদপুর"
+
+#: listings/models.py:58 templates/listings/item_list.html:500
+msgid "Uttara"
+msgstr "উত্তরা"
+
+#: listings/models.py:59 templates/listings/item_list.html:501
+msgid "Dhanmondi"
+msgstr "ধানমন্ডি"
+
+#: listings/views.py:76
+msgid "Please complete your profile first."
+msgstr "প্রথমে আপনার প্রোফাইল সম্পন্ন করুন।"
+
+#: listings/views.py:86
+#, python-format
+msgid "Your item \"%(title)s\" has been posted successfully!"
+msgstr "আপনার আইটেম \"%(title)s\" সফলভাবে পোস্ট করা হয়েছে!"
+
+#: listings/views.py:110
+msgid "Cannot edit items that are marked as done."
+msgstr "সম্পন্ন হিসাবে চিহ্নিত আইটেম সম্পাদনা করা যাবে না।"
+
+#: listings/views.py:117
+#, python-format
+msgid "\"%s\" has been updated successfully!"
+msgstr "\"%s\" সফলভাবে আপডেট করা হয়েছে!"
+
+#: listings/views.py:162
+#, python-format
+msgid "\"%s\" marked as done."
+msgstr "\"%s\" সম্পন্ন হিসাবে চিহ্নিত করা হয়েছে।"
+
+#: templates/base.html:361 templates/listings/item_create.html:4
+#: templates/listings/item_create.html:262
+msgid "Post Item"
+msgstr "পোস্ট করুন"
+
+#: templates/base.html:387
+msgid "My Profile"
+msgstr "আমার প্রোফাইল"
+
+#: templates/base.html:392 templates/listings/my_items.html:4
+msgid "My Items"
+msgstr "আমার আইটেম"
+
+#: templates/base.html:398
+msgid "Logout"
+msgstr "লগআউট"
+
+#: templates/base.html:407
+msgid "Login"
+msgstr "লগইন"
+
+#: templates/listings/item_create.html:4
+#: templates/listings/item_detail.html:256
+msgid "Edit Item"
+msgstr "সম্পাদনা করুন"
+
+#: templates/listings/item_create.html:48
+msgid "Edit Your Item"
+msgstr "আপনার আইটেম সম্পাদনা করুন"
+
+#: templates/listings/item_create.html:49
+msgid "Update your listing details"
+msgstr "আপনার তালিকার বিবরণ আপডেট করুন"
+
+#: templates/listings/item_create.html:51
+msgid "Post Your Item"
+msgstr "আপনার আইটেম পোস্ট করুন"
+
+#: templates/listings/item_create.html:52
+msgid "Share baby clothes with your community"
+msgstr "আপনার কমিউনিটির সাথে শিশু পোশাক শেয়ার করুন"
+
+#: templates/listings/item_create.html:91
+msgid "Upload Images (Up to 3)"
+msgstr "ছবি আপলোড করুন (সর্বোচ্চ ৩টি)"
+
+#: templates/listings/item_create.html:92
+msgid "First image will be the primary display image"
+msgstr "প্রথম ছবিটি প্রধান প্রদর্শন ছবি হবে"
+
+#: templates/listings/item_create.html:103
+#: templates/listings/item_create.html:119
+#: templates/listings/item_create.html:135
+msgid "No image"
+msgstr "কোন ছবি নেই"
+
+#: templates/listings/item_create.html:215
+msgid "Alternative Contact (Optional)"
+msgstr "বিকল্প যোগাযোগ (ঐচ্ছিক)"
+
+#: templates/listings/item_create.html:218
+msgid ""
+"Use a different contact number for this item (e.g., guard, helper, family "
+"member)"
+msgstr "এই আইটেমের জন্য একটি ভিন্ন যোগাযোগ নম্বর ব্যবহার করুন (যেমন: গার্ড, সাহায্যকারী, পরিবারের সদস্য)"
+
+#: templates/listings/item_create.html:260
+msgid "Update Item"
+msgstr "আইটেম আপডেট করুন"
+
+#: templates/listings/item_create.html:266
+msgid "Cancel"
+msgstr "বাতিল করুন"
+
+#: templates/listings/item_detail.html:72
+msgid "Home"
+msgstr "হোম"
+
+#: templates/listings/item_detail.html:166
+#: templates/listings/item_list.html:494
+msgid "Location"
+msgstr "এলাকা"
+
+#: templates/listings/item_detail.html:187
+msgid "Contact Owner"
+msgstr "মালিকের সাথে যোগাযোগ করুন"
+
+#: templates/listings/item_detail.html:192
+msgid "Contact Person:"
+msgstr "যোগাযোগকারী ব্যক্তি:"
+
+#: templates/listings/item_detail.html:193
+#: templates/listings/item_detail.html:205
+msgid "Phone:"
+msgstr "ফোন:"
+
+#: templates/listings/item_detail.html:199
+msgid "Alternative contact provided by owner"
+msgstr "মালিক কর্তৃক প্রদত্ত বিকল্প যোগাযোগ"
+
+#: templates/listings/item_detail.html:204
+msgid "Name:"
+msgstr "নাম:"
+
+#: templates/listings/item_detail.html:213
+msgid "Call or message to arrange pickup/delivery"
+msgstr "পিকআপ/ডেলিভারির ব্যবস্থা করতে কল বা মেসেজ করুন"
+
+#: templates/listings/item_detail.html:218
+msgid "Want to"
+msgstr "আপনি কি"
+
+#: templates/listings/item_detail.html:218
+msgid "collect"
+msgstr "সংগ্রহ করতে"
+
+#: templates/listings/item_detail.html:218
+msgid "buy"
+msgstr "কিনতে"
+
+#: templates/listings/item_detail.html:219
+msgid "Login and complete your profile to see contact information."
+msgstr "যোগাযোগের তথ্য দেখতে লগইন করুন এবং আপনার প্রোফাইল সম্পন্ন করুন।"
+
+#: templates/listings/item_detail.html:222
+msgid "Complete Profile"
+msgstr "প্রোফাইল সম্পন্ন করুন"
+
+#: templates/listings/item_detail.html:226
+msgid "Login to Continue"
+msgstr "চালিয়ে যেতে লগইন করুন"
+
+#: templates/listings/item_detail.html:233
+msgid "This item is no longer available."
+msgstr "এই আইটেমটি আর পাওয়া যাচ্ছে না।"
+
+#: templates/listings/item_detail.html:240
+msgid "Posted by"
+msgstr "পোস্ট করেছেন"
+
+#: templates/listings/item_detail.html:252
+msgid "Back to Listings"
+msgstr "তালিকায় ফিরে যান"
+
+#: templates/listings/item_list.html:4
+msgid "Browse Baby Clothes - LittleLoop"
+msgstr "শিশু পোশাক ব্রাউজ করুন - লিটলুপ"
+
+#: templates/listings/item_list.html:445
+msgid "Discover Baby Clothes"
+msgstr "শিশু পোশাক খুঁজুন"
+
+#: templates/listings/item_list.html:446
+msgid "Donate, sell, and buy from parents nearby"
+msgstr "আশেপাশের অভিভাবকদের কাছ থেকে দান, বিক্রয় এবং কিনুন"
+
+#: templates/listings/item_list.html:455
+msgid "Type"
+msgstr "ধরন"
+
+#: templates/listings/item_list.html:458 templates/listings/item_list.html:471
+#: templates/listings/item_list.html:484 templates/listings/item_list.html:497
+msgid "All"
+msgstr "সব"
+
+#: templates/listings/item_list.html:481
+msgid "Age"
+msgstr "বয়স"
+
+#: templates/listings/item_list.html:509
+msgid "Filter"
+msgstr "ফিল্টার করুন"
+
+#: templates/listings/item_list.html:512
+msgid "Clear"
+msgstr "মুছুন"
+
+#: templates/listings/item_list.html:526
+#, python-format
+msgid "%(counter)s item available"
+msgid_plural "%(counter)s items available"
+msgstr[0] "%(counter)s টি আইটেম পাওয়া যাচ্ছে"
+msgstr[1] "%(counter)s টি আইটেম পাওয়া যাচ্ছে"
+
+#: templates/listings/item_list.html:614
+msgid "Free"
+msgstr "বিনামূল্যে"
+
+#: templates/listings/item_list.html:620
+msgid "View Details"
+msgstr "বিস্তারিত দেখুন"
+
+#: templates/listings/item_list.html:631
+msgid "No items found"
+msgstr "কোন আইটেম পাওয়া যায়নি"
+
+#: templates/listings/item_list.html:632
+msgid "Try adjusting your filters or be the first to post!"
+msgstr "আপনার ফিল্টার সামঞ্জস্য করুন বা প্রথম পোস্ট করুন!"
+
+#: templates/listings/item_list.html:635
+msgid "Post Your First Item"
+msgstr "আপনার প্রথম আইটেম পোস্ট করুন"
+
+#: templates/listings/item_list.html:639
+msgid "Login to Post"
+msgstr "পোস্ট করতে লগইন করুন"

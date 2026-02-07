@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.utils.translation import gettext as _
 from .forms import ProfileCompletionForm
 from .models import UserProfile
 
@@ -27,7 +28,7 @@ def profile_complete(request):
             profile = form.save(commit=False)
             profile.mark_complete()  # Mark as complete and save
             
-            messages.success(request, 'Profile completed successfully! Welcome to LittleLoop.')
+            messages.success(request, _('Profile completed successfully! Welcome to LittleLoop.'))
             return redirect('listings:item_list')  # Redirect to item list homepage
         else:
             messages.error(request, 'Please correct the errors below.')

@@ -23,7 +23,11 @@ class ItemAdmin(admin.ModelAdmin):
             'fields': ('baby_gender', 'age_range', 'size', 'condition')
         }),
         ('Location & Pricing', {
-            'fields': ('area', 'price')
+            'fields': ('area', 'detailed_address', 'price')
+        }),
+        ('Alternative Contact (Optional)', {
+            'fields': ('use_alternative_contact', 'alternative_contact_name', 'alternative_contact_phone'),
+            'classes': ('collapse',)
         }),
         ('Status', {
             'fields': ('status',)

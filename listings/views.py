@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.utils.translation import gettext as _
 from .models import Item
 from .forms import ItemForm
 
@@ -72,7 +73,7 @@ def item_create(request):
     """
     # Check if profile is complete
     if not hasattr(request.user, 'profile') or not request.user.profile.is_complete:
-        messages.warning(request, 'Please complete your profile first.')
+        messages.warning(request, _('Please complete your profile first.'))
         return redirect('accounts:profile_complete')
     
     if request.method == 'POST':
@@ -82,7 +83,7 @@ def item_create(request):
             item.owner = request.user
             item.save()
             
-            messages.success(request, f'Your item "{item.title}" has been posted successfully!')
+            messages.success(request, _('Your item "%(title)s" has been posted successfully!') % {'title': item.title})
             return redirect('listings:item_detail', pk=item.pk)
     else:
         form = ItemForm()
@@ -106,14 +107,14 @@ def item_edit(request, pk):
     
     # Prevent editing of 'done' items
     if item.status == 'done':
-        messages.error(request, 'Cannot edit items that are marked as done.')
+        messages.error(request, _('Cannot edit items that are marked as done.'))
         return redirect('listings:my_items')
     
     if request.method == 'POST':
         form = ItemForm(request.POST, request.FILES, instance=item)
         if form.is_valid():
             form.save()
-            messages.success(request, f'"{item.title}" has been updated successfully!')
+            messages.success(request, _('"%s" has been updated successfully!') % item.title)
             return redirect('listings:item_detail', pk=item.pk)
     else:
         form = ItemForm(instance=item)
@@ -158,6 +159,6 @@ def item_mark_done(request, pk):
     
     if request.method == 'POST':
         item.mark_done()
-        messages.success(request, f'"{item.title}" marked as done.')
+        messages.success(request, _('"%s" marked as done.') % item.title)
     
     return redirect('listings:my_items')

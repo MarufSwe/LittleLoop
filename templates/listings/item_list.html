@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
-{% block title %}Browse Baby Clothes - LittleLoop{% endblock %}
+{% block title %}{% trans "Browse Baby Clothes - LittleLoop" %}{% endblock %}
 
 {% block extra_css %}
 <style>
@@ -64,51 +65,86 @@
             transform: scale(1);
         }
         50% {
-            transform: scale(1.05);
+            transform: scale(1.1);
         }
     }
     
-    .hero-content i.bi-bag-heart {
-        animation: pulse 2s ease-in-out infinite;
+    @keyframes heartbeat {
+        0%, 100% {
+            transform: scale(1) rotate(0deg);
+        }
+        25% {
+            transform: scale(1.1) rotate(-5deg);
+        }
+        75% {
+            transform: scale(1.1) rotate(5deg);
+        }
     }
     
-    /* Floating Filter Card */
+    /* Floating Filter Card - White with Colorful Accents */
     .filter-card {
-        background: white;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
         border-radius: 20px;
-        padding: 24px;
-        box-shadow: 0 10px 40px rgba(102, 126, 234, 0.25);
+        padding: 28px;
+        box-shadow: 0 10px 40px rgba(102, 126, 234, 0.35);
         position: relative;
         z-index: 10;
     }
     
     .filter-card .form-label {
         font-weight: 600;
-        color: #4a5568;
+        color: white;
         margin-bottom: 6px;
-        font-size: 0.85rem;
+        font-size: 0.9rem;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        position: relative;
+        z-index: 1;
     }
     
     .filter-card .form-label i {
-        color: #667eea;
+        color: white;
+        margin-right: 6px;
+    }
+    
+    .filter-card .form-select,
+    .filter-card .form-control {
+        border: 2px solid rgba(255,255,255,0.3);
+        background: white;
+        border-radius: 10px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    
+    .filter-card .form-select:focus,
+    .filter-card .form-control:focus {
+        border-color: white;
+        background: white;
+        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+        outline: none;
     }
     
     .filter-buttons {
         display: flex;
         gap: 10px;
+        align-items: center;
     }
     
     .results-badge {
         display: inline-flex;
         align-items: center;
-        gap: 8px;
-        padding: 8px 20px;
+        gap: 6px;
+        padding: 10px 18px;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;
         border-radius: 50px;
         font-weight: 600;
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        white-space: nowrap;
+    }
+    
+    .results-badge i {
+        font-size: 1rem;
     }
     
     /* Item Cards - Compact with Full Color */
@@ -384,8 +420,8 @@
     <div class="container">
         <!-- Hero Content with Animation -->
         <div class="hero-content">
-            <h1><i class="bi bi-bag-heart"></i> Discover Baby Clothes</h1>
-            <p>Browse, donate, sell, and buy from parents nearby</p>
+            <h1>{% trans "Discover Baby Clothes" %}</h1>
+            <p>{% trans "Donate, sell, and buy from parents nearby" %}</p>
         </div>
         
         <!-- Floating Filter Card -->
@@ -393,11 +429,11 @@
             <form method="get" class="row g-3 align-items-end">
                 <!-- Type Filter -->
                 <div class="col-6 col-md-3 col-lg-2">
-                    <label class="form-label">
-                        <i class="bi bi-tag-fill"></i> Type
-                    </label>
-                    <select name="type" class="form-select">
-                        <option value="">All</option>
+                <label class="form-label">
+                    <i class="bi bi-tag-fill"></i> {% trans "Type" %}
+                </label>
+                <select name="type" class="form-select">
+                    <option value="">{% trans "All" %}</option>
                         {% for value, label in item_type_choices %}
                             <option value="{{ value }}" {% if selected_type == value %}selected{% endif %}>{{ label }}</option>
                         {% endfor %}
@@ -406,11 +442,11 @@
                 
                 <!-- Gender Filter -->
                 <div class="col-6 col-md-3 col-lg-2">
-                    <label class="form-label">
-                        <i class="bi bi-gender-ambiguous"></i> Gender
-                    </label>
-                    <select name="gender" class="form-select">
-                        <option value="">All</option>
+                <label class="form-label">
+                    <i class="bi bi-gender-ambiguous"></i> {% trans "Gender" %}
+                </label>
+                <select name="gender" class="form-select">
+                    <option value="">{% trans "All" %}</option>
                         {% for value, label in gender_choices %}
                             <option value="{{ value }}" {% if selected_gender == value %}selected{% endif %}>{{ label }}</option>
                         {% endfor %}
@@ -419,11 +455,11 @@
                 
                 <!-- Age Range Filter -->
                 <div class="col-6 col-md-3 col-lg-2">
-                    <label class="form-label">
-                        <i class="bi bi-calendar-check"></i> Age
-                    </label>
-                    <select name="age" class="form-select">
-                        <option value="">All</option>
+                <label class="form-label">
+                    <i class="bi bi-calendar-check"></i> {% trans "Age" %}
+                </label>
+                <select name="age" class="form-select">
+                    <option value="">{% trans "All" %}</option>
                         {% for value, label in age_range_choices %}
                             <option value="{{ value }}" {% if selected_age == value %}selected{% endif %}>{{ label }}</option>
                         {% endfor %}
@@ -432,39 +468,49 @@
                 
                 <!-- Area Search -->
                 <div class="col-6 col-md-3 col-lg-3">
-                    <label class="form-label">
-                        <i class="bi bi-geo-alt-fill"></i> Location
-                    </label>
-                    <input type="text" name="area" class="form-control" 
-                           placeholder="Search..." value="{{ selected_area|default:'' }}">
+                <label class="form-label">
+                    <i class="bi bi-geo-alt-fill"></i> {% trans "Location" %}
+                </label>
+                <select name="area" class="form-select">
+                    <option value="">{% trans "All" %}</option>
+                    <option value="mirpur" {% if selected_area == 'mirpur' %}selected{% endif %}>{% trans "Mirpur" %}</option>
+                    <option value="mohammadpur" {% if selected_area == 'mohammadpur' %}selected{% endif %}>{% trans "Mohammadpur" %}</option>
+                    <option value="uttara" {% if selected_area == 'uttara' %}selected{% endif %}>{% trans "Uttara" %}</option>
+                    <option value="dhanmondi" {% if selected_area == 'dhanmondi' %}selected{% endif %}>{% trans "Dhanmondi" %}</option>
+                </select>
                 </div>
                 
-                <!-- Filter Actions -->
+                <!-- Filter Actions + Results Badge -->
                 <div class="col-12 col-lg-3">
                     <div class="filter-buttons w-100">
                         <button type="submit" class="btn btn-primary flex-grow-1">
-                            <i class="bi bi-funnel-fill"></i> Filter
+                            <i class="bi bi-funnel-fill"></i> {% trans "Filter" %}
                         </button>
                         <a href="{% url 'listings:item_list' %}" class="btn btn-outline-secondary flex-grow-1">
-                            <i class="bi bi-x-circle"></i> Clear
+                            <i class="bi bi-x-circle"></i> {% trans "Clear" %}
                         </a>
+                        <span class="results-badge d-none d-lg-inline-flex">
+                            <i class="bi bi-check-circle-fill"></i>
+                            {{ items.count }}
+                        </span>
                     </div>
                 </div>
             </form>
             
-            <!-- Results Badge -->
-            <div class="mt-3 text-end">
+            <!-- Results Badge for Mobile -->
+            <div class="mt-3 d-lg-none text-center">
                 <span class="results-badge">
                     <i class="bi bi-check-circle-fill"></i>
-                    {{ items.count }} item(s) available
+                    {% blocktrans count counter=items.count %}{{ counter }} item available{% plural %}{{ counter }} items available{% endblocktrans %}
                 </span>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Items Grid -->
-<div class="container mt-4">
+<!-- Items Grid with Extended Gradient Background -->
+<div style="background: linear-gradient(180deg, #f7fafc 0%, #e6f2ff 50%, white 100%); padding: 40px 0;">
+<div class="container">
     {% if items %}
         <div class="row g-4 mb-5">
             {% for item in items %}
@@ -535,7 +581,7 @@
                             <!-- Location -->
                             <div class="info-item">
                                 <i class="bi bi-geo-alt-fill" style="color: #f093fb;"></i>
-                                <span class="small">{{ item.area|truncatewords:3 }}</span>
+                                <span class="small">{{ item.get_area_display }}</span>
                             </div>
                         </div>
                         
@@ -544,13 +590,13 @@
                             {% if item.item_type == 'sell' and item.price %}
                                 <div class="price-tag">৳{{ item.price }}</div>
                             {% else %}
-                                <div class="price-tag">Free</div>
+                                <div class="price-tag">{% trans "Free" %}</div>
                             {% endif %}
                         </div>
                         
                         <!-- View Button -->
                         <a href="{% url 'listings:item_detail' item.pk %}" class="btn btn-outline-primary w-100">
-                            <i class="bi bi-eye-fill"></i> View Details
+                            <i class="bi bi-eye-fill"></i> {% trans "View Details" %}
                         </a>
                     </div>
                 </div>
@@ -561,19 +607,20 @@
         <!-- No Items Found -->
         <div class="empty-state">
             <i class="bi bi-inbox display-1"></i>
-            <h3 class="mt-4" style="color: #2d3748; font-weight: 700;">No items found</h3>
-            <p class="text-muted mb-4">Try adjusting your filters or be the first to post!</p>
+            <h3 class="mt-4" style="color: #2d3748; font-weight: 700;">{% trans "No items found" %}</h3>
+            <p class="text-muted mb-4">{% trans "Try adjusting your filters or be the first to post!" %}</p>
             {% if user.is_authenticated %}
                 <a href="{% url 'listings:item_create' %}" class="btn btn-success btn-lg">
-                    <i class="bi bi-plus-circle"></i> Post Your First Item
+                    <i class="bi bi-plus-circle"></i> {% trans "Post Your First Item" %}
                 </a>
             {% else %}
                 <a href="{% url 'account_login' %}" class="btn btn-primary btn-lg">
-                    <i class="bi bi-box-arrow-in-right"></i> Login to Post
+                    <i class="bi bi-box-arrow-in-right"></i> {% trans "Login to Post" %}
                 </a>
             {% endif %}
         </div>
     {% endif %}
+</div>
 </div>
 
 <script>

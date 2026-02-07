@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
 {% block title %}{{ item.title }} - LittleLoop{% endblock %}
 
@@ -68,7 +69,7 @@
     <!-- Breadcrumb -->
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{% url 'listings:item_list' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'listings:item_list' %}">{% trans "Home" %}</a></li>
             <li class="breadcrumb-item active">{{ item.title|truncatewords:5 }}</li>
         </ol>
     </nav>
@@ -138,39 +139,44 @@
                     <div class="row g-3 mb-4">
                         <div class="col-6">
                             <div class="info-badge">
-                                <p class="mb-1 text-muted small">Gender</p>
+                                <p class="mb-1 text-muted small">{% trans "Gender" %}</p>
                                 <p class="mb-0"><strong><i class="bi bi-gender-ambiguous" style="color: #667eea;"></i> {{ item.get_baby_gender_display }}</strong></p>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="info-badge">
-                                <p class="mb-1 text-muted small">Age Range</p>
+                                <p class="mb-1 text-muted small">{% trans "Age Range" %}</p>
                                 <p class="mb-0"><strong><i class="bi bi-calendar3" style="color: #f093fb;"></i> {{ item.get_age_range_display }}</strong></p>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="info-badge">
-                                <p class="mb-1 text-muted small">Size</p>
+                                <p class="mb-1 text-muted small">{% trans "Size" %}</p>
                                 <p class="mb-0"><strong><i class="bi bi-rulers" style="color: #667eea;"></i> {{ item.size }}</strong></p>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="info-badge">
-                                <p class="mb-1 text-muted small">Condition</p>
+                                <p class="mb-1 text-muted small">{% trans "Condition" %}</p>
                                 <p class="mb-0"><strong><i class="bi bi-check-circle-fill" style="color: #48bb78;"></i> {{ item.get_condition_display }}</strong></p>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="info-badge">
-                                <p class="mb-1 text-muted small">Location</p>
-                                <p class="mb-0"><strong><i class="bi bi-geo-alt-fill" style="color: #f093fb;"></i> {{ item.area }}</strong></p>
+                                <p class="mb-1 text-muted small">{% trans "Location" %}</p>
+                                <p class="mb-0">
+                                    <strong><i class="bi bi-geo-alt-fill" style="color: #f093fb;"></i> {{ item.get_area_display }}</strong>
+                                    {% if item.detailed_address %}
+                                        <br><span class="text-muted small">{{ item.detailed_address }}</span>
+                                    {% endif %}
+                                </p>
                             </div>
                         </div>
                     </div>
                     
                     <!-- Description -->
                     <div class="mb-4">
-                        <h5 style="font-weight: 600; color: #2d3748;"><i class="bi bi-file-text"></i> Description</h5>
+                        <h5 style="font-weight: 600; color: #2d3748;"><i class="bi bi-file-text"></i> {% trans "Description" %}</h5>
                         <p class="text-muted" style="line-height: 1.7;">{{ item.description|linebreaks }}</p>
                     </div>
                     
@@ -178,43 +184,60 @@
                     {% if item.status == 'available' %}
                         {% if show_contact %}
                             <div class="alert" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 12px;">
-                                <h5><i class="bi bi-telephone-fill"></i> Contact Owner</h5>
-                                <p class="mb-2">
-                                    <strong>Name:</strong> {{ item.owner.profile.full_name }}<br>
-                                    <strong>Phone:</strong> 
-                                    <a href="tel:{{ item.owner.profile.phone_number }}" style="color: white; text-decoration: underline;">
-                                        {{ item.owner.profile.phone_number }}
-                                    </a>
-                                </p>
+                                <h5><i class="bi bi-telephone-fill"></i> {% trans "Contact Owner" %}</h5>
+                                
+                                {% if item.use_alternative_contact and item.alternative_contact_phone %}
+                                    <!-- Show Alternative Contact -->
+                                    <p class="mb-2">
+                                        <strong>{% trans "Contact Person:" %}</strong> {{ item.alternative_contact_name }}<br>
+                                        <strong>{% trans "Phone:" %}</strong> 
+                                        <a href="tel:{{ item.alternative_contact_phone }}" style="color: white; text-decoration: underline;">
+                                            {{ item.alternative_contact_phone }}
+                                        </a>
+                                    </p>
+                                    <small class="text-white-50">
+                                        <i class="bi bi-info-circle"></i> {% trans "Alternative contact provided by owner" %}
+                                    </small>
+                                {% else %}
+                                    <!-- Show Owner Contact -->
+                                    <p class="mb-2">
+                                        <strong>{% trans "Name:" %}</strong> {{ item.owner.profile.full_name }}<br>
+                                        <strong>{% trans "Phone:" %}</strong> 
+                                        <a href="tel:{{ item.owner.profile.phone_number }}" style="color: white; text-decoration: underline;">
+                                            {{ item.owner.profile.phone_number }}
+                                        </a>
+                                    </p>
+                                {% endif %}
+                                
                                 <small>
-                                    <i class="bi bi-info-circle"></i> Call or message to arrange pickup/delivery
+                                    <i class="bi bi-info-circle"></i> {% trans "Call or message to arrange pickup/delivery" %}
                                 </small>
                             </div>
                         {% else %}
                             <div class="alert alert-warning" style="border-radius: 12px;">
-                                <h5><i class="bi bi-lock-fill"></i> Want to {% if item.item_type == 'donate' %}collect{% else %}buy{% endif %}?</h5>
-                                <p class="mb-3">Login and complete your profile to see contact information.</p>
+                                <h5><i class="bi bi-lock-fill"></i> {% trans "Want to" %} {% if item.item_type == 'donate' %}{% trans "collect" %}{% else %}{% trans "buy" %}{% endif %}?</h5>
+                                <p class="mb-3">{% trans "Login and complete your profile to see contact information." %}</p>
                                 {% if user.is_authenticated %}
                                     <a href="{% url 'accounts:profile_complete' %}" class="btn btn-primary w-100">
-                                        <i class="bi bi-person-check"></i> Complete Profile
+                                        <i class="bi bi-person-check"></i> {% trans "Complete Profile" %}
                                     </a>
                                 {% else %}
                                     <a href="{% url 'account_login' %}" class="btn btn-primary w-100">
-                                        <i class="bi bi-box-arrow-in-right"></i> Login to Continue
+                                        <i class="bi bi-box-arrow-in-right"></i> {% trans "Login to Continue" %}
                                     </a>
                                 {% endif %}
                             </div>
                         {% endif %}
                     {% else %}
                         <div class="alert alert-danger" style="border-radius: 12px;">
-                            <i class="bi bi-x-circle-fill"></i> This item is no longer available.
+                            <i class="bi bi-x-circle-fill"></i> {% trans "This item is no longer available." %}
                         </div>
                     {% endif %}
                     
                     <!-- Posted By & Date -->
                     <div class="border-top pt-3 mt-3">
                         <small class="text-muted">
-                            <i class="bi bi-person-circle"></i> Posted by <strong>{{ item.owner.profile.full_name|default:item.owner.email }}</strong><br>
+                            <i class="bi bi-person-circle"></i> {% trans "Posted by" %} <strong>{{ item.owner.profile.full_name|default:item.owner.email }}</strong><br>
                             <i class="bi bi-clock"></i> {{ item.created_at|date:"F d, Y" }}
                         </small>
                     </div>
@@ -226,11 +249,11 @@
     <!-- Back Button -->
     <div class="mt-4">
         <a href="{% url 'listings:item_list' %}" class="btn btn-outline-secondary">
-            <i class="bi bi-arrow-left"></i> Back to Listings
+            <i class="bi bi-arrow-left"></i> {% trans "Back to Listings" %}
         </a>
         {% if user == item.owner and item.status == 'available' %}
             <a href="{% url 'listings:item_edit' item.pk %}" class="btn btn-outline-info">
-                <i class="bi bi-pencil"></i> Edit Item
+                <i class="bi bi-pencil"></i> {% trans "Edit Item" %}
             </a>
         {% endif %}
     </div>

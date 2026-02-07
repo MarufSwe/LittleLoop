@@ -62,6 +62,7 @@ SITE_ID = 1
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',  # Language detection and translation
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -136,11 +137,22 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'bn'  # Bangla as default language
 
-TIME_ZONE = 'UTC'
+# Supported languages
+LANGUAGES = [
+    ('bn', 'বাংলা'),  # Bangla
+    ('en', 'English'),  # English
+]
 
-USE_I18N = True
+# Translation files directory
+LOCALE_PATHS = [
+    BASE_DIR / 'locale',
+]
+
+TIME_ZONE = 'Asia/Dhaka'  # Bangladesh timezone
+
+USE_I18N = True  # Enable internationalization
 
 USE_TZ = True
 

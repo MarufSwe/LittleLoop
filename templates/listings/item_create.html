@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
-{% block title %}{% if is_edit %}Edit Item{% else %}Post Item{% endif %} - LittleLoop{% endblock %}
+{% block title %}{% if is_edit %}{% trans "Edit Item" %}{% else %}{% trans "Post Item" %}{% endif %} - LittleLoop{% endblock %}
 
 {% block extra_css %}
 <style>
@@ -44,11 +45,11 @@
                     <!-- Header -->
                     <div class="text-center mb-4">
                         {% if is_edit %}
-                            <h2><i class="bi bi-pencil-square" style="color: #667eea;"></i> Edit Your Item</h2>
-                            <p class="text-muted">Update your listing details</p>
+                            <h2><i class="bi bi-pencil-square" style="color: #667eea;"></i> {% trans "Edit Your Item" %}</h2>
+                            <p class="text-muted">{% trans "Update your listing details" %}</p>
                         {% else %}
-                            <h2><i class="bi bi-plus-circle" style="color: #f093fb;"></i> Post Your Item</h2>
-                            <p class="text-muted">Share baby clothes with your community</p>
+                            <h2><i class="bi bi-plus-circle" style="color: #f093fb;"></i> {% trans "Post Your Item" %}</h2>
+                            <p class="text-muted">{% trans "Share baby clothes with your community" %}</p>
                         {% endif %}
                     </div>
                     
@@ -87,8 +88,8 @@
                         
                         <!-- Image Uploads (3 images) -->
                         <div class="mb-4">
-                            <label class="form-label"><strong><i class="bi bi-images"></i> Upload Images (Up to 3)</strong></label>
-                            <small class="text-muted d-block mb-2">First image will be the primary display image</small>
+                            <label class="form-label"><strong><i class="bi bi-images"></i> {% trans "Upload Images (Up to 3)" %}</strong></label>
+                            <small class="text-muted d-block mb-2">{% trans "First image will be the primary display image" %}</small>
                             
                             <div class="row g-3">
                                 <!-- Image 1 -->
@@ -99,7 +100,7 @@
                                         {% if is_edit and item.image1 %}
                                             <img src="{{ item.image1.url }}" alt="Current image 1">
                                         {% else %}
-                                            <span class="text-muted small">No image</span>
+                                            <span class="text-muted small">{% trans "No image" %}</span>
                                         {% endif %}
                                     </div>
                                     {% if form.image1.errors %}
@@ -115,7 +116,7 @@
                                         {% if is_edit and item.image2 %}
                                             <img src="{{ item.image2.url }}" alt="Current image 2">
                                         {% else %}
-                                            <span class="text-muted small">No image</span>
+                                            <span class="text-muted small">{% trans "No image" %}</span>
                                         {% endif %}
                                     </div>
                                     {% if form.image2.errors %}
@@ -131,7 +132,7 @@
                                         {% if is_edit and item.image3 %}
                                             <img src="{{ item.image3.url }}" alt="Current image 3">
                                         {% else %}
-                                            <span class="text-muted small">No image</span>
+                                            <span class="text-muted small">{% trans "No image" %}</span>
                                         {% endif %}
                                     </div>
                                     {% if form.image3.errors %}
@@ -195,17 +196,74 @@
                             {% endif %}
                         </div>
                         
+                        <!-- Detailed Address (Hidden by default, shown after area selection) -->
+                        <div class="col-12 mb-3" id="detailed-address-container" style="display: none;">
+                            <label for="{{ form.detailed_address.id_for_label }}" class="form-label">
+                                {{ form.detailed_address.label }}
+                            </label>
+                            {{ form.detailed_address }}
+                            {% if form.detailed_address.errors %}
+                                <div class="text-danger small mt-1">{{ form.detailed_address.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Alternative Contact Section -->
+                        <div class="col-12 mb-3">
+                            <div class="card" style="background: white; border: 2px solid #e2e8f0; border-radius: 12px;">
+                                <div class="card-body">
+                                    <h6 class="mb-3" style="color: #667eea; font-weight: 600;">
+                                        <i class="bi bi-phone-vibrate"></i> {% trans "Alternative Contact (Optional)" %}
+                                    </h6>
+                                    <small class="text-muted d-block mb-3">
+                                        {% trans "Use a different contact number for this item (e.g., guard, helper, family member)" %}
+                                    </small>
+                                    
+                                    <!-- Checkbox -->
+                                    <div class="form-check mb-3">
+                                        {{ form.use_alternative_contact }}
+                                        <label class="form-check-label" for="{{ form.use_alternative_contact.id_for_label }}" style="font-weight: 500;">
+                                            {{ form.use_alternative_contact.label }}
+                                        </label>
+                                    </div>
+                                    
+                                    <!-- Alternative Contact Fields (Hidden by default) -->
+                                    <div id="alternative-contact-fields" style="display: none;">
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <label for="{{ form.alternative_contact_name.id_for_label }}" class="form-label">
+                                                    {{ form.alternative_contact_name.label }}
+                                                </label>
+                                                {{ form.alternative_contact_name }}
+                                                {% if form.alternative_contact_name.errors %}
+                                                    <div class="text-danger small mt-1">{{ form.alternative_contact_name.errors }}</div>
+                                                {% endif %}
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="{{ form.alternative_contact_phone.id_for_label }}" class="form-label">
+                                                    {{ form.alternative_contact_phone.label }}
+                                                </label>
+                                                {{ form.alternative_contact_phone }}
+                                                {% if form.alternative_contact_phone.errors %}
+                                                    <div class="text-danger small mt-1">{{ form.alternative_contact_phone.errors }}</div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
                         <!-- Submit Buttons -->
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-success btn-lg">
                                 {% if is_edit %}
-                                    <i class="bi bi-check-circle"></i> Update Item
+                                    <i class="bi bi-check-circle"></i> {% trans "Update Item" %}
                                 {% else %}
-                                    <i class="bi bi-check-circle"></i> Post Item
+                                    <i class="bi bi-check-circle"></i> {% trans "Post Item" %}
                                 {% endif %}
                             </button>
                             <a href="{% if is_edit %}{% url 'listings:my_items' %}{% else %}{% url 'listings:item_list' %}{% endif %}" class="btn btn-outline-secondary">
-                                <i class="bi bi-x-circle"></i> Cancel
+                                <i class="bi bi-x-circle"></i> {% trans "Cancel" %}
                             </a>
                         </div>
                     </form>
@@ -235,6 +293,59 @@ document.addEventListener('DOMContentLoaded', function() {
     
     togglePriceField();
     itemTypeSelect.addEventListener('change', togglePriceField);
+    
+    // Show/hide detailed address field based on area selection
+    const areaSelect = document.querySelector('select[name="area"]');
+    const detailedAddressContainer = document.getElementById('detailed-address-container');
+    
+    function toggleDetailedAddress() {
+        if (areaSelect.value) {
+            // Area is selected, show detailed address field
+            detailedAddressContainer.style.display = 'block';
+            // Add smooth animation
+            detailedAddressContainer.style.opacity = '0';
+            setTimeout(() => {
+                detailedAddressContainer.style.transition = 'opacity 0.3s ease-in';
+                detailedAddressContainer.style.opacity = '1';
+            }, 10);
+        } else {
+            // No area selected, hide detailed address field
+            detailedAddressContainer.style.display = 'none';
+        }
+    }
+    
+    // Check on page load (for edit mode)
+    toggleDetailedAddress();
+    
+    // Listen for area changes
+    areaSelect.addEventListener('change', toggleDetailedAddress);
+    
+    // Show/hide alternative contact fields based on checkbox
+    const altContactCheckbox = document.getElementById('id_use_alternative_contact');
+    const altContactFields = document.getElementById('alternative-contact-fields');
+    
+    function toggleAlternativeContact() {
+        if (altContactCheckbox.checked) {
+            altContactFields.style.display = 'block';
+            // Smooth animation
+            altContactFields.style.opacity = '0';
+            setTimeout(() => {
+                altContactFields.style.transition = 'opacity 0.3s ease-in';
+                altContactFields.style.opacity = '1';
+            }, 10);
+        } else {
+            altContactFields.style.display = 'none';
+            // Clear fields when hidden
+            document.querySelector('input[name="alternative_contact_name"]').value = '';
+            document.querySelector('input[name="alternative_contact_phone"]').value = '';
+        }
+    }
+    
+    // Check on page load (for edit mode)
+    toggleAlternativeContact();
+    
+    // Listen for checkbox changes
+    altContactCheckbox.addEventListener('change', toggleAlternativeContact);
     
     // Image previews
     function setupImagePreview(inputId, previewId) {
