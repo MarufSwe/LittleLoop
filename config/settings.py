@@ -86,22 +86,21 @@ WSGI_APPLICATION = 'config.wsgi.application'
 #     }
 # }
 
+# Database Configuration
+# Automatically uses production database when DATABASE_URL is set or when not in debug mode
+
+# Default to local PostgreSQL (for development)
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'littleloop',
-        'USER': 'postgres', 
-        'PASSWORD': 'admin',
-        'HOST': 'localhost',
-        'PORT': '5433',
-    }
+    'default': dj_database_url.config(
+        default='postgresql://postgres:admin@localhost:5433/littleloop',
+        conn_max_age=600
+    )
 }
 
-# Production database - use environment variable DATABASE_URL if available
-if 'DATABASE_URL' in os.environ:
-    DATABASES["default"] = dj_database_url.parse(os.environ['DATABASE_URL'])
-elif not DEBUG:  # If in production but no DATABASE_URL, use Render database
-    DATABASES["default"] = dj_database_url.parse("postgresql://littleloop_user:wiFXnokLHWNYZgXMWwyV9ntkLHDR90MQ@dpg-d64omicr85hc73c0n2g0-a.oregon-postgres.render.com/littleloop")
+# Override with Render PostgreSQL if no DATABASE_URL is set and DEBUG is False
+if 'DATABASE_URL' not in os.environ and not DEBUG:
+    DATABASES['default'] = dj_database_url.parse("postgresql://littleloop_user:wiFXnokLHWNYZgXMWwyV9ntkLHDR90MQ@dpg-d64omicr85hc73c0n2g0-a.oregon-postgres.render.com/littleloop")
+
 
 
 # Password validation
