@@ -48,7 +48,7 @@ def item_list(request):
 def item_detail(request, pk):
     """
     Public detail view for an item.
-    Shows full details and collect/buy button (login required for action).
+    Shows full details and collect/buy button (login + profile required for contact).
     """
     item = get_object_or_404(Item, pk=pk)
     

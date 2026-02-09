@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Sign Up" %} - LittleLoop{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-lg border-0" style="border-radius: 20px;">
+                <div class="card-body p-5">
+                    <!-- Header -->
+                    <div class="text-center mb-4">
+                        <div class="mb-3">
+                            <i class="bi bi-person-plus-fill" style="font-size: 3rem; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
+                        </div>
+                        <h2 class="fw-bold" style="color: #2d3748;">{% trans "Create Account" %}</h2>
+                        <p class="text-muted">{% trans "Join LittleLoop to share baby clothes" %}</p>
+                    </div>
+
+                    <!-- Form -->
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+                        
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ form.non_field_errors }}
+                            </div>
+                        {% endif %}
+
+                        <!-- Login Type Selection -->
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">{{ form.login_type.label }}</label>
+                            <div class="d-flex gap-4">
+                                {% for radio in form.login_type %}
+                                    <div class="form-check">
+                                        {{ radio.tag }}
+                                        <label class="form-check-label" for="{{ radio.id_for_label }}">
+                                            {{ radio.choice_label }}
+                                        </label>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            {% if form.login_type.errors %}
+                                <div class="text-danger small mt-1">{{ form.login_type.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Email Field -->
+                        <div class="mb-3" id="email-field">
+                            <label for="{{ form.email.id_for_label }}" class="form-label fw-semibold">
+                                <i class="bi bi-envelope"></i> {{ form.email.label }}
+                            </label>
+                            {{ form.email }}
+                            {% if form.email.errors %}
+                                <div class="text-danger small mt-1">{{ form.email.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Phone Field -->
+                        <div class="mb-3" id="phone-field" style="display: none;">
+                            <label for="{{ form.phone.id_for_label }}" class="form-label fw-semibold">
+                                <i class="bi bi-phone"></i> {{ form.phone.label }}
+                            </label>
+                            {{ form.phone }}
+                            <small class="form-text text-muted">{% trans "11 digits, e.g., 01712345678" %}</small>
+                            {% if form.phone.errors %}
+                                <div class="text-danger small mt-1">{{ form.phone.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Password -->
+                        <div class="mb-3">
+                            <label for="{{ form.password.id_for_label }}" class="form-label fw-semibold">
+                                <i class="bi bi-lock"></i> {{ form.password.label }}
+                            </label>
+                            {{ form.password }}
+                            <small class="form-text text-muted">{% trans "At least 6 characters" %}</small>
+                            {% if form.password.errors %}
+                                <div class="text-danger small mt-1">{{ form.password.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Confirm Password -->
+                        <div class="mb-4">
+                            <label for="{{ form.password_confirm.id_for_label }}" class="form-label fw-semibold">
+                                <i class="bi bi-lock-fill"></i> {{ form.password_confirm.label }}
+                            </label>
+                            {{ form.password_confirm }}
+                            {% if form.password_confirm.errors %}
+                                <div class="text-danger small mt-1">{{ form.password_confirm.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn btn-lg w-100 mb-3" 
+                                style="background: var(--gradient-primary); color: white; border-radius: 12px; font-weight: 600;">
+                            <i class="bi bi-check-circle"></i> {% trans "Create Account" %}
+                        </button>
+
+                        <!-- Login Link -->
+                        <div class="text-center">
+                            <p class="text-muted mb-0">
+                                {% trans "Already have an account?" %}
+                                <a href="{% url 'accounts:login' %}" class="fw-semibold" style="color: #667eea; text-decoration: none;">
+                                    {% trans "Login" %}
+                                </a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Toggle email/phone field based on selection
+document.addEventListener('DOMContentLoaded', function() {
+    const loginTypeRadios = document.querySelectorAll('input[name="login_type"]');
+    const emailField = document.getElementById('email-field');
+    const phoneField = document.getElementById('phone-field');
+    const emailInput = document.getElementById('{{ form.email.id_for_label }}');
+    const phoneInput = document.getElementById('{{ form.phone.id_for_label }}');
+    
+    function toggleFields() {
+        const selectedType = document.querySelector('input[name="login_type"]:checked').value;
+        
+        if (selectedType === 'email') {
+            emailField.style.display = 'block';
+            phoneField.style.display = 'none';
+            emailInput.required = true;
+            phoneInput.required = false;
+        } else {
+            emailField.style.display = 'none';
+            phoneField.style.display = 'block';
+            emailInput.required = false;
+            phoneInput.required = true;
+        }
+    }
+    
+    loginTypeRadios.forEach(radio => {
+        radio.addEventListener('change', toggleFields);
+    });
+    
+    // Initial state
+    toggleFields();
+});
+</script>
+{% endblock %}

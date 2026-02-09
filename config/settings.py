@@ -39,26 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
-    # Django Allauth - for social authentication
-    'django.contrib.sites',  # Required by allauth
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    
-    # Social providers - Google & Facebook
-    'allauth.socialaccount.providers.google',
-    'allauth.socialaccount.providers.facebook',
-    
-    # SSL Server for HTTPS in development
-    'sslserver',
-    
     # Custom apps
     'accounts',  # User accounts & profile management
     'listings',  # Baby clothes listings (donate/sell)
 ]
-
-# Required by django-allauth
-SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -69,9 +53,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
-    # Allauth middleware (required for django-allauth)
-    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -115,7 +96,8 @@ DATABASES = {
     }
 }
 
-DATABASES["default"] = dj_database_url.parse("postgresql://littleloop_user:wiFXnokLHWNYZgXMWwyV9ntkLHDR90MQ@dpg-d64omicr85hc73c0n2g0-a.oregon-postgres.render.com/littleloop")
+# Production database (use this for deployment only)
+# DATABASES["default"] = dj_database_url.parse("postgresql://littleloop_user:wiFXnokLHWNYZgXMWwyV9ntkLHDR90MQ@dpg-d64omicr85hc73c0n2g0-a.oregon-postgres.render.com/littleloop")
 
 
 # Password validation
@@ -140,12 +122,12 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'bn'  # Bangla as default language
+LANGUAGE_CODE = 'en'  # English as default language
 
 # Supported languages
 LANGUAGES = [
-    ('bn', 'বাংলা'),  # Bangla
     ('en', 'English'),  # English
+    ('bn', 'বাংলা'),  # Bangla
 ]
 
 # Translation files directory
@@ -175,66 +157,12 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-# ============================================================================
-# DJANGO ALLAUTH CONFIGURATION
-# ============================================================================
-
-# Authentication backends - Django default + Allauth
+# Authentication backend - Custom email/phone authentication
 AUTHENTICATION_BACKENDS = [
-    # Django default backend (for username/password in admin)
-    'django.contrib.auth.backends.ModelBackend',
-    
-    # Allauth backend (for social authentication)
-    'allauth.account.auth_backends.AuthenticationBackend',
+    'accounts.backends.EmailOrPhoneBackend',  # Custom email/phone authentication
+    'django.contrib.auth.backends.ModelBackend',  # Fallback for admin
 ]
 
-# Allauth Account Settings
-ACCOUNT_LOGIN_METHODS = {'email'}  # Use email for login
-ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']  # Signup fields (no username)
-ACCOUNT_EMAIL_VERIFICATION = 'none'  # No email verification (as per your requirement)
-ACCOUNT_UNIQUE_EMAIL = True  # Each email must be unique
-ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True  # Auto login after confirmation (if enabled later)
-
-# Social Account Settings
-SOCIALACCOUNT_AUTO_SIGNUP = True  # Automatically create account on social login
-SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'  # No email verification for social accounts
-SOCIALACCOUNT_QUERY_EMAIL = True  # Request email from social providers
-SOCIALACCOUNT_STORE_TOKENS = True  # Store OAuth tokens
-
-# Redirect URLs after login/logout
-LOGIN_REDIRECT_URL = '/profile/complete/'  # Redirect to profile completion after login
-LOGOUT_REDIRECT_URL = '/'  # Redirect to item list homepage after logout
-ACCOUNT_LOGOUT_REDIRECT_URL = '/'
-
-# Provider-specific settings
-# NOTE: Credentials are managed via Django Admin (Sites > Social applications)
-# Do NOT add 'APP' configurations here as it can cause conflicts
-SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        'SCOPE': [
-            'profile',
-            'email',
-        ],
-        'AUTH_PARAMS': {
-            'access_type': 'online',
-        },
-    },
-    'facebook': {
-        'METHOD': 'oauth2',
-        'SCOPE': ['email', 'public_profile'],
-        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
-        'INIT_PARAMS': {'cookie': True},
-        'FIELDS': [
-            'id',
-            'email',
-            'name',
-            'first_name',
-            'last_name',
-            'verified',
-        ],
-        'EXCHANGE_TOKEN': True,
-        'VERIFIED_EMAIL': False,
-        'VERSION': 'v21.0',
-    }
-}
+# Redirect URLs
+LOGIN_URL = '/profile/login/'  # Redirect to login page
+LOGOUT_REDIRECT_URL = '/'  # Redirect to homepage

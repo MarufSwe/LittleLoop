@@ -17,10 +17,7 @@ urlpatterns = [
     # Homepage - Public item listings
     path('', include('listings.urls')),
     
-    # Django Allauth URLs (handles login, logout, social auth)
-    path('accounts/', include('allauth.urls')),
-    
-    # Custom accounts app URLs (profile completion, etc.)
+    # Profile management (no login required - direct to profile)
     path('profile/', include('accounts.urls')),
 ]
 
