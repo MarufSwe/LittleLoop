@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -24,7 +25,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-*7lj7q)1@oe^#fe$$8%o)4e8w$hbgg=h&e(!mw01l6r%kc756b'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-import os
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = ['*']
@@ -98,7 +98,6 @@ DATABASES = {
 }
 
 # Production database - use environment variable DATABASE_URL if available
-import os
 if 'DATABASE_URL' in os.environ:
     DATABASES["default"] = dj_database_url.parse(os.environ['DATABASE_URL'])
 elif not DEBUG:  # If in production but no DATABASE_URL, use Render database
