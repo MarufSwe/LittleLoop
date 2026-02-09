@@ -11,6 +11,9 @@ urlpatterns = [
     # Django admin
     path('admin/', admin.site.urls),
     
+    # Debug endpoint (temporary - remove in production)
+    path('debug-config/', lambda request: __import__('config.debug_view', fromlist=['debug_config']).debug_config(request)),
+    
     # Language switcher
     path('i18n/', include('django.conf.urls.i18n')),
     
