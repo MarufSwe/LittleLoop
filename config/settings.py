@@ -106,10 +106,14 @@ elif DEBUG:
             'PORT': '5433',
         }
     }
-# Production fallback - use Render PostgreSQL
+# Production fallback - use Render PostgreSQL with SSL
 else:
     DATABASES = {
         'default': dj_database_url.parse("postgresql://littleloop_user:wiFXnokLHWNYZgXMWwyV9ntkLHDR90MQ@dpg-d64omicr85hc73c0n2g0-a.oregon-postgres.render.com/littleloop", conn_max_age=600)
+    }
+    # Enable SSL for PostgreSQL connection
+    DATABASES['default']['OPTIONS'] = {
+        'sslmode': 'require',
     }
 
 
