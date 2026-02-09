@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import dj_database_url
-import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +24,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-*7lj7q)1@oe^#fe$$8%o)4e8w$hbgg=h&e(!mw01l6r%kc756b'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+import os
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = ['*']
 
@@ -86,28 +86,23 @@ WSGI_APPLICATION = 'config.wsgi.application'
 #     }
 # }
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'littleloop',
+        'USER': 'postgres', 
+        'PASSWORD': 'admin',
+        'HOST': 'localhost',
+        'PORT': '5433',
+    }
+}
+
+# Production database - use environment variable DATABASE_URL if available
 import os
-
-# Database configuration
-# Use Render database if DATABASE_URL is set (production), otherwise use local
-if os.environ.get('DATABASE_URL'):
-    # Production database (Render)
-    DATABASES = {
-        'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
-    }
-else:
-    # Local development database
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'littleloop',
-            'USER': 'postgres', 
-            'PASSWORD': 'admin',
-            'HOST': 'localhost',
-            'PORT': '5433',
-        }
-    }
-
+if 'DATABASE_URL' in os.environ:
+    DATABASES["default"] = dj_database_url.parse(os.environ['DATABASE_URL'])
+elif not DEBUG:  # If in production but no DATABASE_URL, use Render database
+    DATABASES["default"] = dj_database_url.parse("postgresql://littleloop_user:wiFXnokLHWNYZgXMWwyV9ntkLHDR90MQ@dpg-d64omicr85hc73c0n2g0-a.oregon-postgres.render.com/littleloop")
 
 
 # Password validation
