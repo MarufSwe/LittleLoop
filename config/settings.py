@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import dj_database_url
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -85,19 +86,28 @@ WSGI_APPLICATION = 'config.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'littleloop',
-        'USER': 'postgres', 
-        'PASSWORD': 'admin',
-        'HOST': 'localhost',
-        'PORT': '5433',
-    }
-}
+import os
 
-# Production database (use this for deployment only)
-# DATABASES["default"] = dj_database_url.parse("postgresql://littleloop_user:wiFXnokLHWNYZgXMWwyV9ntkLHDR90MQ@dpg-d64omicr85hc73c0n2g0-a.oregon-postgres.render.com/littleloop")
+# Database configuration
+# Use Render database if DATABASE_URL is set (production), otherwise use local
+if os.environ.get('DATABASE_URL'):
+    # Production database (Render)
+    DATABASES = {
+        'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
+    }
+else:
+    # Local development database
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'littleloop',
+            'USER': 'postgres', 
+            'PASSWORD': 'admin',
+            'HOST': 'localhost',
+            'PORT': '5433',
+        }
+    }
+
 
 
 # Password validation
