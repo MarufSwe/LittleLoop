@@ -187,6 +187,9 @@ class ProfileCompletionForm(forms.ModelForm):
         if self.user and self.user.username.startswith('phone_'):
             self.fields.pop('phone_number', None)
             self.fields['email'].required = True
+            # Pre-populate email if it exists
+            if self.user.email and not self.initial.get('email'):
+                self.initial['email'] = self.user.email
         else:
             # If user signed up with email, remove email field
             self.fields.pop('email', None)
@@ -208,7 +211,11 @@ class ProfileCompletionForm(forms.ModelForm):
         """Validate email uniqueness for phone signups"""
         email = self.cleaned_data.get('email')
         if email:
-            # Check if email already exists
-            if User.objects.filter(email=email).exists():
+            # Check if email already exists (exclude current user)
+            existing = User.objects.filter(email=email)
+            if self.user:
+                existing = existing.exclude(id=self.user.id)
+            
+            if existing.exists():
                 raise ValidationError(_('This email is already registered'))
         return email
