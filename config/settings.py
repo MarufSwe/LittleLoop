@@ -40,6 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
+    # Third-party apps
+    'cloudinary_storage',  # Must be before custom apps
+    'cloudinary',  # Cloudinary for media storage
+    
     # Custom apps
     'accounts',  # User accounts & profile management
     'listings',  # Baby clothes listings (donate/sell)
@@ -166,6 +170,18 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 # Media files (User uploads - profile pictures, etc.)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# Cloudinary Configuration (for persistent media storage in production)
+# Get credentials from: https://cloudinary.com/console
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME', ''),
+    'API_KEY': os.environ.get('CLOUDINARY_API_KEY', ''),
+    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET', ''),
+}
+
+# Use Cloudinary for media files in production
+if not DEBUG:
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
