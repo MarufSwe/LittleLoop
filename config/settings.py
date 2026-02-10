@@ -99,15 +99,19 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # }
 
 # DATABASES["default"] = dj_database_url.parse("postgresql://littleloop_195m_user:F4qeloPuFTwINFLtELxkvw1wqdVU3736@dpg-d65dliogjchc73bhge20-a.oregon-postgres.render.com/littleloop_195m")
-import os
-import dj_database_url
-
+# Database Configuration
+# Works both locally and on Render
 DATABASES = {
     "default": dj_database_url.config(
+        default='postgresql://postgres:admin@localhost:5433/littleloop',  # Local default
         conn_max_age=600,
-        ssl_require=True,
+        ssl_require=False,  # SSL not needed for local
     )
 }
+
+# Enable SSL only for production (when DATABASE_URL is set)
+if 'DATABASE_URL' in os.environ:
+    DATABASES['default']['OPTIONS'] = {'sslmode': 'require'}
 
 
 

@@ -77,7 +77,7 @@ pip-delete-this-directory.txt
 .hypothesis/
 
 # Translations
-*.mo
+# *.mo  # Commented out - we need .mo files in production
 *.pot
 
 # Sphinx documentation
