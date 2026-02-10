@@ -87,18 +87,27 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # }
 
 # Database - Simple local PostgreSQL
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'littleloop',
+#         'USER': 'postgres', 
+#         'PASSWORD': 'admin',
+#         'HOST': 'localhost',
+#         'PORT': '5433',
+#     }
+# }
+
+# DATABASES["default"] = dj_database_url.parse("postgresql://littleloop_195m_user:F4qeloPuFTwINFLtELxkvw1wqdVU3736@dpg-d65dliogjchc73bhge20-a.oregon-postgres.render.com/littleloop_195m")
+import os
+import dj_database_url
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'littleloop',
-        'USER': 'postgres', 
-        'PASSWORD': 'admin',
-        'HOST': 'localhost',
-        'PORT': '5433',
-    }
+    "default": dj_database_url.config(
+        conn_max_age=600,
+        ssl_require=True,
+    )
 }
-
-
 
 
 
