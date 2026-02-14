@@ -147,31 +147,55 @@
         font-size: 1rem;
     }
     
-    /* Item Cards - Compact with Full Color */
+    /* Item Cards - Ultra Compact & Colorful */
     .item-card {
-        border-radius: 16px;
+        border-radius: 10px;
         overflow: hidden;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        background: linear-gradient(180deg, white 0%, #f7fafc 50%, #edf2f7 100%);
-        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         height: 100%;
-        border: 2px solid #e2e8f0;
+        border: 2px solid #fbbf24;
+        margin-bottom: 0;
+    }
+    
+    /* Alternating vibrant colors for better distinction */
+    .item-card:nth-child(4n+1) {
+        background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+        border-color: #60a5fa;
+    }
+    
+    .item-card:nth-child(4n+2) {
+        background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%);
+        border-color: #f472b6;
+    }
+    
+    .item-card:nth-child(4n+3) {
+        background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+        border-color: #34d399;
+    }
+    
+    .item-card:nth-child(4n+4) {
+        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        border-color: #fbbf24;
     }
     
     .item-card:hover {
-        transform: translateY(-6px);
-        box-shadow: 0 8px 30px rgba(102, 126, 234, 0.2);
-        border-color: #667eea;
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        border-width: 3px;
     }
     
     .item-card .card-img-container {
         position: relative;
         overflow: hidden;
         height: 180px;
+        background: #ffffff;
     }
     
     .item-card .card-img-top {
         height: 180px;
+        width: 100%;
         object-fit: cover;
         transition: transform 0.3s ease;
     }
@@ -182,112 +206,73 @@
     
     .item-card .image-nav {
         position: absolute;
-        bottom: 8px;
+        bottom: 5px;
         left: 50%;
         transform: translateX(-50%);
         display: flex;
-        gap: 5px;
+        gap: 3px;
         z-index: 10;
     }
     
     .item-card .image-dot {
-        width: 7px;
-        height: 7px;
+        width: 5px;
+        height: 5px;
         border-radius: 50%;
-        background: rgba(255,255,255,0.5);
+        background: rgba(255,255,255,0.6);
         cursor: pointer;
-        transition: all 0.3s ease;
+        transition: all 0.2s ease;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.2);
     }
     
     .item-card .image-dot.active {
         background: white;
-        width: 20px;
-        border-radius: 4px;
+        width: 14px;
+        border-radius: 3px;
     }
     
     .item-card .card-body {
-        padding: 14px;
-        background: transparent;
+        padding: 8px;
+        background: rgba(255,255,255,0.5);
+        backdrop-filter: blur(10px);
     }
     
     .item-card .card-title {
-        font-weight: 700;
-        color: #2d3748;
-        font-size: 0.95rem;
-        margin-bottom: 10px;
-        line-height: 1.3;
-    }
-    
-    /* Badge Row - Compact */
-    .badge-row {
-        display: flex;
-        gap: 6px;
-        margin-bottom: 10px;
-        flex-wrap: wrap;
-    }
-    
-    .gender-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-        padding: 4px 10px;
-        background: rgba(102, 126, 234, 0.12);
-        border: 1.5px solid rgba(102, 126, 234, 0.3);
-        border-radius: 50px;
-        font-size: 0.7rem;
-        font-weight: 700;
-        color: #667eea;
-    }
-    
-    .type-badge-donate {
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-        padding: 4px 10px;
-        background: rgba(72, 187, 120, 0.12);
-        border: 1.5px solid rgba(72, 187, 120, 0.35);
-        border-radius: 50px;
-        font-size: 0.7rem;
-        font-weight: 700;
-        color: #38a169;
-    }
-    
-    .type-badge-sell {
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-        padding: 4px 10px;
-        background: rgba(240, 147, 251, 0.12);
-        border: 1.5px solid rgba(240, 147, 251, 0.35);
-        border-radius: 50px;
-        font-size: 0.7rem;
-        font-weight: 700;
-        color: #d946ef;
+        font-weight: 800;
+        color: #1f2937;
+        font-size: 0.8rem;
+        line-height: 1.2;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
     }
     
     .info-item {
         display: flex;
         align-items: center;
-        gap: 6px;
-        padding: 6px 10px;
-        background: white;
-        border-radius: 8px;
-        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-        font-size: 0.8rem;
+        gap: 4px;
+        padding: 4px 6px;
+        background: rgba(255,255,255,0.95);
+        border-radius: 5px;
+        border: 1px solid rgba(0,0,0,0.08);
+        font-size: 0.7rem;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.05);
     }
     
     .info-item i {
-        font-size: 0.95rem;
+        font-size: 0.75rem;
     }
     
     /* Price Display - Compact */
     .price-tag {
-        font-size: 1.3rem;
+        font-size: 0.95rem;
         font-weight: 800;
         background: linear-gradient(135deg, #667eea 0%, #f093fb 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
+        line-height: 1;
+        white-space: nowrap;
     }
     
     /* Empty State */
@@ -509,10 +494,10 @@
 </div>
 
 <!-- Items Grid with Extended Gradient Background -->
-<div style="background: linear-gradient(180deg, #f7fafc 0%, #e6f2ff 50%, white 100%); padding: 40px 0;">
+<div style="background: linear-gradient(180deg, #f7fafc 0%, #e6f2ff 50%, white 100%); padding: 30px 0;">
 <div class="container">
     {% if items %}
-        <div class="row g-4 mb-5">
+        <div class="row g-3 mb-5">
             {% for item in items %}
             <div class="col-md-6 col-lg-4 col-xl-3">
                 <div class="card item-card">
@@ -546,56 +531,48 @@
                     </div>
                     
                     <div class="card-body">
-                        <h5 class="card-title">{{ item.title|truncatewords:6 }}</h5>
-                        
-                        <!-- Badge Row - Gender and Type side by side -->
-                        <div class="badge-row">
-                            <!-- Gender Badge -->
-                            <div class="gender-badge">
-                                <i class="bi bi-gender-ambiguous"></i>
-                                <span>{{ item.get_baby_gender_display }}</span>
-                            </div>
-                            
-                            <!-- Type Badge -->
-                            {% if item.item_type == 'donate' %}
-                                <div class="type-badge-donate">
-                                    <i class="bi bi-gift-fill"></i>
-                                    <span>Donate</span>
-                                </div>
-                            {% else %}
-                                <div class="type-badge-sell">
-                                    <i class="bi bi-tag-fill"></i>
-                                    <span>Sell</span>
-                                </div>
-                            {% endif %}
-                        </div>
-                        
-                        <!-- Item Info with Colorful Design -->
-                        <div class="d-flex flex-column gap-2 mb-3">
-                            <!-- Age Range -->
-                            <div class="info-item">
-                                <i class="bi bi-calendar3" style="color: #667eea;"></i>
-                                <span class="small">{{ item.get_age_range_display }}</span>
-                            </div>
-                            
-                            <!-- Location -->
-                            <div class="info-item">
-                                <i class="bi bi-geo-alt-fill" style="color: #f093fb;"></i>
-                                <span class="small">{{ item.get_area_display }}</span>
-                            </div>
-                        </div>
-                        
-                        <!-- Price -->
-                        <div class="mb-3">
+                        <!-- Title and Price - Clean without background -->
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h5 class="card-title mb-0 flex-grow-1">{{ item.title|truncatewords:4 }}</h5>
                             {% if item.item_type == 'sell' and item.price %}
-                                <div class="price-tag">৳{{ item.price }}</div>
+                                <div class="price-tag ms-2">৳{{ item.price }}</div>
                             {% else %}
-                                <div class="price-tag">{% trans "Free" %}</div>
+                                <div class="price-tag ms-2" style="font-size: 0.85rem;">{% trans "Free" %}</div>
                             {% endif %}
+                        </div>
+                        
+                        <!-- Gender and Type - Small pill badges -->
+                        <div class="d-flex gap-2 mb-2">
+                            <span class="badge rounded-pill" style="background: rgba(102, 126, 234, 0.15); color: #667eea; font-size: 0.65rem; padding: 4px 8px; font-weight: 600;">
+                                <i class="bi bi-gender-ambiguous"></i> {{ item.get_baby_gender_display }}
+                            </span>
+                            
+                            {% if item.item_type == 'donate' %}
+                                <span class="badge rounded-pill" style="background: rgba(72, 187, 120, 0.15); color: #38a169; font-size: 0.65rem; padding: 4px 8px; font-weight: 600;">
+                                    <i class="bi bi-gift-fill"></i> Donate
+                                </span>
+                            {% else %}
+                                <span class="badge rounded-pill" style="background: rgba(240, 147, 251, 0.15); color: #d946ef; font-size: 0.65rem; padding: 4px 8px; font-weight: 600;">
+                                    <i class="bi bi-tag-fill"></i> Sell
+                                </span>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Age and Location - Subtle backgrounds -->
+                        <div class="d-flex gap-2 mb-2">
+                            <div class="info-item flex-fill">
+                                <i class="bi bi-calendar3" style="color: #667eea;"></i>
+                                <span style="font-size: 0.65rem;">{{ item.get_age_range_display }}</span>
+                            </div>
+                            
+                            <div class="info-item flex-fill">
+                                <i class="bi bi-geo-alt-fill" style="color: #f093fb;"></i>
+                                <span style="font-size: 0.65rem;">{{ item.get_area_display }}</span>
+                            </div>
                         </div>
                         
                         <!-- View Button -->
-                        <a href="{% url 'listings:item_detail' item.pk %}" class="btn btn-outline-primary w-100">
+                        <a href="{% url 'listings:item_detail' item.pk %}" class="btn btn-outline-primary btn-sm w-100" style="font-size: 0.75rem; padding: 5px 10px;">
                             <i class="bi bi-eye-fill"></i> {% trans "View Details" %}
                         </a>
                     </div>

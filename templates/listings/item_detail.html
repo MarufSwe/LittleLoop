@@ -7,31 +7,31 @@
 <style>
     .image-carousel {
         position: relative;
-        border-radius: 16px;
+        border-radius: 12px;
         overflow: hidden;
-        box-shadow: 0 4px 20px rgba(102, 126, 234, 0.15);
+        box-shadow: 0 3px 15px rgba(102, 126, 234, 0.12);
     }
     
     .image-carousel img {
         width: 100%;
-        max-height: 500px;
+        max-height: 450px;
         object-fit: contain;
         background: #f7fafc;
     }
     
     .thumbnail-gallery {
         display: flex;
-        gap: 12px;
-        margin-top: 16px;
+        gap: 8px;
+        margin-top: 12px;
     }
     
     .thumbnail-item {
-        width: 80px;
-        height: 80px;
-        border-radius: 8px;
+        width: 60px;
+        height: 60px;
+        border-radius: 6px;
         overflow: hidden;
         cursor: pointer;
-        border: 3px solid transparent;
+        border: 2px solid transparent;
         transition: all 0.3s ease;
     }
     
@@ -51,24 +51,22 @@
     }
     
     .detail-card {
-        border-radius: 20px;
-        box-shadow: 0 4px 20px rgba(102, 126, 234, 0.15);
+        border-radius: 15px;
+        box-shadow: 0 3px 15px rgba(102, 126, 234, 0.12);
     }
     
     .info-badge {
         background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
-        padding: 12px;
-        border-radius: 10px;
-        margin-bottom: 12px;
+        border-radius: 8px;
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="container py-4">
+<div class="container py-3">
     <!-- Breadcrumb -->
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
+    <nav aria-label="breadcrumb" class="mb-2">
+        <ol class="breadcrumb mb-0">
             <li class="breadcrumb-item"><a href="{% url 'listings:item_list' %}">{% trans "Home" %}</a></li>
             <li class="breadcrumb-item active">{{ item.title|truncatewords:5 }}</li>
         </ol>
@@ -76,7 +74,7 @@
     
     <div class="row">
         <!-- Item Image Gallery -->
-        <div class="col-md-6 mb-4">
+        <div class="col-md-6 mb-3">
             {% with images=item.get_all_images %}
                 {% if images %}
                     <div class="image-carousel">
@@ -105,138 +103,138 @@
         <!-- Item Details -->
         <div class="col-md-6">
             <div class="card detail-card">
-                <div class="card-body p-4">
-                    <!-- Type Badge -->
-                    {% if item.item_type == 'donate' %}
-                        <span class="badge badge-donate mb-3">
-                            <i class="bi bi-gift-fill"></i> Donate
-                        </span>
-                    {% else %}
-                        <span class="badge badge-sell mb-3">
-                            <i class="bi bi-tag-fill"></i> Sell
-                        </span>
-                    {% endif %}
-                    
-                    <!-- Status Badge -->
-                    {% if item.status == 'done' %}
-                        <span class="badge bg-danger mb-3 ms-2">
-                            <i class="bi bi-x-circle"></i> No Longer Available
-                        </span>
-                    {% endif %}
-                    
-                    <h2 class="card-title mb-4" style="font-weight: 700; color: #2d3748;">{{ item.title }}</h2>
-                    
-                    <!-- Price -->
-                    <div class="mb-4">
+                <div class="card-body p-3">
+                    <!-- Type Badge & Title -->
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <div>
+                            {% if item.item_type == 'donate' %}
+                                <span class="badge badge-donate">
+                                    <i class="bi bi-gift-fill"></i> Donate
+                                </span>
+                            {% else %}
+                                <span class="badge badge-sell">
+                                    <i class="bi bi-tag-fill"></i> Sell
+                                </span>
+                            {% endif %}
+                            
+                            <!-- Status Badge -->
+                            {% if item.status == 'done' %}
+                                <span class="badge bg-danger ms-2">
+                                    <i class="bi bi-x-circle"></i> Not Available
+                                </span>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Price -->
                         {% if item.item_type == 'sell' and item.price %}
-                            <h3 class="price-tag">৳{{ item.price }}</h3>
+                            <h3 class="price-tag mb-0">৳{{ item.price }}</h3>
                         {% else %}
-                            <h3 class="price-tag">Free</h3>
+                            <h3 class="price-tag mb-0">Free</h3>
                         {% endif %}
                     </div>
                     
-                    <!-- Item Info Grid -->
-                    <div class="row g-3 mb-4">
+                    <h2 class="mb-3" style="font-weight: 700; color: #2d3748; font-size: 1.3rem;">{{ item.title }}</h2>
+                    
+                    <!-- Item Info Grid - Compact -->
+                    <div class="row g-2 mb-3">
                         <div class="col-6">
-                            <div class="info-badge">
-                                <p class="mb-1 text-muted small">{% trans "Gender" %}</p>
-                                <p class="mb-0"><strong><i class="bi bi-gender-ambiguous" style="color: #667eea;"></i> {{ item.get_baby_gender_display }}</strong></p>
+                            <div class="info-badge" style="padding: 8px;">
+                                <p class="mb-0 text-muted" style="font-size: 0.7rem;">{% trans "Gender" %}</p>
+                                <p class="mb-0" style="font-size: 0.85rem;"><strong><i class="bi bi-gender-ambiguous" style="color: #667eea;"></i> {{ item.get_baby_gender_display }}</strong></p>
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="info-badge">
-                                <p class="mb-1 text-muted small">{% trans "Age Range" %}</p>
-                                <p class="mb-0"><strong><i class="bi bi-calendar3" style="color: #f093fb;"></i> {{ item.get_age_range_display }}</strong></p>
+                            <div class="info-badge" style="padding: 8px;">
+                                <p class="mb-0 text-muted" style="font-size: 0.7rem;">{% trans "Age Range" %}</p>
+                                <p class="mb-0" style="font-size: 0.85rem;"><strong><i class="bi bi-calendar3" style="color: #f093fb;"></i> {{ item.get_age_range_display }}</strong></p>
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="info-badge">
-                                <p class="mb-1 text-muted small">{% trans "Size" %}</p>
-                                <p class="mb-0"><strong><i class="bi bi-rulers" style="color: #667eea;"></i> {{ item.size }}</strong></p>
+                            <div class="info-badge" style="padding: 8px;">
+                                <p class="mb-0 text-muted" style="font-size: 0.7rem;">{% trans "Size" %}</p>
+                                <p class="mb-0" style="font-size: 0.85rem;"><strong><i class="bi bi-rulers" style="color: #667eea;"></i> {{ item.size }}</strong></p>
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="info-badge">
-                                <p class="mb-1 text-muted small">{% trans "Condition" %}</p>
-                                <p class="mb-0"><strong><i class="bi bi-check-circle-fill" style="color: #48bb78;"></i> {{ item.get_condition_display }}</strong></p>
+                            <div class="info-badge" style="padding: 8px;">
+                                <p class="mb-0 text-muted" style="font-size: 0.7rem;">{% trans "Condition" %}</p>
+                                <p class="mb-0" style="font-size: 0.85rem;"><strong><i class="bi bi-check-circle-fill" style="color: #48bb78;"></i> {{ item.get_condition_display }}</strong></p>
                             </div>
                         </div>
                         <div class="col-12">
-                            <div class="info-badge">
-                                <p class="mb-1 text-muted small">{% trans "Location" %}</p>
-                                <p class="mb-0">
+                            <div class="info-badge" style="padding: 8px;">
+                                <p class="mb-0 text-muted" style="font-size: 0.7rem;">{% trans "Location" %}</p>
+                                <p class="mb-0" style="font-size: 0.85rem;">
                                     <strong><i class="bi bi-geo-alt-fill" style="color: #f093fb;"></i> {{ item.get_area_display }}</strong>
                                     {% if item.detailed_address %}
-                                        <br><span class="text-muted small">{{ item.detailed_address }}</span>
+                                        <br><span class="text-muted" style="font-size: 0.75rem;">{{ item.detailed_address }}</span>
                                     {% endif %}
                                 </p>
                             </div>
                         </div>
                     </div>
                     
-                    <!-- Description -->
-                    <div class="mb-4">
-                        <h5 style="font-weight: 600; color: #2d3748;"><i class="bi bi-file-text"></i> {% trans "Description" %}</h5>
-                        <p class="text-muted" style="line-height: 1.7;">{{ item.description|linebreaks }}</p>
+                    <!-- Description - Compact -->
+                    {% if item.description %}
+                    <div class="mb-3">
+                        <h6 style="font-weight: 600; color: #2d3748; font-size: 0.9rem;"><i class="bi bi-file-text"></i> {% trans "Description" %}</h6>
+                        <p class="text-muted mb-0" style="line-height: 1.5; font-size: 0.85rem;">{{ item.description|linebreaks }}</p>
                     </div>
+                    {% endif %}
                     
-                    <!-- Contact Section -->
+                    <!-- Contact Section - Compact -->
                     {% if item.status == 'available' %}
                         {% if show_contact %}
-                            <div class="alert" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 12px;">
-                                <h5><i class="bi bi-telephone-fill"></i> {% trans "Contact Owner" %}</h5>
+                            <div class="alert mb-2" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 10px; padding: 12px;">
+                                <h6 class="mb-2"><i class="bi bi-telephone-fill"></i> {% trans "Contact Owner" %}</h6>
                                 
                                 {% if item.use_alternative_contact and item.alternative_contact_phone %}
-                                    <!-- Show Alternative Contact -->
-                                    <p class="mb-2">
-                                        <strong>{% trans "Contact Person:" %}</strong> {{ item.alternative_contact_name }}<br>
-                                        <strong>{% trans "Phone:" %}</strong> 
+                                    <p class="mb-1" style="font-size: 0.85rem;">
+                                        <strong>{{ item.alternative_contact_name }}</strong><br>
                                         <a href="tel:{{ item.alternative_contact_phone }}" style="color: white; text-decoration: underline;">
                                             {{ item.alternative_contact_phone }}
                                         </a>
                                     </p>
-                                    <small class="text-white-50">
+                                    <small class="text-white-50" style="font-size: 0.7rem;">
                                         <i class="bi bi-info-circle"></i> {% trans "Alternative contact provided by owner" %}
                                     </small>
                                 {% else %}
-                                    <!-- Show Owner Contact -->
-                                    <p class="mb-2">
-                                        <strong>{% trans "Name:" %}</strong> {{ item.owner.profile.full_name }}<br>
-                                        <strong>{% trans "Phone:" %}</strong> 
+                                    <p class="mb-1" style="font-size: 0.85rem;">
+                                        <strong>{{ item.owner.profile.full_name }}</strong><br>
                                         <a href="tel:{{ item.owner.profile.phone_number }}" style="color: white; text-decoration: underline;">
                                             {{ item.owner.profile.phone_number }}
                                         </a>
                                     </p>
                                 {% endif %}
                                 
-                                <small>
+                                <small style="font-size: 0.7rem;">
                                     <i class="bi bi-info-circle"></i> {% trans "Call or message to arrange pickup/delivery" %}
                                 </small>
                             </div>
                         {% else %}
-                            <div class="alert alert-warning" style="border-radius: 12px;">
-                                <h5><i class="bi bi-lock-fill"></i> {% trans "Want to" %} {% if item.item_type == 'donate' %}{% trans "collect" %}{% else %}{% trans "buy" %}{% endif %}?</h5>
-                                <p class="mb-3">{% trans "Login and complete your profile to see contact information." %}</p>
+                            <div class="alert alert-warning mb-2" style="border-radius: 10px; padding: 12px;">
+                                <h6 class="mb-2"><i class="bi bi-lock-fill"></i> {% trans "Want to" %} {% if item.item_type == 'donate' %}{% trans "collect" %}{% else %}{% trans "buy" %}{% endif %}?</h6>
+                                <p class="mb-2" style="font-size: 0.85rem;">{% trans "Login and complete your profile to see contact information." %}</p>
                                 {% if user.is_authenticated %}
-                                    <a href="{% url 'accounts:profile_complete' %}" class="btn btn-primary w-100">
+                                    <a href="{% url 'accounts:profile_complete' %}" class="btn btn-primary btn-sm w-100">
                                         <i class="bi bi-person-check"></i> {% trans "Complete Profile" %}
                                     </a>
                                 {% else %}
-                                    <a href="{% url 'accounts:login' %}" class="btn btn-primary w-100">
+                                    <a href="{% url 'accounts:login' %}" class="btn btn-primary btn-sm w-100">
                                         <i class="bi bi-box-arrow-in-right"></i> {% trans "Login to Continue" %}
                                     </a>
                                 {% endif %}
                             </div>
                         {% endif %}
                     {% else %}
-                        <div class="alert alert-danger" style="border-radius: 12px;">
+                        <div class="alert alert-danger mb-2" style="border-radius: 10px; padding: 12px;">
                             <i class="bi bi-x-circle-fill"></i> {% trans "This item is no longer available." %}
                         </div>
                     {% endif %}
                     
-                    <!-- Posted By & Date -->
-                    <div class="border-top pt-3 mt-3">
-                        <small class="text-muted">
+                    <!-- Posted By & Date - Compact -->
+                    <div class="border-top pt-2 mt-2">
+                        <small class="text-muted" style="font-size: 0.75rem;">
                             <i class="bi bi-person-circle"></i> {% trans "Posted by" %} <strong>{{ item.owner.profile.full_name|default:item.owner.email }}</strong><br>
                             <i class="bi bi-clock"></i> {{ item.created_at|date:"F d, Y" }}
                         </small>
@@ -247,12 +245,12 @@
     </div>
     
     <!-- Back Button -->
-    <div class="mt-4">
-        <a href="{% url 'listings:item_list' %}" class="btn btn-outline-secondary">
+    <div class="mt-3">
+        <a href="{% url 'listings:item_list' %}" class="btn btn-outline-secondary btn-sm">
             <i class="bi bi-arrow-left"></i> {% trans "Back to Listings" %}
         </a>
         {% if user == item.owner and item.status == 'available' %}
-            <a href="{% url 'listings:item_edit' item.pk %}" class="btn btn-outline-info">
+            <a href="{% url 'listings:item_edit' item.pk %}" class="btn btn-outline-info btn-sm">
                 <i class="bi bi-pencil"></i> {% trans "Edit Item" %}
             </a>
         {% endif %}
@@ -274,24 +272,24 @@ function changeImage(imageUrl, thumbnail) {
 <style>
 .badge-donate {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-    padding: 8px 14px;
-    font-size: 0.8rem;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(102, 126, 234, 0.3);
+    padding: 6px 10px;
+    font-size: 0.75rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.25);
     color: white;
 }
 
 .badge-sell {
     background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
-    padding: 8px 14px;
-    font-size: 0.8rem;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(240, 147, 251, 0.3);
+    padding: 6px 10px;
+    font-size: 0.75rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(240, 147, 251, 0.25);
     color: white;
 }
 
 .price-tag {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     font-weight: 800;
     background: linear-gradient(135deg, #667eea 0%, #f093fb 100%);
     -webkit-background-clip: text;
