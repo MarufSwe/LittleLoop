@@ -338,53 +338,57 @@
         }
     }
     
-    /* Airbnb-Style Item Cards */
+    /* Professional Item Cards - Compact & Elegant */
     .item-card {
-        border-radius: 12px;
-        overflow: visible;
+        border-radius: 10px;
+        overflow: hidden;
         transition: all 0.2s ease;
-        background: transparent;
-        box-shadow: none;
+        background: white;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         height: 100%;
-        border: none;
+        border: 1px solid #ebebeb;
         margin-bottom: 0;
         cursor: pointer;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
     }
     
     .item-card:hover {
-        transform: scale(1.02);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        transform: translateY(-2px);
     }
     
     .item-card .card-img-container {
         position: relative;
-        border-radius: 12px;
+        border-radius: 0;
         overflow: hidden;
+        background: #f7f7f7;
+        aspect-ratio: 1 / 1;
     }
     
     .item-card .card-img-top {
-        height: 280px;
+        height: 100%;
         object-fit: cover;
         width: 100%;
         transition: transform 0.2s ease;
     }
     
     .item-card:hover .card-img-top {
-        transform: scale(1.05);
+        transform: scale(1.03);
     }
     
     .item-card .image-nav {
         position: absolute;
-        bottom: 12px;
+        bottom: 8px;
         left: 50%;
         transform: translateX(-50%);
         display: flex;
-        gap: 5px;
+        gap: 4px;
         z-index: 2;
     }
     
     .item-card .image-dot {
-        width: 6px;
-        height: 6px;
+        width: 5px;
+        height: 5px;
         border-radius: 50%;
         background: rgba(255, 255, 255, 0.6);
         cursor: pointer;
@@ -393,91 +397,137 @@
     
     .item-card .image-dot.active {
         background: white;
-        width: 6px;
+        width: 5px;
     }
     
     .item-card .card-body {
-        padding: 12px 0;
-        background: transparent;
+        padding: 10px;
+        background: white;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    /* Title Row */
+    .card-header-row {
+        margin-bottom: 4px;
     }
     
     .item-card .card-title {
-        font-weight: 600;
+        font-weight: 500;
         color: #222222;
-        font-size: 0.9375rem;
-        line-height: 1.3;
+        font-size: 0.8125rem;
+        line-height: 1.15;
         display: -webkit-box;
         -webkit-line-clamp: 1;
         -webkit-box-orient: vertical;
         overflow: hidden;
-        margin-bottom: 4px;
+        margin: 0;
     }
     
-    .item-meta {
-        font-size: 0.875rem;
-        color: #717171;
-        font-weight: 400;
-        line-height: 1.4;
-        margin-bottom: 6px;
+    /* Info Row (Age + Location below title) */
+    .info-row {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 8px;
     }
     
-    .item-price {
-        font-size: 0.9375rem;
-        color: #222222;
-        font-weight: 600;
-        margin-top: 4px;
-    }
-    
-    .item-price .amount {
-        font-weight: 600;
-    }
-    
-    .favorite-btn {
-        position: absolute;
-        top: 12px;
-        right: 12px;
-        background: rgba(255, 255, 255, 0.9);
-        border: none;
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
+    .info-item-small {
         display: flex;
         align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        z-index: 3;
-    }
-    
-    .favorite-btn:hover {
-        transform: scale(1.1);
-        background: white;
-    }
-    
-    .favorite-btn i {
-        color: #222222;
-        font-size: 0.875rem;
-    }
-    
-    .type-badge {
-        position: absolute;
-        top: 12px;
-        left: 12px;
-        background: white;
-        padding: 6px 12px;
-        border-radius: 6px;
+        gap: 2px;
         font-size: 0.75rem;
+        color: #717171;
+        font-weight: 400;
+    }
+    
+    .info-item-small i {
+        font-size: 0.75rem;
+        color: #717171;
+    }
+    
+    /* Bottom Row - Gender, Type, Price */
+    .bottom-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 6px;
+        margin-top: auto;
+    }
+    
+    .badge-row {
+        display: flex;
+        gap: 4px;
+        flex-wrap: nowrap;
+    }
+    
+    .info-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 2px;
+        padding: 3px 6px;
+        border-radius: 3px;
+        font-size: 0.625rem;
         font-weight: 600;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-        z-index: 3;
+        text-transform: uppercase;
+        letter-spacing: 0.01em;
+        white-space: nowrap;
     }
     
-    .type-badge.donate {
-        color: #10b981;
+    .info-badge i {
+        font-size: 0.625rem;
     }
     
-    .type-badge.sell {
+    .info-badge.gender {
+        background: #f3f4f6;
+        color: #4b5563;
+    }
+    
+    .info-badge.type-donate {
+        background: #fce7f3;
+        color: #be185d;
+    }
+    
+    .info-badge.type-sell {
+        background: #fce7f3;
+        color: #be185d;
+    }
+    
+    /* Price at Bottom Right - BIGGER & Animated */
+    .item-price {
+        font-size: 1.25rem;
         color: #222222;
+        font-weight: 700;
+        white-space: nowrap;
+        animation: priceFloat 2s ease-in-out infinite;
+    }
+    
+    @keyframes priceFloat {
+        0%, 100% { 
+            transform: translateY(0px);
+        }
+        50% { 
+            transform: translateY(-3px);
+        }
+    }
+    
+    .item-price.free {
+        color: #be185d;
+        font-weight: 700;
+    }
+    
+    .item-price.sell {
+        color: #be185d;
+        font-weight: 700;
+    }
+    
+    .item-card:hover .item-price {
+        animation: priceShake 0.5s ease;
+    }
+    
+    @keyframes priceShake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-3px); }
+        75% { transform: translateX(3px); }
     }
     
     /* Empty State */
@@ -499,10 +549,6 @@
             top: 60px;
             padding: 12px 0;
         }
-        
-        .item-card .card-img-top {
-            height: 240px;
-        }
     }
     
     @media (max-width: 768px) {
@@ -514,8 +560,16 @@
             padding: 12px 16px;
         }
         
-        .item-card .card-img-top {
-            height: 220px;
+        .item-card .card-title {
+            font-size: 0.875rem;
+        }
+        
+        .item-meta {
+            font-size: 0.8125rem;
+        }
+        
+        .item-price {
+            font-size: 0.875rem;
         }
     }
 </style>
@@ -864,18 +918,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="card-img-container">
                             {% with images=item.get_all_images %}
                                 {% if images %}
-                                    <!-- Type Badge Overlay -->
-                                    {% if item.item_type == 'donate' %}
-                                        <span class="type-badge donate">
-                                            <i class="bi bi-gift-fill"></i> {% trans "Free" %}
-                                        </span>
-                                    {% endif %}
-                                    
-                                    <!-- Favorite Button -->
-                                    <button class="favorite-btn" onclick="event.preventDefault();">
-                                        <i class="bi bi-heart"></i>
-                                    </button>
-                                    
                                     {% for image in images %}
                                         <img src="{{ image.url }}" 
                                              class="card-img-top item-image-{{ item.pk }}" 
@@ -894,7 +936,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     {% endif %}
                                 {% else %}
                                     <div class="card-img-top d-flex align-items-center justify-content-center"
-                                         style="height: 280px; background: #f7f7f7; border-radius: 12px;">
+                                         style="aspect-ratio: 1/1; background: #f7f7f7;">
                                         <i class="bi bi-image" style="font-size: 4rem; color: #dddddd;"></i>
                                     </div>
                                 {% endif %}
@@ -903,23 +945,50 @@ document.addEventListener('DOMContentLoaded', function() {
                         
                         <div class="card-body">
                             <!-- Title -->
-                            <h5 class="card-title">{{ item.title|truncatewords:5 }}</h5>
+                            <div class="card-header-row">
+                                <h5 class="card-title">{{ item.title }}</h5>
+                            </div>
                             
-                            <!-- Meta Information (subtle gray text) -->
-                            <p class="item-meta mb-1">
-                                {{ item.get_age_range_display }} · {{ item.get_baby_gender_display }}
-                            </p>
-                            <p class="item-meta mb-2">
-                                <i class="bi bi-geo-alt" style="font-size: 0.8rem;"></i> {{ item.get_area_display }}
-                            </p>
+                            <!-- Age + Location (below title) -->
+                            <div class="info-row">
+                                <div class="info-item-small">
+                                    <i class="bi bi-calendar3"></i>
+                                    <span>{{ item.get_age_range_display }}</span>
+                                </div>
+                                <div class="info-item-small">
+                                    <i class="bi bi-geo-alt"></i>
+                                    <span>{{ item.get_area_display }}</span>
+                                </div>
+                            </div>
                             
-                            <!-- Price -->
-                            <div class="item-price">
-                                {% if item.item_type == 'sell' and item.price %}
-                                    <span class="amount">৳{{ item.price }}</span>
-                                {% else %}
-                                    <span class="amount" style="color: #10b981;">{% trans "Free" %}</span>
-                                {% endif %}
+                            <!-- Bottom Row: Gender + Type + Price -->
+                            <div class="bottom-row">
+                                <div class="badge-row">
+                                    <!-- Gender Badge -->
+                                    <span class="info-badge gender">
+                                        <i class="bi bi-gender-ambiguous"></i> {{ item.get_baby_gender_display }}
+                                    </span>
+                                    
+                                    <!-- Type Badge -->
+                                    {% if item.item_type == 'donate' %}
+                                        <span class="info-badge type-donate">
+                                            <i class="bi bi-gift-fill"></i> {% trans "Donate" %}
+                                        </span>
+                                    {% else %}
+                                        <span class="info-badge type-sell">
+                                            <i class="bi bi-tag-fill"></i> {% trans "Sell" %}
+                                        </span>
+                                    {% endif %}
+                                </div>
+                                
+                                <!-- Price -->
+                                <div class="item-price{% if item.item_type == 'donate' %} free{% else %} sell{% endif %}">
+                                    {% if item.item_type == 'sell' and item.price %}
+                                        ৳{{ item.price }}
+                                    {% else %}
+                                        {% trans "Free" %}
+                                    {% endif %}
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -4,44 +4,58 @@
 {% block title %}{{ item.title }} - LittleLoop{% endblock %}
 
 {% block extra_css %}
+<!-- Import Inter Font (Airbnb style) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
+    /* Apply Inter font everywhere */
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    }
+    
+    /* Image Gallery */
     .image-carousel {
         position: relative;
         border-radius: 12px;
         overflow: hidden;
-        box-shadow: 0 3px 15px rgba(102, 126, 234, 0.12);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        background: #f7f7f7;
     }
     
     .image-carousel img {
         width: 100%;
-        max-height: 450px;
+        max-height: 500px;
         object-fit: contain;
-        background: #f7fafc;
+        background: #f7f7f7;
     }
     
     .thumbnail-gallery {
         display: flex;
         gap: 8px;
         margin-top: 12px;
+        overflow-x: auto;
     }
     
     .thumbnail-item {
-        width: 60px;
-        height: 60px;
-        border-radius: 6px;
+        width: 70px;
+        height: 70px;
+        border-radius: 8px;
         overflow: hidden;
         cursor: pointer;
         border: 2px solid transparent;
-        transition: all 0.3s ease;
+        transition: all 0.2s ease;
+        flex-shrink: 0;
     }
     
     .thumbnail-item:hover {
-        border-color: #667eea;
+        border-color: #222222;
         transform: scale(1.05);
     }
     
     .thumbnail-item.active {
-        border-color: #667eea;
+        border-color: #FF385C;
     }
     
     .thumbnail-item img {
@@ -50,14 +64,159 @@
         object-fit: cover;
     }
     
+    /* Detail Card */
     .detail-card {
-        border-radius: 15px;
-        box-shadow: 0 3px 15px rgba(102, 126, 234, 0.12);
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border: 1px solid #ebebeb;
     }
     
+    /* Info Badges */
     .info-badge {
-        background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+        background: #f7f7f7;
         border-radius: 8px;
+        border: 1px solid #ebebeb;
+    }
+    
+    .info-badge-label {
+        font-size: 0.6875rem;
+        color: #717171;
+        font-weight: 500;
+        margin-bottom: 2px;
+    }
+    
+    .info-badge-value {
+        font-size: 0.875rem;
+        color: #222222;
+        font-weight: 600;
+    }
+    
+    .info-badge-value i {
+        font-size: 0.875rem;
+        color: #717171;
+    }
+    
+    /* Type Badges */
+    .badge-donate {
+        background: #fce7f3 !important;
+        color: #be185d !important;
+        padding: 6px 12px;
+        font-size: 0.75rem;
+        border-radius: 6px;
+        font-weight: 600;
+        border: none;
+    }
+    
+    .badge-sell {
+        background: #fce7f3 !important;
+        color: #be185d !important;
+        padding: 6px 12px;
+        font-size: 0.75rem;
+        border-radius: 6px;
+        font-weight: 600;
+        border: none;
+    }
+    
+    /* Price Tag */
+    .price-tag {
+        font-size: 1.75rem !important;
+        font-weight: 700 !important;
+        color: #222222 !important;
+    }
+    
+    .price-tag.free {
+        color: #be185d !important;
+    }
+    
+    .price-tag.sell {
+        color: #be185d !important;
+    }
+    
+    /* Title */
+    h2.item-title {
+        font-weight: 600 !important;
+        color: #222222 !important;
+        font-size: 1.5rem !important;
+        line-height: 1.3 !important;
+    }
+    
+    /* Contact Box */
+    .contact-box {
+        background: linear-gradient(135deg, #FF385C 0%, #E31C5F 100%);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        padding: 16px;
+    }
+    
+    .contact-box h6 {
+        font-weight: 600;
+        font-size: 0.9375rem;
+    }
+    
+    .contact-box a {
+        color: white;
+        text-decoration: underline;
+        font-weight: 600;
+    }
+    
+    /* Warning Box */
+    .warning-box {
+        background: #fffbeb;
+        border: 1px solid #fef3c7;
+        border-radius: 12px;
+        padding: 16px;
+        color: #92400e;
+    }
+    
+    .warning-box h6 {
+        font-weight: 600;
+        font-size: 0.9375rem;
+        color: #92400e;
+    }
+    
+    /* Buttons */
+    .btn-primary {
+        background: #222222 !important;
+        border: none !important;
+        font-weight: 600 !important;
+    }
+    
+    .btn-primary:hover {
+        background: #000000 !important;
+    }
+    
+    .btn-outline-secondary {
+        border: 1px solid #dddddd !important;
+        color: #222222 !important;
+        font-weight: 600 !important;
+    }
+    
+    .btn-outline-secondary:hover {
+        background: #f7f7f7 !important;
+        border-color: #222222 !important;
+    }
+    
+    /* Breadcrumb */
+    .breadcrumb {
+        background: transparent;
+        padding: 0;
+        font-size: 0.875rem;
+    }
+    
+    .breadcrumb-item a {
+        color: #717171;
+        text-decoration: none;
+        font-weight: 500;
+    }
+    
+    .breadcrumb-item a:hover {
+        color: #FF385C;
+    }
+    
+    .breadcrumb-item.active {
+        color: #222222;
+        font-weight: 600;
     }
 </style>
 {% endblock %}
@@ -105,69 +264,69 @@
             <div class="card detail-card">
                 <div class="card-body p-3">
                     <!-- Type Badge & Title -->
-                    <div class="d-flex justify-content-between align-items-start mb-2">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
                         <div>
                             {% if item.item_type == 'donate' %}
                                 <span class="badge badge-donate">
-                                    <i class="bi bi-gift-fill"></i> Donate
+                                    <i class="bi bi-gift-fill"></i> {% trans "Donate" %}
                                 </span>
                             {% else %}
                                 <span class="badge badge-sell">
-                                    <i class="bi bi-tag-fill"></i> Sell
+                                    <i class="bi bi-tag-fill"></i> {% trans "Sell" %}
                                 </span>
                             {% endif %}
                             
                             <!-- Status Badge -->
                             {% if item.status == 'done' %}
-                                <span class="badge bg-danger ms-2">
-                                    <i class="bi bi-x-circle"></i> Not Available
+                                <span class="badge bg-secondary ms-2">
+                                    <i class="bi bi-x-circle"></i> {% trans "Not Available" %}
                                 </span>
                             {% endif %}
                         </div>
                         
                         <!-- Price -->
                         {% if item.item_type == 'sell' and item.price %}
-                            <h3 class="price-tag mb-0">৳{{ item.price }}</h3>
+                            <h3 class="price-tag sell mb-0">৳{{ item.price }}</h3>
                         {% else %}
-                            <h3 class="price-tag mb-0">Free</h3>
+                            <h3 class="price-tag free mb-0">{% trans "Free" %}</h3>
                         {% endif %}
                     </div>
                     
-                    <h2 class="mb-3" style="font-weight: 700; color: #2d3748; font-size: 1.3rem;">{{ item.title }}</h2>
+                    <h2 class="item-title mb-3">{{ item.title }}</h2>
                     
                     <!-- Item Info Grid - Compact -->
                     <div class="row g-2 mb-3">
                         <div class="col-6">
-                            <div class="info-badge" style="padding: 8px;">
-                                <p class="mb-0 text-muted" style="font-size: 0.7rem;">{% trans "Gender" %}</p>
-                                <p class="mb-0" style="font-size: 0.85rem;"><strong><i class="bi bi-gender-ambiguous" style="color: #667eea;"></i> {{ item.get_baby_gender_display }}</strong></p>
+                            <div class="info-badge p-2">
+                                <p class="info-badge-label mb-0">{% trans "Gender" %}</p>
+                                <p class="info-badge-value mb-0"><i class="bi bi-gender-ambiguous"></i> {{ item.get_baby_gender_display }}</p>
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="info-badge" style="padding: 8px;">
-                                <p class="mb-0 text-muted" style="font-size: 0.7rem;">{% trans "Age Range" %}</p>
-                                <p class="mb-0" style="font-size: 0.85rem;"><strong><i class="bi bi-calendar3" style="color: #f093fb;"></i> {{ item.get_age_range_display }}</strong></p>
+                            <div class="info-badge p-2">
+                                <p class="info-badge-label mb-0">{% trans "Age Range" %}</p>
+                                <p class="info-badge-value mb-0"><i class="bi bi-calendar3"></i> {{ item.get_age_range_display }}</p>
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="info-badge" style="padding: 8px;">
-                                <p class="mb-0 text-muted" style="font-size: 0.7rem;">{% trans "Size" %}</p>
-                                <p class="mb-0" style="font-size: 0.85rem;"><strong><i class="bi bi-rulers" style="color: #667eea;"></i> {{ item.size }}</strong></p>
+                            <div class="info-badge p-2">
+                                <p class="info-badge-label mb-0">{% trans "Size" %}</p>
+                                <p class="info-badge-value mb-0"><i class="bi bi-rulers"></i> {{ item.size }}</p>
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="info-badge" style="padding: 8px;">
-                                <p class="mb-0 text-muted" style="font-size: 0.7rem;">{% trans "Condition" %}</p>
-                                <p class="mb-0" style="font-size: 0.85rem;"><strong><i class="bi bi-check-circle-fill" style="color: #48bb78;"></i> {{ item.get_condition_display }}</strong></p>
+                            <div class="info-badge p-2">
+                                <p class="info-badge-label mb-0">{% trans "Condition" %}</p>
+                                <p class="info-badge-value mb-0"><i class="bi bi-check-circle-fill"></i> {{ item.get_condition_display }}</p>
                             </div>
                         </div>
                         <div class="col-12">
-                            <div class="info-badge" style="padding: 8px;">
-                                <p class="mb-0 text-muted" style="font-size: 0.7rem;">{% trans "Location" %}</p>
-                                <p class="mb-0" style="font-size: 0.85rem;">
-                                    <strong><i class="bi bi-geo-alt-fill" style="color: #f093fb;"></i> {{ item.get_area_display }}</strong>
+                            <div class="info-badge p-2">
+                                <p class="info-badge-label mb-0">{% trans "Location" %}</p>
+                                <p class="info-badge-value mb-0">
+                                    <i class="bi bi-geo-alt-fill"></i> {{ item.get_area_display }}
                                     {% if item.detailed_address %}
-                                        <br><span class="text-muted" style="font-size: 0.75rem;">{{ item.detailed_address }}</span>
+                                        <br><span style="font-size: 0.8125rem; color: #717171; font-weight: 400;">{{ item.detailed_address }}</span>
                                     {% endif %}
                                 </p>
                             </div>
@@ -177,44 +336,44 @@
                     <!-- Description - Compact -->
                     {% if item.description %}
                     <div class="mb-3">
-                        <h6 style="font-weight: 600; color: #2d3748; font-size: 0.9rem;"><i class="bi bi-file-text"></i> {% trans "Description" %}</h6>
-                        <p class="text-muted mb-0" style="line-height: 1.5; font-size: 0.85rem;">{{ item.description|linebreaks }}</p>
+                        <h6 style="font-weight: 600; color: #222222; font-size: 0.9375rem;"><i class="bi bi-file-text"></i> {% trans "Description" %}</h6>
+                        <p style="color: #717171; line-height: 1.5; font-size: 0.875rem; font-weight: 400;">{{ item.description|linebreaks }}</p>
                     </div>
                     {% endif %}
                     
                     <!-- Contact Section - Compact -->
                     {% if item.status == 'available' %}
                         {% if show_contact %}
-                            <div class="alert mb-2" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 10px; padding: 12px;">
+                            <div class="contact-box mb-3">
                                 <h6 class="mb-2"><i class="bi bi-telephone-fill"></i> {% trans "Contact Owner" %}</h6>
                                 
                                 {% if item.use_alternative_contact and item.alternative_contact_phone %}
-                                    <p class="mb-1" style="font-size: 0.85rem;">
+                                    <p class="mb-1" style="font-size: 0.875rem; font-weight: 500;">
                                         <strong>{{ item.alternative_contact_name }}</strong><br>
-                                        <a href="tel:{{ item.alternative_contact_phone }}" style="color: white; text-decoration: underline;">
+                                        <a href="tel:{{ item.alternative_contact_phone }}">
                                             {{ item.alternative_contact_phone }}
                                         </a>
                                     </p>
-                                    <small class="text-white-50" style="font-size: 0.7rem;">
+                                    <small style="font-size: 0.75rem; opacity: 0.9;">
                                         <i class="bi bi-info-circle"></i> {% trans "Alternative contact provided by owner" %}
                                     </small>
                                 {% else %}
-                                    <p class="mb-1" style="font-size: 0.85rem;">
+                                    <p class="mb-1" style="font-size: 0.875rem; font-weight: 500;">
                                         <strong>{{ item.owner.profile.full_name }}</strong><br>
-                                        <a href="tel:{{ item.owner.profile.phone_number }}" style="color: white; text-decoration: underline;">
+                                        <a href="tel:{{ item.owner.profile.phone_number }}">
                                             {{ item.owner.profile.phone_number }}
                                         </a>
                                     </p>
                                 {% endif %}
                                 
-                                <small style="font-size: 0.7rem;">
+                                <small style="font-size: 0.75rem; opacity: 0.9;">
                                     <i class="bi bi-info-circle"></i> {% trans "Call or message to arrange pickup/delivery" %}
                                 </small>
                             </div>
                         {% else %}
-                            <div class="alert alert-warning mb-2" style="border-radius: 10px; padding: 12px;">
+                            <div class="warning-box mb-3">
                                 <h6 class="mb-2"><i class="bi bi-lock-fill"></i> {% trans "Want to" %} {% if item.item_type == 'donate' %}{% trans "collect" %}{% else %}{% trans "buy" %}{% endif %}?</h6>
-                                <p class="mb-2" style="font-size: 0.85rem;">{% trans "Login and complete your profile to see contact information." %}</p>
+                                <p class="mb-2" style="font-size: 0.875rem;">{% trans "Login and complete your profile to see contact information." %}</p>
                                 {% if user.is_authenticated %}
                                     <a href="{% url 'accounts:profile_complete' %}" class="btn btn-primary btn-sm w-100">
                                         <i class="bi bi-person-check"></i> {% trans "Complete Profile" %}
@@ -227,15 +386,15 @@
                             </div>
                         {% endif %}
                     {% else %}
-                        <div class="alert alert-danger mb-2" style="border-radius: 10px; padding: 12px;">
+                        <div class="alert alert-secondary mb-3" style="border-radius: 12px;">
                             <i class="bi bi-x-circle-fill"></i> {% trans "This item is no longer available." %}
                         </div>
                     {% endif %}
                     
                     <!-- Posted By & Date - Compact -->
-                    <div class="border-top pt-2 mt-2">
-                        <small class="text-muted" style="font-size: 0.75rem;">
-                            <i class="bi bi-person-circle"></i> {% trans "Posted by" %} <strong>{{ item.owner.profile.full_name|default:item.owner.email }}</strong><br>
+                    <div class="border-top pt-3 mt-3">
+                        <small style="font-size: 0.8125rem; color: #717171;">
+                            <i class="bi bi-person-circle"></i> {% trans "Posted by" %} <strong style="color: #222222;">{{ item.owner.profile.full_name|default:item.owner.email }}</strong><br>
                             <i class="bi bi-clock"></i> {{ item.created_at|date:"F d, Y" }}
                         </small>
                     </div>
@@ -250,7 +409,7 @@
             <i class="bi bi-arrow-left"></i> {% trans "Back to Listings" %}
         </a>
         {% if user == item.owner and item.status == 'available' %}
-            <a href="{% url 'listings:item_edit' item.pk %}" class="btn btn-outline-info btn-sm">
+            <a href="{% url 'listings:item_edit' item.pk %}" class="btn btn-outline-secondary btn-sm">
                 <i class="bi bi-pencil"></i> {% trans "Edit Item" %}
             </a>
         {% endif %}
@@ -268,33 +427,4 @@ function changeImage(imageUrl, thumbnail) {
     thumbnail.classList.add('active');
 }
 </script>
-
-<style>
-.badge-donate {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-    padding: 6px 10px;
-    font-size: 0.75rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.25);
-    color: white;
-}
-
-.badge-sell {
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
-    padding: 6px 10px;
-    font-size: 0.75rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(240, 147, 251, 0.25);
-    color: white;
-}
-
-.price-tag {
-    font-size: 1.5rem;
-    font-weight: 800;
-    background: linear-gradient(135deg, #667eea 0%, #f093fb 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-</style>
 {% endblock %}

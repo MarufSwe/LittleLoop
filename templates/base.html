@@ -48,12 +48,51 @@
         .navbar-brand {
             font-weight: 700;
             font-size: 1.5rem;
-            color: #FF385C !important;
+            color: #222222 !important;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .navbar-brand .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #FF385C 0%, #E31C5F 100%);
+            border-radius: 50%;
+            color: white;
+            font-weight: 800;
+            font-size: 1.5rem;
+            box-shadow: 0 2px 8px rgba(255, 56, 92, 0.3);
+            position: relative;
+        }
+        
+        .navbar-brand .logo::before {
+            content: '♡';
+            position: absolute;
+            font-size: 1.25rem;
+            animation: heartBeat 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .navbar-brand .brand-text {
+            font-weight: 700;
             letter-spacing: -0.5px;
         }
         
-        .navbar-brand i {
+        .navbar-brand .brand-text .little {
+            color: #222222;
+        }
+        
+        .navbar-brand .brand-text .loop {
             color: #FF385C;
         }
         
@@ -67,9 +106,9 @@
             color: #FF385C !important;
         }
         
-        /* Post Item Button - Airbnb Style */
+        /* Post Item Button - Black Theme */
         .btn-post-item {
-            background: #FF385C !important;
+            background: #222222 !important;
             border: none !important;
             color: white !important;
             border-radius: 8px !important;
@@ -79,7 +118,7 @@
         }
         
         .btn-post-item:hover {
-            background: #E31C5F !important;
+            background: #000000 !important;
             transform: scale(1.02);
         }
         
@@ -362,7 +401,10 @@
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
             <a class="navbar-brand" href="{% url 'listings:item_list' %}">
-                <i class="bi bi-bag-heart"></i> LittleLoop
+                <div class="logo"></div>
+                <span class="brand-text">
+                    <span class="little">Little</span><span class="loop">Loop</span>
+                </span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
