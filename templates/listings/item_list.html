@@ -5,199 +5,367 @@
 
 {% block extra_css %}
 <style>
-    /* Hero + Filter Integrated Section */
-    .hero-filter-section {
-        background: linear-gradient(180deg, #667eea 0%, #764ba2 40%, #f7fafc 100%);
-        padding: 50px 0 120px 0;
-        margin-bottom: -100px;
+    /* Airbnb-Style Filter Bar - More Compact */
+    .filter-bar-wrapper {
+        background: #ffffff;
+        padding: 16px 0;
+        border-bottom: 1px solid #ebebeb;
+        position: sticky;
+        top: 72px;
+        z-index: 999;
+    }
+    
+    .airbnb-filter-bar {
+        background: #ffffff;
+        border: 1px solid #dddddd;
+        border-radius: 32px;
+        padding: 4px 4px 4px 20px;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.05);
+        display: flex;
+        align-items: center;
+        gap: 0;
+        transition: box-shadow 0.2s ease;
+        max-width: 850px;
+        margin: 0 auto;
+    }
+    
+    .airbnb-filter-bar:hover {
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1), 0 8px 24px rgba(0,0,0,0.1);
+    }
+    
+    .filter-section {
+        padding: 8px 12px;
+        border-right: 1px solid #dddddd;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        flex: 1;
+        border-radius: 24px;
         position: relative;
+        background: white;
     }
     
-    .hero-content {
-        text-align: center;
-        margin-bottom: 35px;
+    .filter-section:last-of-type {
+        border-right: none;
+        padding-right: 0;
     }
     
-    .hero-content h1 {
-        color: white;
-        font-weight: 900;
-        font-size: 2.8rem;
-        text-shadow: 0 4px 20px rgba(0,0,0,0.3);
-        margin-bottom: 1rem;
-        font-family: 'Segoe UI', 'Arial Black', sans-serif;
-        letter-spacing: -1px;
-        animation: fadeInDown 0.8s ease-out;
+    .filter-section:hover:not(.active) {
+        background: #f7f7f7;
     }
     
-    .hero-content p {
-        color: rgba(255,255,255,0.95);
-        font-size: 1.2rem;
-        font-weight: 500;
-        margin-bottom: 0;
-        animation: fadeInUp 0.8s ease-out 0.2s backwards;
-        text-shadow: 0 2px 10px rgba(0,0,0,0.2);
-    }
-    
-    @keyframes fadeInDown {
-        from {
-            opacity: 0;
-            transform: translateY(-30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-    
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-    
-    @keyframes pulse {
-        0%, 100% {
-            transform: scale(1);
-        }
-        50% {
-            transform: scale(1.1);
-        }
-    }
-    
-    @keyframes heartbeat {
-        0%, 100% {
-            transform: scale(1) rotate(0deg);
-        }
-        25% {
-            transform: scale(1.1) rotate(-5deg);
-        }
-        75% {
-            transform: scale(1.1) rotate(5deg);
-        }
-    }
-    
-    /* Floating Filter Card - White with Colorful Accents */
-    .filter-card {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-        border-radius: 20px;
-        padding: 28px;
-        box-shadow: 0 10px 40px rgba(102, 126, 234, 0.35);
-        position: relative;
+    .filter-section.active {
+        background: #f0f0f0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         z-index: 10;
     }
     
-    .filter-card .form-label {
+    .filter-section-label {
+        font-size: 0.7rem;
         font-weight: 600;
-        color: white;
-        margin-bottom: 6px;
-        font-size: 0.9rem;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        position: relative;
-        z-index: 1;
-    }
-    
-    .filter-card .form-label i {
-        color: white;
-        margin-right: 6px;
-    }
-    
-    .filter-card .form-select,
-    .filter-card .form-control {
-        border: 2px solid rgba(255,255,255,0.3);
-        background: white;
-        border-radius: 10px;
-        font-weight: 500;
-        transition: all 0.3s ease;
-    }
-    
-    .filter-card .form-select:focus,
-    .filter-card .form-control:focus {
-        border-color: white;
-        background: white;
-        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
-        outline: none;
-    }
-    
-    .filter-buttons {
-        display: flex;
-        gap: 10px;
-        align-items: center;
-    }
-    
-    .results-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 10px 18px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border-radius: 50px;
-        font-weight: 600;
-        font-size: 0.85rem;
-        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-        white-space: nowrap;
-    }
-    
-    .results-badge i {
-        font-size: 1rem;
-    }
-    
-    /* Item Cards - Ultra Compact & Colorful */
-    .item-card {
-        border-radius: 10px;
-        overflow: hidden;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        height: 100%;
-        border: 2px solid #fbbf24;
+        color: #222222;
         margin-bottom: 0;
+        display: block;
     }
     
-    /* Alternating vibrant colors for better distinction */
-    .item-card:nth-child(4n+1) {
-        background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-        border-color: #60a5fa;
+    .filter-section select {
+        border: none;
+        background: transparent;
+        font-size: 0.8rem;
+        color: #717171;
+        font-weight: 400;
+        padding: 2px 0;
+        width: 100%;
+        cursor: pointer;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
     }
     
-    .item-card:nth-child(4n+2) {
-        background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%);
-        border-color: #f472b6;
+    .filter-section select:focus {
+        outline: none;
+        box-shadow: none;
     }
     
-    .item-card:nth-child(4n+3) {
-        background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
-        border-color: #34d399;
+    /* Custom Dropdown Styling - Airbnb Style */
+    .filter-section {
+        position: relative;
     }
     
-    .item-card:nth-child(4n+4) {
-        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-        border-color: #fbbf24;
+    .filter-section select option {
+        padding: 12px 16px;
+        font-size: 0.875rem;
+        color: #222222;
+        font-weight: 400;
+        background: white;
+    }
+    
+    .filter-section select option:hover {
+        background: #f7f7f7;
+    }
+    
+    .filter-section select option:checked {
+        background: #f7f7f7;
+        font-weight: 600;
+    }
+    
+    /* Custom Dropdown Menu - Airbnb Style */
+    .custom-dropdown {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        padding: 8px 0;
+        margin-top: 8px;
+        z-index: 1000;
+        display: none;
+        max-height: 400px;
+        overflow-y: auto;
+        min-width: 200px;
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    
+    .custom-dropdown.show {
+        display: block;
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    .custom-dropdown-item {
+        padding: 12px 16px;
+        cursor: pointer;
+        transition: background 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.875rem;
+        color: #222222;
+    }
+    
+    .custom-dropdown-item:hover {
+        background: #f7f7f7;
+    }
+    
+    .custom-dropdown-item.selected {
+        background: #f7f7f7;
+    }
+    
+    .custom-dropdown-item .checkmark {
+        width: 20px;
+        color: #FF385C;
+        font-weight: bold;
+        visibility: hidden;
+    }
+    
+    .custom-dropdown-item.selected .checkmark {
+        visibility: visible;
+    }
+    
+    .custom-dropdown-item .icon {
+        font-size: 1rem;
+        animation: iconBounce 0.5s ease;
+    }
+    
+    @keyframes iconBounce {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.2); }
+    }
+    
+    .custom-dropdown-item:hover .icon {
+        animation: iconPulse 0.6s ease infinite;
+    }
+    
+    @keyframes iconPulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.15); }
+    }
+    
+    .custom-dropdown-item .label {
+        flex: 1;
+        font-weight: 400;
+    }
+    
+    .custom-dropdown-item.selected .label {
+        font-weight: 600;
+    }
+    
+    /* Hide native select appearance */
+    .filter-section select {
+        cursor: pointer;
+        pointer-events: none;
+        position: absolute;
+        opacity: 0;
+    }
+    
+    .filter-section-display {
+        cursor: pointer;
+        user-select: none;
+        font-size: 0.8rem;
+        color: #717171;
+        font-weight: 400;
+        padding: 2px 0;
+    }
+    
+    .filter-section-display.has-value {
+        color: #222222;
+        font-weight: 500;
+    }
+    
+    .search-button {
+        background: #FF385C;
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        margin-left: 6px;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+        flex-shrink: 0;
+    }
+    
+    .search-button:hover {
+        transform: scale(1.04);
+    }
+    
+    .search-button i {
+        font-size: 0.9rem;
+    }
+    
+    /* Clear Filters Button */
+    .clear-filters-button {
+        background: #717171;
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        margin-left: 6px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        flex-shrink: 0;
+        text-decoration: none;
+    }
+    
+    .clear-filters-button:hover {
+        background: #222222;
+        transform: scale(1.04);
+    }
+    
+    .clear-filters-button i {
+        font-size: 0.75rem;
+    }
+    
+    /* Mobile Filter Toggle Button */
+    .mobile-filter-toggle {
+        display: none;
+        background: white;
+        border: 1px solid #dddddd;
+        border-radius: 24px;
+        padding: 10px 16px;
+        color: #222222;
+        font-weight: 600;
+        font-size: 0.875rem;
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    
+    .mobile-filter-toggle:hover {
+        border-color: #222222;
+    }
+    
+    .mobile-filter-toggle i {
+        margin-right: 8px;
+    }
+    
+    /* Hide filter bar on mobile by default */
+    @media (max-width: 768px) {
+        .airbnb-filter-bar {
+            display: none;
+        }
+        
+        .airbnb-filter-bar.show {
+            display: flex;
+            flex-direction: column;
+            border-radius: 16px;
+            padding: 16px;
+            margin-top: 12px;
+        }
+        
+        .mobile-filter-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .filter-section {
+            border-right: none;
+            border-bottom: 1px solid #ebebeb;
+            padding: 12px 0;
+        }
+        
+        .filter-section:last-of-type {
+            border-bottom: none;
+        }
+        
+        .search-button {
+            margin-left: 0;
+            margin-top: 12px;
+            width: 100%;
+            border-radius: 8px;
+            height: 48px;
+        }
+        
+        .clear-filters-button {
+            margin-left: 0;
+            margin-top: 12px;
+            width: 100%;
+            border-radius: 8px;
+            height: 48px;
+        }
+    }
+    
+    /* Airbnb-Style Item Cards */
+    .item-card {
+        border-radius: 12px;
+        overflow: visible;
+        transition: all 0.2s ease;
+        background: transparent;
+        box-shadow: none;
+        height: 100%;
+        border: none;
+        margin-bottom: 0;
+        cursor: pointer;
     }
     
     .item-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-        border-width: 3px;
+        transform: scale(1.02);
     }
     
     .item-card .card-img-container {
         position: relative;
+        border-radius: 12px;
         overflow: hidden;
-        height: 180px;
-        background: #ffffff;
     }
     
     .item-card .card-img-top {
-        height: 180px;
-        width: 100%;
+        height: 280px;
         object-fit: cover;
-        transition: transform 0.3s ease;
+        width: 100%;
+        transition: transform 0.2s ease;
     }
     
     .item-card:hover .card-img-top {
@@ -206,73 +374,110 @@
     
     .item-card .image-nav {
         position: absolute;
-        bottom: 5px;
+        bottom: 12px;
         left: 50%;
         transform: translateX(-50%);
         display: flex;
-        gap: 3px;
-        z-index: 10;
+        gap: 5px;
+        z-index: 2;
     }
     
     .item-card .image-dot {
-        width: 5px;
-        height: 5px;
+        width: 6px;
+        height: 6px;
         border-radius: 50%;
-        background: rgba(255,255,255,0.6);
+        background: rgba(255, 255, 255, 0.6);
         cursor: pointer;
         transition: all 0.2s ease;
-        box-shadow: 0 1px 2px rgba(0,0,0,0.2);
     }
     
     .item-card .image-dot.active {
         background: white;
-        width: 14px;
-        border-radius: 3px;
+        width: 6px;
     }
     
     .item-card .card-body {
-        padding: 8px;
-        background: rgba(255,255,255,0.5);
-        backdrop-filter: blur(10px);
+        padding: 12px 0;
+        background: transparent;
     }
     
     .item-card .card-title {
-        font-weight: 800;
-        color: #1f2937;
-        font-size: 0.8rem;
-        line-height: 1.2;
+        font-weight: 600;
+        color: #222222;
+        font-size: 0.9375rem;
+        line-height: 1.3;
         display: -webkit-box;
         -webkit-line-clamp: 1;
         -webkit-box-orient: vertical;
         overflow: hidden;
+        margin-bottom: 4px;
     }
     
-    .info-item {
+    .item-meta {
+        font-size: 0.875rem;
+        color: #717171;
+        font-weight: 400;
+        line-height: 1.4;
+        margin-bottom: 6px;
+    }
+    
+    .item-price {
+        font-size: 0.9375rem;
+        color: #222222;
+        font-weight: 600;
+        margin-top: 4px;
+    }
+    
+    .item-price .amount {
+        font-weight: 600;
+    }
+    
+    .favorite-btn {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        background: rgba(255, 255, 255, 0.9);
+        border: none;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
         display: flex;
         align-items: center;
-        gap: 4px;
-        padding: 4px 6px;
-        background: rgba(255,255,255,0.95);
-        border-radius: 5px;
-        border: 1px solid rgba(0,0,0,0.08);
-        font-size: 0.7rem;
-        box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        z-index: 3;
     }
     
-    .info-item i {
+    .favorite-btn:hover {
+        transform: scale(1.1);
+        background: white;
+    }
+    
+    .favorite-btn i {
+        color: #222222;
+        font-size: 0.875rem;
+    }
+    
+    .type-badge {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        background: white;
+        padding: 6px 12px;
+        border-radius: 6px;
         font-size: 0.75rem;
+        font-weight: 600;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        z-index: 3;
     }
     
-    /* Price Display - Compact */
-    .price-tag {
-        font-size: 0.95rem;
-        font-weight: 800;
-        background: linear-gradient(135deg, #667eea 0%, #f093fb 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        line-height: 1;
-        white-space: nowrap;
+    .type-badge.donate {
+        color: #10b981;
+    }
+    
+    .type-badge.sell {
+        color: #222222;
     }
     
     /* Empty State */
@@ -290,308 +495,454 @@
     
     /* Mobile Responsiveness */
     @media (max-width: 992px) {
-        .hero-content h1 {
-            font-size: 2.2rem;
-        }
-        
-        .hero-content p {
-            font-size: 1rem;
-        }
-        
-        .filter-card {
-            padding: 16px;
-        }
-        
-        .item-card .card-img-container {
-            height: 160px;
+        .filter-bar-wrapper {
+            top: 60px;
+            padding: 12px 0;
         }
         
         .item-card .card-img-top {
-            height: 160px;
+            height: 240px;
         }
     }
     
     @media (max-width: 768px) {
-        .hero-filter-section {
-            padding: 30px 0 100px 0;
-        }
-        
-        .hero-content h1 {
-            font-size: 1.8rem;
-        }
-        
-        .hero-content p {
-            font-size: 0.95rem;
-        }
-        
-        .filter-card .form-label {
-            font-size: 0.8rem;
-        }
-        
-        .results-badge {
-            font-size: 0.85rem;
-            padding: 6px 16px;
-        }
-        
-        .item-card .card-title {
-            font-size: 0.9rem;
-        }
-        
-        .item-card .card-body {
-            padding: 12px;
-        }
-        
-        .price-tag {
-            font-size: 1.2rem;
-        }
-        
-        .badge-row {
-            flex-wrap: wrap;
-            gap: 5px;
-        }
-    }
-    
-    @media (max-width: 576px) {
-        .hero-content h1 {
-            font-size: 1.6rem;
-        }
-        
-        .hero-content h1 i {
+        .navbar-brand {
             font-size: 1.4rem;
         }
         
-        .filter-card {
-            padding: 12px;
+        .filter-bar-wrapper {
+            padding: 12px 16px;
         }
         
-        .filter-card .form-label {
-            font-size: 0.75rem;
-            margin-bottom: 4px;
-        }
-        
-        .filter-card .form-control,
-        .filter-card .form-select {
-            font-size: 0.85rem;
-            padding: 6px 10px;
-        }
-        
-        .filter-card .btn {
-            font-size: 0.85rem;
-            padding: 6px 12px;
-        }
-        
-        .gender-badge,
-        .type-badge-donate,
-        .type-badge-sell {
-            font-size: 0.65rem;
-            padding: 3px 8px;
-        }
-        
-        .info-item {
-            padding: 5px 8px;
-            font-size: 0.75rem;
-        }
-        
-        .item-card .card-body {
-            padding: 10px;
+        .item-card .card-img-top {
+            height: 220px;
         }
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<!-- Hero + Filter Integrated Section -->
-<div class="hero-filter-section">
+<!-- Airbnb-Style Filter Bar -->
+<div class="filter-bar-wrapper">
     <div class="container">
-        <!-- Hero Content with Animation -->
-        <div class="hero-content">
-            <h1>{% trans "Discover Baby Clothes" %}</h1>
-            <p>{% trans "Donate, sell, and buy from parents nearby" %}</p>
-        </div>
+        <!-- Mobile Filter Toggle Button -->
+        <button class="mobile-filter-toggle" onclick="toggleMobileFilter()">
+            <i class="bi bi-sliders"></i>
+            <span>{% trans "Filters" %}</span>
+        </button>
         
-        <!-- Floating Filter Card -->
-        <div class="filter-card">
-            <form method="get" class="row g-3 align-items-end">
-                <!-- Type Filter -->
-                <div class="col-6 col-md-3 col-lg-2">
-                <label class="form-label">
-                    <i class="bi bi-tag-fill"></i> {% trans "Type" %}
-                </label>
-                <select name="type" class="form-select">
-                    <option value="">{% trans "All" %}</option>
+        <!-- Filter Bar -->
+        <form method="get" class="airbnb-filter-bar" id="filterBar">
+            <!-- Type Filter -->
+            <div class="filter-section" onclick="toggleDropdown('type-dropdown')">
+                <label class="filter-section-label">{% trans "Type" %}</label>
+                <div class="filter-section-display{% if selected_type %} has-value{% endif %}" id="type-display">
+                    {% if selected_type %}
                         {% for value, label in item_type_choices %}
-                            <option value="{{ value }}" {% if selected_type == value %}selected{% endif %}>{{ label }}</option>
+                            {% if selected_type == value %}{{ label }}{% endif %}
                         {% endfor %}
-                    </select>
+                    {% else %}
+                        {% trans "Any type" %}
+                    {% endif %}
                 </div>
-                
-                <!-- Gender Filter -->
-                <div class="col-6 col-md-3 col-lg-2">
-                <label class="form-label">
-                    <i class="bi bi-gender-ambiguous"></i> {% trans "Gender" %}
-                </label>
-                <select name="gender" class="form-select">
-                    <option value="">{% trans "All" %}</option>
+                <select name="type" id="type-select" style="display: none;">
+                    <option value="">{% trans "Any type" %}</option>
+                    {% for value, label in item_type_choices %}
+                        <option value="{{ value }}" {% if selected_type == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+                <div class="custom-dropdown" id="type-dropdown">
+                    <div class="custom-dropdown-item {% if not selected_type %}selected{% endif %}" onclick="selectOption(event, 'type', '', '{% trans "Any type" %}')">
+                        <span class="checkmark">✓</span>
+                        <span class="label">{% trans "Any type" %}</span>
+                    </div>
+                    {% for value, label in item_type_choices %}
+                    <div class="custom-dropdown-item {% if selected_type == value %}selected{% endif %}" onclick="selectOption(event, 'type', '{{ value }}', '{{ label }}')">
+                        <span class="checkmark">✓</span>
+                        <span class="icon">{% if value == 'donate' %}🎁{% else %}💰{% endif %}</span>
+                        <span class="label">{{ label }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <!-- Gender Filter -->
+            <div class="filter-section" onclick="toggleDropdown('gender-dropdown')">
+                <label class="filter-section-label">{% trans "Gender" %}</label>
+                <div class="filter-section-display{% if selected_gender %} has-value{% endif %}" id="gender-display">
+                    {% if selected_gender %}
                         {% for value, label in gender_choices %}
-                            <option value="{{ value }}" {% if selected_gender == value %}selected{% endif %}>{{ label }}</option>
+                            {% if selected_gender == value %}{{ label }}{% endif %}
                         {% endfor %}
-                    </select>
+                    {% else %}
+                        {% trans "Any gender" %}
+                    {% endif %}
                 </div>
-                
-                <!-- Age Range Filter -->
-                <div class="col-6 col-md-3 col-lg-2">
-                <label class="form-label">
-                    <i class="bi bi-calendar-check"></i> {% trans "Age" %}
-                </label>
-                <select name="age" class="form-select">
-                    <option value="">{% trans "All" %}</option>
+                <select name="gender" id="gender-select" style="display: none;">
+                    <option value="">{% trans "Any gender" %}</option>
+                    {% for value, label in gender_choices %}
+                        <option value="{{ value }}" {% if selected_gender == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+                <div class="custom-dropdown" id="gender-dropdown">
+                    <div class="custom-dropdown-item {% if not selected_gender %}selected{% endif %}" onclick="selectOption(event, 'gender', '', '{% trans "Any gender" %}')">
+                        <span class="checkmark">✓</span>
+                        <span class="label">{% trans "Any gender" %}</span>
+                    </div>
+                    {% for value, label in gender_choices %}
+                    <div class="custom-dropdown-item {% if selected_gender == value %}selected{% endif %}" onclick="selectOption(event, 'gender', '{{ value }}', '{{ label }}')">
+                        <span class="checkmark">✓</span>
+                        <span class="icon">{% if value == 'boy' %}👦{% elif value == 'girl' %}👧{% else %}👶{% endif %}</span>
+                        <span class="label">{{ label }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <!-- Age Range Filter -->
+            <div class="filter-section" onclick="toggleDropdown('age-dropdown')">
+                <label class="filter-section-label">{% trans "Age" %}</label>
+                <div class="filter-section-display{% if selected_age %} has-value{% endif %}" id="age-display">
+                    {% if selected_age %}
                         {% for value, label in age_range_choices %}
-                            <option value="{{ value }}" {% if selected_age == value %}selected{% endif %}>{{ label }}</option>
+                            {% if selected_age == value %}{{ label }}{% endif %}
                         {% endfor %}
-                    </select>
+                    {% else %}
+                        {% trans "Any age" %}
+                    {% endif %}
                 </div>
-                
-                <!-- Area Search -->
-                <div class="col-6 col-md-3 col-lg-3">
-                <label class="form-label">
-                    <i class="bi bi-geo-alt-fill"></i> {% trans "Location" %}
-                </label>
-                <select name="area" class="form-select">
-                    <option value="">{% trans "All" %}</option>
+                <select name="age" id="age-select" style="display: none;">
+                    <option value="">{% trans "Any age" %}</option>
+                    {% for value, label in age_range_choices %}
+                        <option value="{{ value }}" {% if selected_age == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+                <div class="custom-dropdown" id="age-dropdown">
+                    <div class="custom-dropdown-item {% if not selected_age %}selected{% endif %}" onclick="selectOption(event, 'age', '', '{% trans "Any age" %}')">
+                        <span class="checkmark">✓</span>
+                        <span class="label">{% trans "Any age" %}</span>
+                    </div>
+                    {% for value, label in age_range_choices %}
+                    <div class="custom-dropdown-item {% if selected_age == value %}selected{% endif %}" onclick="selectOption(event, 'age', '{{ value }}', '{{ label }}')">
+                        <span class="checkmark">✓</span>
+                        {% if '0-3' in value %}
+                        <span class="icon">👶</span>
+                        {% elif '3-6' in value %}
+                        <span class="icon">🧸</span>
+                        {% elif '6-12' in value or '1-2' in value %}
+                        <span class="icon">🎈</span>
+                        {% elif '2-3' in value or '3-4' in value %}
+                        <span class="icon">🎨</span>
+                        {% else %}
+                        <span class="icon">⚽</span>
+                        {% endif %}
+                        <span class="label">{{ label }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <!-- Area Search -->
+            <div class="filter-section" onclick="toggleDropdown('area-dropdown')">
+                <label class="filter-section-label">{% trans "Location" %}</label>
+                <div class="filter-section-display{% if selected_area %} has-value{% endif %}" id="area-display">
+                    {% if selected_area == 'mirpur' %}{% trans "Mirpur" %}
+                    {% elif selected_area == 'mohammadpur' %}{% trans "Mohammadpur" %}
+                    {% elif selected_area == 'uttara' %}{% trans "Uttara" %}
+                    {% elif selected_area == 'dhanmondi' %}{% trans "Dhanmondi" %}
+                    {% else %}{% trans "Anywhere" %}
+                    {% endif %}
+                </div>
+                <select name="area" id="area-select" style="display: none;">
+                    <option value="">{% trans "Anywhere" %}</option>
                     <option value="mirpur" {% if selected_area == 'mirpur' %}selected{% endif %}>{% trans "Mirpur" %}</option>
                     <option value="mohammadpur" {% if selected_area == 'mohammadpur' %}selected{% endif %}>{% trans "Mohammadpur" %}</option>
                     <option value="uttara" {% if selected_area == 'uttara' %}selected{% endif %}>{% trans "Uttara" %}</option>
                     <option value="dhanmondi" {% if selected_area == 'dhanmondi' %}selected{% endif %}>{% trans "Dhanmondi" %}</option>
                 </select>
-                </div>
-                
-                <!-- Filter Actions + Results Badge -->
-                <div class="col-12 col-lg-3">
-                    <div class="filter-buttons w-100">
-                        <button type="submit" class="btn btn-primary flex-grow-1">
-                            <i class="bi bi-funnel-fill"></i> {% trans "Filter" %}
-                        </button>
-                        <a href="{% url 'listings:item_list' %}" class="btn btn-outline-secondary flex-grow-1">
-                            <i class="bi bi-x-circle"></i> {% trans "Clear" %}
-                        </a>
-                        <span class="results-badge d-none d-lg-inline-flex">
-                            <i class="bi bi-check-circle-fill"></i>
-                            {{ items.count }}
-                        </span>
+                <div class="custom-dropdown" id="area-dropdown">
+                    <div class="custom-dropdown-item {% if not selected_area %}selected{% endif %}" onclick="selectOption(event, 'area', '', '{% trans "Anywhere" %}')">
+                        <span class="checkmark">✓</span>
+                        <span class="label">{% trans "Anywhere" %}</span>
+                    </div>
+                    <div class="custom-dropdown-item {% if selected_area == 'mirpur' %}selected{% endif %}" onclick="selectOption(event, 'area', 'mirpur', '{% trans "Mirpur" %}')">
+                        <span class="checkmark">✓</span>
+                        <span class="icon">📍</span>
+                        <span class="label">{% trans "Mirpur" %}</span>
+                    </div>
+                    <div class="custom-dropdown-item {% if selected_area == 'mohammadpur' %}selected{% endif %}" onclick="selectOption(event, 'area', 'mohammadpur', '{% trans "Mohammadpur" %}')">
+                        <span class="checkmark">✓</span>
+                        <span class="icon">📍</span>
+                        <span class="label">{% trans "Mohammadpur" %}</span>
+                    </div>
+                    <div class="custom-dropdown-item {% if selected_area == 'uttara' %}selected{% endif %}" onclick="selectOption(event, 'area', 'uttara', '{% trans "Uttara" %}')">
+                        <span class="checkmark">✓</span>
+                        <span class="icon">📍</span>
+                        <span class="label">{% trans "Uttara" %}</span>
+                    </div>
+                    <div class="custom-dropdown-item {% if selected_area == 'dhanmondi' %}selected{% endif %}" onclick="selectOption(event, 'area', 'dhanmondi', '{% trans "Dhanmondi" %}')">
+                        <span class="checkmark">✓</span>
+                        <span class="icon">📍</span>
+                        <span class="label">{% trans "Dhanmondi" %}</span>
                     </div>
                 </div>
-            </form>
-            
-            <!-- Results Badge for Mobile -->
-            <div class="mt-3 d-lg-none text-center">
-                <span class="results-badge">
-                    <i class="bi bi-check-circle-fill"></i>
-                    {% blocktrans count counter=items.count %}{{ counter }} item available{% plural %}{{ counter }} items available{% endblocktrans %}
-                </span>
             </div>
-        </div>
+            
+            <!-- Search Button -->
+            <button type="submit" class="search-button">
+                <i class="bi bi-search"></i>
+            </button>
+            
+            <!-- Clear Filters Button (shows when filters are active) -->
+            {% if selected_type or selected_gender or selected_age or selected_area %}
+            <a href="{% url 'listings:item_list' %}" class="clear-filters-button" title="{% trans 'Clear all filters' %}">
+                <i class="bi bi-x-lg"></i>
+            </a>
+            {% endif %}
+        </form>
     </div>
 </div>
 
-<!-- Items Grid with Extended Gradient Background -->
-<div style="background: linear-gradient(180deg, #f7fafc 0%, #e6f2ff 50%, white 100%); padding: 30px 0;">
+<script>
+// Toggle mobile filter
+function toggleMobileFilter() {
+    const filterBar = document.getElementById('filterBar');
+    filterBar.classList.toggle('show');
+}
+
+// Define filter order for auto-progression
+const filterOrder = ['type', 'gender', 'age', 'area'];
+let currentOpenDropdown = null;
+let currentFilterIndex = -1;
+
+// Toggle custom dropdown
+function toggleDropdown(dropdownId) {
+    event.stopPropagation();
+    const dropdown = document.getElementById(dropdownId);
+    const filterSection = dropdown.closest('.filter-section');
+    
+    // Get filter name from dropdown ID
+    const filterName = dropdownId.replace('-dropdown', '');
+    currentFilterIndex = filterOrder.indexOf(filterName);
+    
+    // Close previously opened dropdown
+    if (currentOpenDropdown && currentOpenDropdown !== dropdown) {
+        currentOpenDropdown.classList.remove('show');
+        const prevSection = currentOpenDropdown.closest('.filter-section');
+        if (prevSection) {
+            prevSection.classList.remove('active');
+        }
+    }
+    
+    // Remove active class from all sections
+    document.querySelectorAll('.filter-section').forEach(section => {
+        section.classList.remove('active');
+    });
+    
+    // Toggle current dropdown
+    const isOpening = !dropdown.classList.contains('show');
+    dropdown.classList.toggle('show');
+    
+    if (isOpening) {
+        filterSection.classList.add('active');
+        currentOpenDropdown = dropdown;
+        
+        // Animate dropdown appearance
+        setTimeout(() => {
+            dropdown.style.opacity = '1';
+            dropdown.style.transform = 'translateY(0)';
+        }, 10);
+    } else {
+        filterSection.classList.remove('active');
+        currentOpenDropdown = null;
+        currentFilterIndex = -1;
+    }
+}
+
+// Move to next filter with animation (Airbnb style)
+function moveToNextFilter() {
+    if (currentFilterIndex >= 0 && currentFilterIndex < filterOrder.length - 1) {
+        const nextFilterName = filterOrder[currentFilterIndex + 1];
+        const nextDropdownId = nextFilterName + '-dropdown';
+        
+        // Delay for smooth transition
+        setTimeout(() => {
+            // Find and click the next filter section
+            const nextDropdown = document.getElementById(nextDropdownId);
+            if (nextDropdown) {
+                const nextSection = nextDropdown.closest('.filter-section');
+                if (nextSection) {
+                    // Simulate click to open next dropdown
+                    nextSection.click();
+                }
+            }
+        }, 150);
+    }
+}
+
+// Select option from custom dropdown
+function selectOption(event, filterName, value, label) {
+    event.stopPropagation();
+    
+    // Update hidden select
+    const select = document.getElementById(filterName + '-select');
+    select.value = value;
+    
+    // Update display text
+    const display = document.getElementById(filterName + '-display');
+    display.textContent = label;
+    
+    // Add styling if value is selected
+    if (value) {
+        display.classList.add('has-value');
+    } else {
+        display.classList.remove('has-value');
+    }
+    
+    // Update selected state in dropdown
+    const dropdown = document.getElementById(filterName + '-dropdown');
+    const items = dropdown.querySelectorAll('.custom-dropdown-item');
+    items.forEach(item => item.classList.remove('selected'));
+    event.currentTarget.classList.add('selected');
+    
+    // Mark current section as completed
+    const currentSection = dropdown.closest('.filter-section');
+    if (currentSection) {
+        // Remove completed class - we don't want gray background like before
+        currentSection.classList.remove('completed');
+        currentSection.classList.remove('active');
+    }
+    
+    // Close dropdown with animation
+    dropdown.style.opacity = '0';
+    dropdown.style.transform = 'translateY(-10px)';
+    setTimeout(() => {
+        dropdown.classList.remove('show');
+    }, 150);
+    
+    // Auto-progress to next filter (Airbnb style!)
+    moveToNextFilter();
+}
+
+// Close dropdowns when clicking outside
+document.addEventListener('click', function(event) {
+    if (currentOpenDropdown && !event.target.closest('.filter-section')) {
+        currentOpenDropdown.classList.remove('show');
+        const section = currentOpenDropdown.closest('.filter-section');
+        if (section) {
+            section.classList.remove('active');
+        }
+        currentOpenDropdown = null;
+        currentFilterIndex = -1;
+    }
+});
+
+// Prevent form submission when clicking inside dropdowns
+document.querySelectorAll('.custom-dropdown').forEach(dropdown => {
+    dropdown.addEventListener('click', function(e) {
+        e.stopPropagation();
+    });
+});
+
+// Mark pre-selected filters as completed on page load
+document.addEventListener('DOMContentLoaded', function() {
+    // Don't add any visual classes - only active sections get white background
+    // Pre-selected values will just show in the display text
+});
+</script>
+
+<!-- Items Grid - Airbnb Style -->
+<div style="background: #ffffff; padding: 40px 0;">
 <div class="container">
     {% if items %}
-        <div class="row g-3 mb-5">
+        <div class="row g-4 mb-5">
             {% for item in items %}
-            <div class="col-md-6 col-lg-4 col-xl-3">
-                <div class="card item-card">
-                    <!-- Item Image with Carousel -->
-                    <div class="card-img-container">
-                        {% with images=item.get_all_images %}
-                            {% if images %}
-                                {% for image in images %}
-                                    <img src="{{ image.url }}" 
-                                         class="card-img-top item-image-{{ item.pk }}" 
-                                         alt="{{ item.title }}"
-                                         style="{% if not forloop.first %}display: none;{% endif %}">
-                                {% endfor %}
-                                
-                                <!-- Image Navigation Dots -->
-                                {% if images|length > 1 %}
-                                <div class="image-nav">
+            <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                <a href="{% url 'listings:item_detail' item.pk %}" style="text-decoration: none; color: inherit;">
+                    <div class="item-card">
+                        <!-- Item Image with Carousel -->
+                        <div class="card-img-container">
+                            {% with images=item.get_all_images %}
+                                {% if images %}
+                                    <!-- Type Badge Overlay -->
+                                    {% if item.item_type == 'donate' %}
+                                        <span class="type-badge donate">
+                                            <i class="bi bi-gift-fill"></i> {% trans "Free" %}
+                                        </span>
+                                    {% endif %}
+                                    
+                                    <!-- Favorite Button -->
+                                    <button class="favorite-btn" onclick="event.preventDefault();">
+                                        <i class="bi bi-heart"></i>
+                                    </button>
+                                    
                                     {% for image in images %}
-                                        <span class="image-dot {% if forloop.first %}active{% endif %}" 
-                                              onclick="changeCardImage({{ item.pk }}, {{ forloop.counter0 }})"></span>
+                                        <img src="{{ image.url }}" 
+                                             class="card-img-top item-image-{{ item.pk }}" 
+                                             alt="{{ item.title }}"
+                                             style="{% if not forloop.first %}display: none;{% endif %}">
                                     {% endfor %}
-                                </div>
+                                    
+                                    <!-- Image Navigation Dots -->
+                                    {% if images|length > 1 %}
+                                    <div class="image-nav">
+                                        {% for image in images %}
+                                            <span class="image-dot {% if forloop.first %}active{% endif %}" 
+                                                  onclick="event.preventDefault(); changeCardImage({{ item.pk }}, {{ forloop.counter0 }})"></span>
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                {% else %}
+                                    <div class="card-img-top d-flex align-items-center justify-content-center"
+                                         style="height: 280px; background: #f7f7f7; border-radius: 12px;">
+                                        <i class="bi bi-image" style="font-size: 4rem; color: #dddddd;"></i>
+                                    </div>
                                 {% endif %}
-                            {% else %}
-                                <div class="card-img-top d-flex align-items-center justify-content-center"
-                                     style="height: 220px; background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);">
-                                    <i class="bi bi-image" style="font-size: 4rem; color: #cbd5e0;"></i>
-                                </div>
-                            {% endif %}
-                        {% endwith %}
-                    </div>
-                    
-                    <div class="card-body">
-                        <!-- Title and Price - Clean without background -->
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <h5 class="card-title mb-0 flex-grow-1">{{ item.title|truncatewords:4 }}</h5>
-                            {% if item.item_type == 'sell' and item.price %}
-                                <div class="price-tag ms-2">৳{{ item.price }}</div>
-                            {% else %}
-                                <div class="price-tag ms-2" style="font-size: 0.85rem;">{% trans "Free" %}</div>
-                            {% endif %}
+                            {% endwith %}
                         </div>
                         
-                        <!-- Gender and Type - Small pill badges -->
-                        <div class="d-flex gap-2 mb-2">
-                            <span class="badge rounded-pill" style="background: rgba(102, 126, 234, 0.15); color: #667eea; font-size: 0.65rem; padding: 4px 8px; font-weight: 600;">
-                                <i class="bi bi-gender-ambiguous"></i> {{ item.get_baby_gender_display }}
-                            </span>
+                        <div class="card-body">
+                            <!-- Title -->
+                            <h5 class="card-title">{{ item.title|truncatewords:5 }}</h5>
                             
-                            {% if item.item_type == 'donate' %}
-                                <span class="badge rounded-pill" style="background: rgba(72, 187, 120, 0.15); color: #38a169; font-size: 0.65rem; padding: 4px 8px; font-weight: 600;">
-                                    <i class="bi bi-gift-fill"></i> Donate
-                                </span>
-                            {% else %}
-                                <span class="badge rounded-pill" style="background: rgba(240, 147, 251, 0.15); color: #d946ef; font-size: 0.65rem; padding: 4px 8px; font-weight: 600;">
-                                    <i class="bi bi-tag-fill"></i> Sell
-                                </span>
-                            {% endif %}
-                        </div>
-                        
-                        <!-- Age and Location - Subtle backgrounds -->
-                        <div class="d-flex gap-2 mb-2">
-                            <div class="info-item flex-fill">
-                                <i class="bi bi-calendar3" style="color: #667eea;"></i>
-                                <span style="font-size: 0.65rem;">{{ item.get_age_range_display }}</span>
-                            </div>
+                            <!-- Meta Information (subtle gray text) -->
+                            <p class="item-meta mb-1">
+                                {{ item.get_age_range_display }} · {{ item.get_baby_gender_display }}
+                            </p>
+                            <p class="item-meta mb-2">
+                                <i class="bi bi-geo-alt" style="font-size: 0.8rem;"></i> {{ item.get_area_display }}
+                            </p>
                             
-                            <div class="info-item flex-fill">
-                                <i class="bi bi-geo-alt-fill" style="color: #f093fb;"></i>
-                                <span style="font-size: 0.65rem;">{{ item.get_area_display }}</span>
+                            <!-- Price -->
+                            <div class="item-price">
+                                {% if item.item_type == 'sell' and item.price %}
+                                    <span class="amount">৳{{ item.price }}</span>
+                                {% else %}
+                                    <span class="amount" style="color: #10b981;">{% trans "Free" %}</span>
+                                {% endif %}
                             </div>
                         </div>
-                        
-                        <!-- View Button -->
-                        <a href="{% url 'listings:item_detail' item.pk %}" class="btn btn-outline-primary btn-sm w-100" style="font-size: 0.75rem; padding: 5px 10px;">
-                            <i class="bi bi-eye-fill"></i> {% trans "View Details" %}
-                        </a>
                     </div>
-                </div>
+                </a>
             </div>
             {% endfor %}
         </div>
     {% else %}
-        <!-- No Items Found -->
-        <div class="empty-state">
-            <i class="bi bi-inbox display-1"></i>
-            <h3 class="mt-4" style="color: #2d3748; font-weight: 700;">{% trans "No items found" %}</h3>
-            <p class="text-muted mb-4">{% trans "Try adjusting your filters or be the first to post!" %}</p>
+        <!-- No Items Found - Airbnb Style -->
+        <div style="padding: 80px 20px; text-align: center;">
+            <i class="bi bi-inbox" style="font-size: 4rem; color: #dddddd;"></i>
+            <h3 class="mt-4" style="color: #222222; font-weight: 600; font-size: 1.5rem;">{% trans "No items found" %}</h3>
+            <p style="color: #717171; font-size: 1rem; margin-bottom: 24px;">{% trans "Try adjusting your filters or be the first to post!" %}</p>
             {% if user.is_authenticated %}
-                <a href="{% url 'listings:item_create' %}" class="btn btn-success btn-lg">
+                <a href="{% url 'listings:item_create' %}" 
+                   class="btn btn-lg" 
+                   style="background: #222222; color: white; border: none; border-radius: 8px; padding: 14px 24px; font-weight: 600;">
                     <i class="bi bi-plus-circle"></i> {% trans "Post Your First Item" %}
                 </a>
             {% else %}
-                <a href="{% url 'accounts:signup' %}" class="btn btn-primary btn-lg">
+                <a href="{% url 'accounts:signup' %}" 
+                   class="btn btn-lg" 
+                   style="background: #FF385C; color: white; border: none; border-radius: 8px; padding: 14px 24px; font-weight: 600;">
                     <i class="bi bi-person-plus"></i> {% trans "Sign Up to Post" %}
                 </a>
             {% endif %}
