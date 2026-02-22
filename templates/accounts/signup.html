@@ -3,148 +3,417 @@
 
 {% block title %}{% trans "Sign Up" %} - LittleLoop{% endblock %}
 
+{% block extra_css %}
+<!-- Import Inter Font -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        background: #f7f7f7;
+    }
+    
+    .auth-container {
+        max-width: 420px;
+        margin: 0 auto;
+    }
+    
+    .auth-card {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        border: 1px solid #ebebeb;
+        overflow: hidden;
+    }
+    
+    .auth-header {
+        background: linear-gradient(135deg, #FF385C 0%, #E31C5F 100%);
+        text-align: center;
+        padding: 48px 32px;
+        position: relative;
+    }
+    
+    .auth-header::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 40px;
+        background: white;
+        border-radius: 40px 40px 0 0;
+    }
+    
+    .auth-header h2 {
+        font-size: 1.875rem;
+        font-weight: 700;
+        color: white;
+        margin: 0 0 8px 0;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .auth-header p {
+        font-size: 0.9375rem;
+        color: rgba(255, 255, 255, 0.9);
+        margin: 0;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .auth-body {
+        padding: 32px;
+    }
+    
+    /* Toggle Switch */
+    .toggle-container {
+        display: flex;
+        background: #f7f7f7;
+        border-radius: 12px;
+        padding: 4px;
+        margin-bottom: 24px;
+    }
+    
+    .toggle-option {
+        flex: 1;
+        padding: 10px;
+        text-align: center;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 0.875rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        color: #717171;
+    }
+    
+    .toggle-option.active {
+        background: linear-gradient(135deg, #FF385C 0%, #E31C5F 100%);
+        color: white;
+        box-shadow: 0 2px 8px rgba(255, 56, 92, 0.3);
+    }
+    
+    /* Input Group with Icon */
+    .input-group-custom {
+        position: relative;
+        margin-bottom: 16px;
+    }
+    
+    .input-icon {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #FF385C;
+        font-size: 1.125rem;
+        z-index: 2;
+    }
+    
+    .form-control-custom {
+        width: 100%;
+        padding: 14px 16px 14px 48px !important;
+        border: 2px solid #ebebeb !important;
+        border-radius: 12px !important;
+        font-size: 0.9375rem !important;
+        color: #222222 !important;
+        transition: all 0.2s ease !important;
+        font-family: 'Inter', sans-serif !important;
+        background: #fafafa !important;
+    }
+    
+    .form-control-custom:focus {
+        border-color: #FF385C !important;
+        box-shadow: 0 0 0 3px rgba(255, 56, 92, 0.1) !important;
+        background: white !important;
+    }
+    
+    .form-control-custom::placeholder {
+        color: #9ca3af;
+        font-weight: 400;
+    }
+    
+    .input-hint {
+        font-size: 0.75rem;
+        color: #9ca3af;
+        margin-top: 4px;
+        padding-left: 48px;
+    }
+    
+    .btn-signup {
+        background: linear-gradient(135deg, #FF385C 0%, #E31C5F 100%);
+        border: none;
+        color: white;
+        padding: 16px;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        box-shadow: 0 4px 12px rgba(255, 56, 92, 0.3);
+        margin-top: 24px;
+    }
+    
+    .btn-signup:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(255, 56, 92, 0.4);
+        color: white;
+    }
+    
+    .btn-signup:active {
+        transform: translateY(0);
+    }
+    
+    .divider {
+        display: flex;
+        align-items: center;
+        text-align: center;
+        margin: 24px 0;
+    }
+    
+    .divider::before,
+    .divider::after {
+        content: '';
+        flex: 1;
+        border-bottom: 1px solid #ebebeb;
+    }
+    
+    .divider span {
+        padding: 0 16px;
+        color: #9ca3af;
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+    
+    .login-link {
+        text-align: center;
+    }
+    
+    .login-link p {
+        font-size: 0.9375rem;
+        color: #717171;
+        margin: 0;
+    }
+    
+    .login-link a {
+        color: #FF385C;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+    
+    .login-link a:hover {
+        color: #E31C5F;
+    }
+    
+    .text-danger {
+        font-size: 0.8125rem;
+        color: #e74c3c;
+        font-weight: 500;
+        margin-top: 4px;
+        padding-left: 48px;
+    }
+    
+    .alert-danger {
+        background: #fee2e2;
+        border: 1px solid #fecaca;
+        border-radius: 12px;
+        color: #dc2626;
+        font-size: 0.875rem;
+        padding: 12px 16px;
+        margin-bottom: 20px;
+    }
+    
+    @media (max-width: 576px) {
+        .auth-container {
+            padding: 0 16px;
+        }
+        
+        .auth-header {
+            padding: 40px 24px;
+        }
+        
+        .auth-header h2 {
+            font-size: 1.5rem;
+        }
+        
+        .auth-body {
+            padding: 24px;
+        }
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6 col-lg-5">
-            <div class="card shadow-lg border-0" style="border-radius: 20px;">
-                <div class="card-body p-5">
-                    <!-- Header -->
-                    <div class="text-center mb-4">
-                        <div class="mb-3">
-                            <i class="bi bi-person-plus-fill" style="font-size: 3rem; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
+    <div class="auth-container">
+        <div class="auth-card">
+            <!-- Header -->
+            <div class="auth-header">
+                <h2>{% trans "Create Account" %}</h2>
+                <p>{% trans "Join the community" %}</p>
+            </div>
+
+            <!-- Body -->
+            <div class="auth-body">
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                    
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ form.non_field_errors }}
                         </div>
-                        <h2 class="fw-bold" style="color: #2d3748;">{% trans "Create Account" %}</h2>
-                        <p class="text-muted">{% trans "Join LittleLoop to share baby clothes" %}</p>
+                    {% endif %}
+
+                    <!-- Toggle for Email/Phone -->
+                    <div class="toggle-container">
+                        <div class="toggle-option active" data-type="email" onclick="toggleLoginType('email')">
+                            <i class="bi bi-envelope-fill"></i> {% trans "Email" %}
+                        </div>
+                        <div class="toggle-option" data-type="phone" onclick="toggleLoginType('phone')">
+                            <i class="bi bi-phone-fill"></i> {% trans "Phone" %}
+                        </div>
+                    </div>
+                    
+                    <!-- Hidden radio buttons -->
+                    <div style="display: none;">
+                        {% for radio in form.login_type %}
+                            {{ radio.tag }}
+                        {% endfor %}
                     </div>
 
-                    <!-- Form -->
-                    <form method="post" novalidate>
-                        {% csrf_token %}
-                        
-                        {% if form.non_field_errors %}
-                            <div class="alert alert-danger" role="alert">
-                                {{ form.non_field_errors }}
-                            </div>
+                    <!-- Email Field -->
+                    <div class="input-group-custom" id="email-field">
+                        <i class="bi bi-envelope-fill input-icon"></i>
+                        <input type="email" 
+                               name="{{ form.email.name }}" 
+                               id="{{ form.email.id_for_label }}"
+                               class="form-control-custom" 
+                               placeholder="{% trans 'your@email.com' %}"
+                               value="{{ form.email.value|default:'' }}">
+                        {% if form.email.errors %}
+                            <div class="text-danger">{{ form.email.errors.0 }}</div>
                         {% endif %}
+                    </div>
 
-                        <!-- Login Type Selection -->
-                        <div class="mb-4">
-                            <label class="form-label fw-semibold">{{ form.login_type.label }}</label>
-                            <div class="d-flex gap-4">
-                                {% for radio in form.login_type %}
-                                    <div class="form-check">
-                                        {{ radio.tag }}
-                                        <label class="form-check-label" for="{{ radio.id_for_label }}">
-                                            {{ radio.choice_label }}
-                                        </label>
-                                    </div>
-                                {% endfor %}
-                            </div>
-                            {% if form.login_type.errors %}
-                                <div class="text-danger small mt-1">{{ form.login_type.errors }}</div>
-                            {% endif %}
-                        </div>
+                    <!-- Phone Field -->
+                    <div class="input-group-custom" id="phone-field" style="display: none;">
+                        <i class="bi bi-phone-fill input-icon"></i>
+                        <input type="text" 
+                               name="{{ form.phone.name }}" 
+                               id="{{ form.phone.id_for_label }}"
+                               class="form-control-custom" 
+                               placeholder="{% trans '01712345678' %}"
+                               value="{{ form.phone.value|default:'' }}">
+                        <div class="input-hint">{% trans "11 digits starting with 01" %}</div>
+                        {% if form.phone.errors %}
+                            <div class="text-danger">{{ form.phone.errors.0 }}</div>
+                        {% endif %}
+                    </div>
 
-                        <!-- Email Field -->
-                        <div class="mb-3" id="email-field">
-                            <label for="{{ form.email.id_for_label }}" class="form-label fw-semibold">
-                                <i class="bi bi-envelope"></i> {{ form.email.label }}
-                            </label>
-                            {{ form.email }}
-                            {% if form.email.errors %}
-                                <div class="text-danger small mt-1">{{ form.email.errors }}</div>
-                            {% endif %}
-                        </div>
+                    <!-- Password -->
+                    <div class="input-group-custom">
+                        <i class="bi bi-lock-fill input-icon"></i>
+                        <input type="password" 
+                               name="{{ form.password.name }}" 
+                               id="{{ form.password.id_for_label }}"
+                               class="form-control-custom" 
+                               placeholder="{% trans 'Create Password' %}"
+                               required>
+                        <div class="input-hint">{% trans "Minimum 6 characters" %}</div>
+                        {% if form.password.errors %}
+                            <div class="text-danger">{{ form.password.errors.0 }}</div>
+                        {% endif %}
+                    </div>
 
-                        <!-- Phone Field -->
-                        <div class="mb-3" id="phone-field" style="display: none;">
-                            <label for="{{ form.phone.id_for_label }}" class="form-label fw-semibold">
-                                <i class="bi bi-phone"></i> {{ form.phone.label }}
-                            </label>
-                            {{ form.phone }}
-                            <small class="form-text text-muted">{% trans "11 digits, e.g., 01712345678" %}</small>
-                            {% if form.phone.errors %}
-                                <div class="text-danger small mt-1">{{ form.phone.errors }}</div>
-                            {% endif %}
-                        </div>
+                    <!-- Confirm Password -->
+                    <div class="input-group-custom">
+                        <i class="bi bi-shield-fill-check input-icon"></i>
+                        <input type="password" 
+                               name="{{ form.password_confirm.name }}" 
+                               id="{{ form.password_confirm.id_for_label }}"
+                               class="form-control-custom" 
+                               placeholder="{% trans 'Confirm Password' %}"
+                               required>
+                        {% if form.password_confirm.errors %}
+                            <div class="text-danger">{{ form.password_confirm.errors.0 }}</div>
+                        {% endif %}
+                    </div>
 
-                        <!-- Password -->
-                        <div class="mb-3">
-                            <label for="{{ form.password.id_for_label }}" class="form-label fw-semibold">
-                                <i class="bi bi-lock"></i> {{ form.password.label }}
-                            </label>
-                            {{ form.password }}
-                            <small class="form-text text-muted">{% trans "At least 6 characters" %}</small>
-                            {% if form.password.errors %}
-                                <div class="text-danger small mt-1">{{ form.password.errors }}</div>
-                            {% endif %}
-                        </div>
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-signup">
+                        <i class="bi bi-arrow-right-circle-fill"></i>
+                        <span>{% trans "Create Account" %}</span>
+                    </button>
 
-                        <!-- Confirm Password -->
-                        <div class="mb-4">
-                            <label for="{{ form.password_confirm.id_for_label }}" class="form-label fw-semibold">
-                                <i class="bi bi-lock-fill"></i> {{ form.password_confirm.label }}
-                            </label>
-                            {{ form.password_confirm }}
-                            {% if form.password_confirm.errors %}
-                                <div class="text-danger small mt-1">{{ form.password_confirm.errors }}</div>
-                            {% endif %}
-                        </div>
+                    <!-- Divider -->
+                    <div class="divider">
+                        <span>{% trans "or" %}</span>
+                    </div>
 
-                        <!-- Submit Button -->
-                        <button type="submit" class="btn btn-lg w-100 mb-3" 
-                                style="background: var(--gradient-primary); color: white; border-radius: 12px; font-weight: 600;">
-                            <i class="bi bi-check-circle"></i> {% trans "Create Account" %}
-                        </button>
-
-                        <!-- Login Link -->
-                        <div class="text-center">
-                            <p class="text-muted mb-0">
-                                {% trans "Already have an account?" %}
-                                <a href="{% url 'accounts:login' %}" class="fw-semibold" style="color: #667eea; text-decoration: none;">
-                                    {% trans "Login" %}
-                                </a>
-                            </p>
-                        </div>
-                    </form>
-                </div>
+                    <!-- Login Link -->
+                    <div class="login-link">
+                        <p>
+                            {% trans "Already have an account?" %}
+                            <a href="{% url 'accounts:login' %}">{% trans "Login" %}</a>
+                        </p>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-// Toggle email/phone field based on selection
-document.addEventListener('DOMContentLoaded', function() {
-    const loginTypeRadios = document.querySelectorAll('input[name="login_type"]');
+// Toggle between email and phone
+function toggleLoginType(type) {
     const emailField = document.getElementById('email-field');
     const phoneField = document.getElementById('phone-field');
     const emailInput = document.getElementById('{{ form.email.id_for_label }}');
     const phoneInput = document.getElementById('{{ form.phone.id_for_label }}');
+    const toggleOptions = document.querySelectorAll('.toggle-option');
+    const radioButtons = document.querySelectorAll('input[name="login_type"]');
     
-    function toggleFields() {
-        const selectedType = document.querySelector('input[name="login_type"]:checked').value;
-        
-        if (selectedType === 'email') {
-            emailField.style.display = 'block';
-            phoneField.style.display = 'none';
-            emailInput.required = true;
-            phoneInput.required = false;
+    // Update toggle UI
+    toggleOptions.forEach(opt => {
+        if (opt.dataset.type === type) {
+            opt.classList.add('active');
         } else {
-            emailField.style.display = 'none';
-            phoneField.style.display = 'block';
-            emailInput.required = false;
-            phoneInput.required = true;
+            opt.classList.remove('active');
         }
-    }
-    
-    loginTypeRadios.forEach(radio => {
-        radio.addEventListener('change', toggleFields);
     });
     
-    // Initial state
-    toggleFields();
+    // Update radio buttons
+    radioButtons.forEach(radio => {
+        if (radio.value === type) {
+            radio.checked = true;
+        }
+    });
+    
+    // Show/hide fields
+    if (type === 'email') {
+        emailField.style.display = 'block';
+        phoneField.style.display = 'none';
+        emailInput.required = true;
+        phoneInput.required = false;
+    } else {
+        emailField.style.display = 'none';
+        phoneField.style.display = 'block';
+        emailInput.required = false;
+        phoneInput.required = true;
+    }
+}
+
+// Set initial state on load
+document.addEventListener('DOMContentLoaded', function() {
+    const checkedRadio = document.querySelector('input[name="login_type"]:checked');
+    if (checkedRadio) {
+        toggleLoginType(checkedRadio.value);
+    }
 });
 </script>
 {% endblock %}

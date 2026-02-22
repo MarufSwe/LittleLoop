@@ -362,7 +362,7 @@
         border-radius: 0;
         overflow: hidden;
         background: #f7f7f7;
-        aspect-ratio: 1 / 1;
+        aspect-ratio: 4 / 3; /* Changed from 1/1 to 4/3 for more compact */
     }
     
     .item-card .card-img-top {
@@ -401,7 +401,7 @@
     }
     
     .item-card .card-body {
-        padding: 10px;
+        padding: 8px;
         background: white;
         display: flex;
         flex-direction: column;
@@ -555,21 +555,39 @@
         .navbar-brand {
             font-size: 1.4rem;
         }
-        
+
         .filter-bar-wrapper {
             padding: 12px 16px;
         }
         
-        .item-card .card-title {
-            font-size: 0.875rem;
+        /* Make cards more compact on mobile */
+        .item-card .card-img-container {
+            aspect-ratio: 3 / 2; /* Even more compact on mobile */
         }
         
+        .item-card .card-body {
+            padding: 6px;
+        }
+
+        .item-card .card-title {
+            font-size: 0.8125rem;
+        }
+
         .item-meta {
+            font-size: 0.75rem;
+        }
+
+        .item-price {
             font-size: 0.8125rem;
         }
         
-        .item-price {
-            font-size: 0.875rem;
+        .info-item-small {
+            font-size: 0.6875rem;
+        }
+        
+        .info-badge {
+            padding: 2px 5px;
+            font-size: 0.5625rem;
         }
     }
 </style>
@@ -936,7 +954,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     {% endif %}
                                 {% else %}
                                     <div class="card-img-top d-flex align-items-center justify-content-center"
-                                         style="aspect-ratio: 1/1; background: #f7f7f7;">
+                                         style="aspect-ratio: 4/3; background: #f7f7f7;">
                                         <i class="bi bi-image" style="font-size: 4rem; color: #dddddd;"></i>
                                     </div>
                                 {% endif %}

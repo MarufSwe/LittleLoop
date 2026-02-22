@@ -3,31 +3,236 @@
 
 {% block title %}{% trans "My Items" %} - LittleLoop{% endblock %}
 
+{% block extra_css %}
+<!-- Import Inter Font -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    }
+    
+    .page-header {
+        font-size: 1.75rem;
+        font-weight: 600;
+        color: #222222;
+    }
+    
+    .items-card {
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border: 1px solid #ebebeb;
+    }
+    
+    .table thead th {
+        background: #f7f7f7;
+        color: #222222;
+        font-weight: 600;
+        font-size: 0.875rem;
+        border: none;
+        padding: 14px 12px;
+    }
+    
+    .table tbody td {
+        padding: 14px 12px;
+        vertical-align: middle;
+        font-size: 0.9375rem;
+        color: #222222;
+    }
+    
+    .table tbody tr {
+        border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .table tbody tr:last-child {
+        border-bottom: none;
+    }
+    
+    /* Badge Styling */
+    .badge-donate {
+        background: #fce7f3;
+        color: #be185d;
+        padding: 6px 10px;
+        font-size: 0.75rem;
+        border-radius: 6px;
+        font-weight: 600;
+    }
+    
+    .badge-sell {
+        background: #fce7f3;
+        color: #be185d;
+        padding: 6px 10px;
+        font-size: 0.75rem;
+        border-radius: 6px;
+        font-weight: 600;
+    }
+    
+    .badge-available {
+        background: #d1fae5;
+        color: #065f46;
+        padding: 6px 10px;
+        font-size: 0.75rem;
+        border-radius: 6px;
+        font-weight: 600;
+    }
+    
+    .badge-done {
+        background: #f3f4f6;
+        color: #4b5563;
+        padding: 6px 10px;
+        font-size: 0.75rem;
+        border-radius: 6px;
+        font-weight: 600;
+    }
+    
+    /* Action Buttons */
+    .btn-action {
+        border: 1px solid #dddddd;
+        color: #222222;
+        padding: 6px 10px;
+        border-radius: 6px;
+        font-size: 0.875rem;
+        transition: all 0.2s ease;
+    }
+    
+    .btn-action:hover {
+        background: #f7f7f7;
+        border-color: #222222;
+        color: #222222;
+    }
+    
+    .btn-action-danger {
+        border: 1px solid #fee2e2;
+        color: #dc2626;
+    }
+    
+    .btn-action-danger:hover {
+        background: #fee2e2;
+        border-color: #dc2626;
+        color: #dc2626;
+    }
+    
+    /* Summary Cards */
+    .summary-card {
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border: 1px solid #ebebeb;
+        transition: transform 0.2s ease;
+    }
+    
+    .summary-card:hover {
+        transform: translateY(-2px);
+    }
+    
+    .summary-card h3 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #222222;
+    }
+    
+    .summary-card p {
+        font-size: 0.875rem;
+        color: #717171;
+        font-weight: 500;
+    }
+    
+    /* Empty State */
+    .empty-state {
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border: 1px solid #ebebeb;
+    }
+    
+    .empty-state i {
+        font-size: 4rem;
+        color: #d1d5db;
+    }
+    
+    .empty-state h3 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #222222;
+    }
+    
+    .empty-state p {
+        font-size: 0.9375rem;
+        color: #717171;
+    }
+    
+    /* Buttons */
+    .btn-primary-custom {
+        background: #222222;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.2s ease;
+    }
+    
+    .btn-primary-custom:hover {
+        background: #000000;
+        transform: translateY(-1px);
+    }
+    
+    .btn-outline-custom {
+        border: 1px solid #dddddd;
+        color: #222222;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: 600;
+    }
+    
+    .btn-outline-custom:hover {
+        background: #f7f7f7;
+        border-color: #222222;
+    }
+    
+    /* Modal */
+    .modal-content {
+        border-radius: 12px;
+        border: 1px solid #ebebeb;
+    }
+    
+    .modal-header {
+        border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .modal-footer {
+        border-top: 1px solid #f0f0f0;
+    }
+    
+    .price-text {
+        color: #be185d;
+        font-weight: 700;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="container py-4">
     <!-- Header -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2><i class="bi bi-bag"></i> My Items</h2>
-        <a href="{% url 'listings:item_create' %}" class="btn btn-success">
-            <i class="bi bi-plus-circle"></i> Post New Item
-        </a>
+    <div class="mb-4">
+        <h2 class="page-header"><i class="bi bi-bag"></i> {% trans "My Items" %}</h2>
     </div>
     
     {% if items %}
         <!-- Items Table -->
-        <div class="card shadow">
+        <div class="card items-card">
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-hover align-middle">
-                        <thead class="table-light">
+                    <table class="table align-middle mb-0">
+                        <thead>
                             <tr>
-                                <th>Image</th>
-                                <th>Title</th>
-                                <th>Type</th>
-                                <th>Price</th>
-                                <th>Status</th>
-                                <th>Posted</th>
-                                <th>Actions</th>
+                                <th>{% trans "Image" %}</th>
+                                <th>{% trans "Title" %}</th>
+                                <th>{% trans "Type" %}</th>
+                                <th>{% trans "Price" %}</th>
+                                <th>{% trans "Status" %}</th>
+                                <th>{% trans "Posted" %}</th>
+                                <th>{% trans "Actions" %}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -48,24 +253,24 @@
                                 
                                 <!-- Title -->
                                 <td>
-                                    <a href="{% url 'listings:item_detail' item.pk %}" class="text-decoration-none">
-                                        <strong>{{ item.title|truncatewords:5 }}</strong>
+                                    <a href="{% url 'listings:item_detail' item.pk %}" class="text-decoration-none" style="color: #222222; font-weight: 600;">
+                                        {{ item.title|truncatewords:5 }}
                                     </a>
                                     <br>
-                                    <small class="text-muted">
-                                        {{ item.get_age_range_display }} • {{ item.area|truncatewords:2 }}
+                                    <small style="color: #717171;">
+                                        {{ item.get_age_range_display }} • {{ item.get_area_display }}
                                     </small>
                                 </td>
                                 
                                 <!-- Type -->
                                 <td>
                                     {% if item.item_type == 'donate' %}
-                                        <span class="badge bg-success">
-                                            <i class="bi bi-gift"></i> Donate
+                                        <span class="badge-donate">
+                                            <i class="bi bi-gift-fill"></i> {% trans "Donate" %}
                                         </span>
                                     {% else %}
-                                        <span class="badge bg-primary">
-                                            <i class="bi bi-tag"></i> Sell
+                                        <span class="badge-sell">
+                                            <i class="bi bi-tag-fill"></i> {% trans "Sell" %}
                                         </span>
                                     {% endif %}
                                 </td>
@@ -73,46 +278,46 @@
                                 <!-- Price -->
                                 <td>
                                     {% if item.item_type == 'sell' and item.price %}
-                                        <strong>৳{{ item.price }}</strong>
+                                        <span class="price-text">৳{{ item.price }}</span>
                                     {% else %}
-                                        <span class="text-muted">Free</span>
+                                        <span class="price-text">{% trans "Free" %}</span>
                                     {% endif %}
                                 </td>
                                 
                                 <!-- Status -->
                                 <td>
                                     {% if item.status == 'available' %}
-                                        <span class="badge bg-success">
-                                            <i class="bi bi-check-circle"></i> Available
+                                        <span class="badge-available">
+                                            <i class="bi bi-check-circle-fill"></i> {% trans "Available" %}
                                         </span>
                                     {% else %}
-                                        <span class="badge bg-secondary">
-                                            <i class="bi bi-x-circle"></i> Done
+                                        <span class="badge-done">
+                                            <i class="bi bi-x-circle-fill"></i> {% trans "Done" %}
                                         </span>
                                     {% endif %}
                                 </td>
                                 
                                 <!-- Posted Date -->
                                 <td>
-                                    <small class="text-muted">{{ item.created_at|date:"M d, Y" }}</small>
+                                    <small style="color: #717171;">{{ item.created_at|date:"M d, Y" }}</small>
                                 </td>
                                 
                                 <!-- Actions -->
                                 <td>
                                     <div class="btn-group btn-group-sm">
                                         <a href="{% url 'listings:item_detail' item.pk %}" 
-                                           class="btn btn-outline-primary" title="View">
+                                           class="btn btn-action" title="{% trans 'View' %}">
                                             <i class="bi bi-eye"></i>
                                         </a>
                                         {% if item.status == 'available' %}
                                             <a href="{% url 'listings:item_edit' item.pk %}"
-                                               class="btn btn-outline-info" title="Edit">
+                                               class="btn btn-action" title="{% trans 'Edit' %}">
                                                 <i class="bi bi-pencil"></i>
                                             </a>
-                                            <button type="button" class="btn btn-outline-danger" 
+                                            <button type="button" class="btn btn-action btn-action-danger" 
                                                     data-bs-toggle="modal" 
                                                     data-bs-target="#markDoneModal{{ item.pk }}"
-                                                    title="Mark as Done">
+                                                    title="{% trans 'Mark as Done' %}">
                                                 <i class="bi bi-check"></i>
                                             </button>
                                         {% endif %}
@@ -125,23 +330,23 @@
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title">
-                                                <i class="bi bi-exclamation-triangle text-warning"></i> Confirm
+                                            <h5 class="modal-title" style="font-weight: 600; color: #222222;">
+                                                <i class="bi bi-exclamation-triangle" style="color: #f59e0b;"></i> {% trans "Confirm Action" %}
                                             </h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <p>Are you sure you want to mark <strong>"{{ item.title }}"</strong> as done?</p>
-                                            <p class="text-muted small">This will remove it from the public listing.</p>
+                                            <p style="color: #222222;">{% trans "Are you sure you want to mark" %} <strong>"{{ item.title }}"</strong> {% trans "as done?" %}</p>
+                                            <p style="color: #717171; font-size: 0.875rem;">{% trans "This will remove it from the public listing." %}</p>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                                Cancel
+                                            <button type="button" class="btn btn-outline-custom" data-bs-dismiss="modal">
+                                                {% trans "Cancel" %}
                                             </button>
                                             <form method="post" action="{% url 'listings:item_mark_done' item.pk %}" style="display: inline;">
                                                 {% csrf_token %}
-                                                <button type="submit" class="btn btn-danger">
-                                                    <i class="bi bi-check"></i> Mark as Done
+                                                <button type="submit" class="btn btn-primary-custom" style="background: #dc2626;">
+                                                    <i class="bi bi-check"></i> {% trans "Mark as Done" %}
                                                 </button>
                                             </form>
                                         </div>
@@ -158,26 +363,26 @@
         <!-- Summary Cards -->
         <div class="row g-3 mt-4">
             <div class="col-md-4">
-                <div class="card text-center">
+                <div class="card summary-card text-center">
                     <div class="card-body">
-                        <h3 class="text-success">{{ items.count }}</h3>
-                        <p class="mb-0 text-muted">Total Items</p>
+                        <h3>{{ items.count }}</h3>
+                        <p class="mb-0">{% trans "Total Items" %}</p>
                     </div>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card text-center">
+                <div class="card summary-card text-center">
                     <div class="card-body">
-                        <h3 class="text-primary">{{ available_count }}</h3>
-                        <p class="mb-0 text-muted">Available</p>
+                        <h3>{{ available_count }}</h3>
+                        <p class="mb-0">{% trans "Available" %}</p>
                     </div>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card text-center">
+                <div class="card summary-card text-center">
                     <div class="card-body">
-                        <h3 class="text-secondary">{{ done_count }}</h3>
-                        <p class="mb-0 text-muted">Done</p>
+                        <h3>{{ done_count }}</h3>
+                        <p class="mb-0">{% trans "Done" %}</p>
                     </div>
                 </div>
             </div>
@@ -185,13 +390,13 @@
         
     {% else %}
         <!-- Empty State -->
-        <div class="card shadow">
+        <div class="card empty-state">
             <div class="card-body text-center py-5">
-                <i class="bi bi-inbox display-1 text-muted"></i>
-                <h3 class="mt-4">No Items Yet</h3>
-                <p class="text-muted mb-4">You haven't posted any items yet. Start sharing!</p>
-                <a href="{% url 'listings:item_create' %}" class="btn btn-success btn-lg">
-                    <i class="bi bi-plus-circle"></i> Post Your First Item
+                <i class="bi bi-inbox"></i>
+                <h3 class="mt-4">{% trans "No Items Yet" %}</h3>
+                <p class="mb-4">{% trans "You haven't posted any items yet. Start sharing!" %}</p>
+                <a href="{% url 'listings:item_create' %}" class="btn btn-primary-custom btn-lg">
+                    <i class="bi bi-plus-circle"></i> {% trans "Post Your First Item" %}
                 </a>
             </div>
         </div>
@@ -199,8 +404,8 @@
     
     <!-- Back Button -->
     <div class="mt-4">
-        <a href="{% url 'listings:item_list' %}" class="btn btn-outline-secondary">
-            <i class="bi bi-arrow-left"></i> Back to Home
+        <a href="{% url 'listings:item_list' %}" class="btn btn-outline-custom">
+            <i class="bi bi-arrow-left"></i> {% trans "Back to Home" %}
         </a>
     </div>
 </div>

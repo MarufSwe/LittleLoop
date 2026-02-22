@@ -4,35 +4,338 @@
 {% block title %}{% if is_edit %}{% trans "Edit Item" %}{% else %}{% trans "Post Item" %}{% endif %} - LittleLoop{% endblock %}
 
 {% block extra_css %}
+<!-- Import Inter Font (Airbnb style) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
-    .image-preview-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        gap: 16px;
-        margin-top: 12px;
+    /* Apply Inter font */
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    }
+    
+    /* Form Container */
+    .form-card {
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border: 1px solid #ebebeb;
+    }
+    
+    /* Header Styling */
+    .form-header h2 {
+        font-size: 1.75rem;
+        font-weight: 600;
+        color: #222222;
+    }
+    
+    .form-header p {
+        font-size: 0.9375rem;
+        color: #717171;
+        font-weight: 400;
+    }
+    
+    .form-header i {
+        color: #FF385C;
+    }
+    
+    /* Required Field Star */
+    .required-star {
+        color: #e74c3c;
+        margin-left: 2px;
+        font-weight: 700;
+    }
+    
+    /* Form Labels */
+    .form-label {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #222222;
+        margin-bottom: 6px;
+    }
+    
+    /* Text Inputs */
+    .form-control {
+        border: 1px solid #dddddd !important;
+        border-radius: 8px !important;
+        padding: 10px 14px !important;
+        font-size: 0.9375rem !important;
+        color: #222222 !important;
+        transition: border-color 0.2s ease !important;
+    }
+    
+    .form-control:focus {
+        border-color: #222222 !important;
+        box-shadow: 0 0 0 1px #222222 !important;
+    }
+    
+    /* Custom Select Styling */
+    .form-select {
+        border: 1px solid #dddddd !important;
+        border-radius: 8px !important;
+        padding: 10px 14px !important;
+        font-size: 0.9375rem !important;
+        color: #222222 !important;
+        background-color: white !important;
+        cursor: pointer !important;
+        transition: border-color 0.2s ease !important;
+    }
+    
+    .form-select:focus {
+        border-color: #222222 !important;
+        box-shadow: 0 0 0 1px #222222 !important;
+    }
+    
+    /* Textarea */
+    textarea.form-control {
+        min-height: 120px !important;
+        resize: vertical !important;
+    }
+    
+    /* Image Upload Section */
+    .image-upload-label {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #222222;
     }
     
     .image-preview-item {
         position: relative;
-        border: 2px dashed #cbd5e0;
-        border-radius: 12px;
-        padding: 8px;
-        min-height: 150px;
+        border: 2px dashed #dddddd;
+        border-radius: 8px;
+        padding: 12px;
+        min-height: 160px;
         display: flex;
         align-items: center;
         justify-content: center;
+        background: #f7f7f7;
+        transition: border-color 0.2s ease;
+    }
+    
+    .image-preview-item:hover {
+        border-color: #FF385C;
     }
     
     .image-preview-item img {
         max-width: 100%;
         max-height: 200px;
-        border-radius: 8px;
+        border-radius: 6px;
     }
     
     .image-preview-item.has-image {
-        border-color: #667eea;
+        border-color: #FF385C;
         border-style: solid;
+        background: white;
     }
+    
+    /* File Input Styling */
+    .form-control[type="file"] {
+        font-size: 0.8125rem !important;
+        padding: 8px 12px !important;
+    }
+    
+    /* Alternative Contact Card */
+    .alt-contact-card {
+        background: #f7f7f7;
+        border: 1px solid #ebebeb;
+        border-radius: 12px;
+        padding: 20px;
+    }
+    
+    .alt-contact-card h6 {
+        color: #FF385C;
+        font-weight: 600;
+        font-size: 0.9375rem;
+    }
+    
+    /* Checkbox Styling */
+    .form-check-input {
+        border: 2px solid #dddddd;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+    }
+    
+    .form-check-input:checked {
+        background-color: #FF385C;
+        border-color: #FF385C;
+    }
+    
+    .form-check-label {
+        font-size: 0.875rem;
+        color: #222222;
+        font-weight: 500;
+        cursor: pointer;
+        margin-left: 8px;
+    }
+    
+    /* Buttons */
+    .btn-primary {
+        background: #222222 !important;
+        border: none !important;
+        border-radius: 8px !important;
+        padding: 14px 24px !important;
+        font-size: 1rem !important;
+        font-weight: 600 !important;
+        transition: all 0.2s ease !important;
+    }
+    
+    .btn-primary:hover {
+        background: #000000 !important;
+        transform: translateY(-1px);
+    }
+    
+    .btn-outline-secondary {
+        border: 1px solid #dddddd !important;
+        color: #222222 !important;
+        border-radius: 8px !important;
+        padding: 12px 24px !important;
+        font-size: 0.9375rem !important;
+        font-weight: 600 !important;
+        background: white !important;
+    }
+    
+    .btn-outline-secondary:hover {
+        background: #f7f7f7 !important;
+        border-color: #222222 !important;
+    }
+    
+    /* Error Messages */
+    .text-danger {
+        font-size: 0.8125rem;
+        color: #e74c3c;
+        font-weight: 500;
+    }
+    
+    /* Help Text */
+    small.text-muted {
+        font-size: 0.8125rem;
+        color: #717171;
+    }
+    
+    /* Custom Dropdown Styling (like filter section) */
+    .custom-select-wrapper {
+        position: relative;
+    }
+    
+    .custom-select-wrapper select {
+        display: none; /* Hide native select */
+    }
+    
+    .custom-select-display {
+        border: 1px solid #dddddd;
+        border-radius: 8px;
+        padding: 10px 14px;
+        font-size: 0.9375rem;
+        color: #717171;
+        background: white;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .custom-select-display:hover {
+        border-color: #222222;
+    }
+    
+    .custom-select-display.has-value {
+        color: #222222;
+        font-weight: 500;
+    }
+    
+    .custom-select-display i {
+        font-size: 0.75rem;
+        color: #717171;
+        transition: transform 0.2s ease;
+    }
+    
+    .custom-select-display.active i {
+        transform: rotate(180deg);
+    }
+    
+    .custom-dropdown {
+        position: absolute;
+        top: calc(100% + 4px);
+        left: 0;
+        right: 0;
+        background: white;
+        border: 1px solid #dddddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+        max-height: 280px;
+        overflow-y: auto;
+        z-index: 1000;
+        display: none;
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    
+    .custom-dropdown.show {
+        display: block;
+    }
+    
+    .custom-dropdown-item {
+        padding: 10px 14px;
+        font-size: 0.9375rem;
+        color: #222222;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .custom-dropdown-item span:first-child {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .custom-dropdown-item .icon {
+        font-size: 1rem;
+        animation: iconBounce 0.5s ease;
+    }
+    
+    .custom-dropdown-item:hover .icon {
+        animation: iconPulse 0.6s ease infinite;
+    }
+    
+    @keyframes iconBounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-3px); }
+    }
+    
+    @keyframes iconPulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.15); }
+    }
+    
+    .custom-dropdown-item:hover {
+        background: #f7f7f7;
+    }
+    
+    .custom-dropdown-item.selected {
+        background: #f7f7f7;
+        font-weight: 600;
+    }
+    
+    .custom-dropdown-item .checkmark {
+        opacity: 0;
+        color: #FF385C;
+        font-weight: 700;
+        font-size: 1rem;
+    }
+    
+    .custom-dropdown-item.selected .checkmark::after {
+        content: '✓';
+        opacity: 1;
+    }
+
 </style>
 {% endblock %}
 
@@ -40,16 +343,16 @@
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-md-10">
-            <div class="card shadow">
-                <div class="card-body p-4">
+            <div class="card form-card shadow-sm">
+                <div class="card-body p-4 p-md-5">
                     <!-- Header -->
-                    <div class="text-center mb-4">
+                    <div class="text-center mb-5 form-header">
                         {% if is_edit %}
-                            <h2><i class="bi bi-pencil-square" style="color: #667eea;"></i> {% trans "Edit Your Item" %}</h2>
-                            <p class="text-muted">{% trans "Update your listing details" %}</p>
+                            <h2><i class="bi bi-pencil-square"></i> {% trans "Edit Your Item" %}</h2>
+                            <p>{% trans "Update your listing details" %}</p>
                         {% else %}
-                            <h2><i class="bi bi-plus-circle" style="color: #f093fb;"></i> {% trans "Post Your Item" %}</h2>
-                            <p class="text-muted">{% trans "Share baby clothes with your community" %}</p>
+                            <h2><i class="bi bi-plus-circle"></i> {% trans "Post Your Item" %}</h2>
+                            <p>{% trans "Share baby clothes with your community" %}</p>
                         {% endif %}
                     </div>
                     
@@ -57,39 +360,123 @@
                     <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         
-                        <!-- Item Type (Donate/Sell) -->
-                        <div class="mb-4">
-                            <label for="{{ form.item_type.id_for_label }}" class="form-label">
-                                <strong>{{ form.item_type.label }}</strong>
-                            </label>
-                            {{ form.item_type }}
-                            {% if form.item_type.errors %}
-                                <div class="text-danger small mt-1">{{ form.item_type.errors }}</div>
-                            {% endif %}
-                        </div>
-                        
-                        <!-- Title -->
-                        <div class="mb-3">
-                            <label for="{{ form.title.id_for_label }}" class="form-label">{{ form.title.label }}</label>
-                            {{ form.title }}
-                            {% if form.title.errors %}
-                                <div class="text-danger small mt-1">{{ form.title.errors }}</div>
-                            {% endif %}
+                        <!-- Item Type & Title Row (Same Row for Compact Design) -->
+                        <div class="row">
+                            <div class="col-md-4 mb-4">
+                                <label for="{{ form.item_type.id_for_label }}" class="form-label">
+                                    {{ form.item_type.label }}<span class="required-star">*</span>
+                                </label>
+                                {{ form.item_type }}
+                                {% if form.item_type.errors %}
+                                    <div class="text-danger small mt-1">{{ form.item_type.errors }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-8 mb-4">
+                                <label for="{{ form.title.id_for_label }}" class="form-label">
+                                    {{ form.title.label }}<span class="required-star">*</span>
+                                </label>
+                                {{ form.title }}
+                                {% if form.title.errors %}
+                                    <div class="text-danger small mt-1">{{ form.title.errors }}</div>
+                                {% endif %}
+                            </div>
                         </div>
                         
                         <!-- Description -->
-                        <div class="mb-3">
-                            <label for="{{ form.description.id_for_label }}" class="form-label">{{ form.description.label }}</label>
+                        <div class="mb-4">
+                            <label for="{{ form.description.id_for_label }}" class="form-label">
+                                {{ form.description.label }}<span class="required-star">*</span>
+                            </label>
                             {{ form.description }}
                             {% if form.description.errors %}
                                 <div class="text-danger small mt-1">{{ form.description.errors }}</div>
                             {% endif %}
                         </div>
                         
-                        <!-- Image Uploads (3 images) -->
+                        <!-- Baby Details Row -->
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label for="{{ form.baby_gender.id_for_label }}" class="form-label">
+                                    {{ form.baby_gender.label }}<span class="required-star">*</span>
+                                </label>
+                                {{ form.baby_gender }}
+                                {% if form.baby_gender.errors %}
+                                    <div class="text-danger small mt-1">{{ form.baby_gender.errors }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <label for="{{ form.age_range.id_for_label }}" class="form-label">
+                                    {{ form.age_range.label }}<span class="required-star">*</span>
+                                </label>
+                                {{ form.age_range }}
+                                {% if form.age_range.errors %}
+                                    <div class="text-danger small mt-1">{{ form.age_range.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <!-- Size & Condition Row -->
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label for="{{ form.size.id_for_label }}" class="form-label">
+                                    {{ form.size.label }}<span class="required-star">*</span>
+                                </label>
+                                {{ form.size }}
+                                {% if form.size.errors %}
+                                    <div class="text-danger small mt-1">{{ form.size.errors }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <label for="{{ form.condition.id_for_label }}" class="form-label">
+                                    {{ form.condition.label }}<span class="required-star">*</span>
+                                </label>
+                                {{ form.condition }}
+                                {% if form.condition.errors %}
+                                    <div class="text-danger small mt-1">{{ form.condition.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <!-- Price (shown only for Sell) -->
+                        <div class="mb-4" id="priceField" style="display: none;">
+                            <label for="{{ form.price.id_for_label }}" class="form-label">
+                                {{ form.price.label }}<span class="required-star">*</span>
+                            </label>
+                            {{ form.price }}
+                            {% if form.price.errors %}
+                                <div class="text-danger small mt-1">{{ form.price.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Area -->
                         <div class="mb-4">
-                            <label class="form-label"><strong><i class="bi bi-images"></i> {% trans "Upload Images (Up to 3)" %}</strong></label>
-                            <small class="text-muted d-block mb-2">{% trans "First image will be the primary display image" %}</small>
+                            <label for="{{ form.area.id_for_label }}" class="form-label">
+                                {{ form.area.label }}<span class="required-star">*</span>
+                            </label>
+                            {{ form.area }}
+                            {% if form.area.errors %}
+                                <div class="text-danger small mt-1">{{ form.area.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Detailed Address (Hidden by default, shown after area selection) -->
+                        <div class="col-12 mb-4" id="detailed-address-container" style="display: none;">
+                            <label for="{{ form.detailed_address.id_for_label }}" class="form-label">
+                                {{ form.detailed_address.label }}
+                            </label>
+                            {{ form.detailed_address }}
+                            <small class="text-muted d-block mt-1">e.g., Road 01, House 20, Block A</small>
+                            {% if form.detailed_address.errors %}
+                                <div class="text-danger small mt-1">{{ form.detailed_address.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Image Uploads (3 images) - Moved here for better UX -->
+                        <div class="mb-4">
+                            <label class="image-upload-label">
+                                <i class="bi bi-images"></i> {% trans "Upload Images (Up to 3)" %}
+                            </label>
+                            <small class="text-muted d-block mb-3">{% trans "First image will be the primary display image" %}</small>
                             
                             <div class="row g-3">
                                 <!-- Image 1 -->
@@ -142,86 +529,20 @@
                             </div>
                         </div>
                         
-                        <!-- Baby Details Row -->
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="{{ form.baby_gender.id_for_label }}" class="form-label">{{ form.baby_gender.label }}</label>
-                                {{ form.baby_gender }}
-                                {% if form.baby_gender.errors %}
-                                    <div class="text-danger small mt-1">{{ form.baby_gender.errors }}</div>
-                                {% endif %}
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="{{ form.age_range.id_for_label }}" class="form-label">{{ form.age_range.label }}</label>
-                                {{ form.age_range }}
-                                {% if form.age_range.errors %}
-                                    <div class="text-danger small mt-1">{{ form.age_range.errors }}</div>
-                                {% endif %}
-                            </div>
-                        </div>
-                        
-                        <!-- Size & Condition Row -->
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="{{ form.size.id_for_label }}" class="form-label">{{ form.size.label }}</label>
-                                {{ form.size }}
-                                {% if form.size.errors %}
-                                    <div class="text-danger small mt-1">{{ form.size.errors }}</div>
-                                {% endif %}
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="{{ form.condition.id_for_label }}" class="form-label">{{ form.condition.label }}</label>
-                                {{ form.condition }}
-                                {% if form.condition.errors %}
-                                    <div class="text-danger small mt-1">{{ form.condition.errors }}</div>
-                                {% endif %}
-                            </div>
-                        </div>
-                        
-                        <!-- Price (shown only for Sell) -->
-                        <div class="mb-3" id="priceField" style="display: none;">
-                            <label for="{{ form.price.id_for_label }}" class="form-label">{{ form.price.label }}</label>
-                            {{ form.price }}
-                            {% if form.price.errors %}
-                                <div class="text-danger small mt-1">{{ form.price.errors }}</div>
-                            {% endif %}
-                        </div>
-                        
-                        <!-- Area -->
-                        <div class="mb-4">
-                            <label for="{{ form.area.id_for_label }}" class="form-label">{{ form.area.label }}</label>
-                            {{ form.area }}
-                            {% if form.area.errors %}
-                                <div class="text-danger small mt-1">{{ form.area.errors }}</div>
-                            {% endif %}
-                        </div>
-                        
-                        <!-- Detailed Address (Hidden by default, shown after area selection) -->
-                        <div class="col-12 mb-3" id="detailed-address-container" style="display: none;">
-                            <label for="{{ form.detailed_address.id_for_label }}" class="form-label">
-                                {{ form.detailed_address.label }}
-                            </label>
-                            {{ form.detailed_address }}
-                            {% if form.detailed_address.errors %}
-                                <div class="text-danger small mt-1">{{ form.detailed_address.errors }}</div>
-                            {% endif %}
-                        </div>
-                        
                         <!-- Alternative Contact Section -->
-                        <div class="col-12 mb-3">
-                            <div class="card" style="background: white; border: 2px solid #e2e8f0; border-radius: 12px;">
-                                <div class="card-body">
-                                    <h6 class="mb-3" style="color: #667eea; font-weight: 600;">
-                                        <i class="bi bi-phone-vibrate"></i> {% trans "Alternative Contact (Optional)" %}
-                                    </h6>
-                                    <small class="text-muted d-block mb-3">
-                                        {% trans "Use a different contact number for this item (e.g., guard, helper, family member)" %}
-                                    </small>
+                        <div class="col-12 mb-4">
+                            <div class="alt-contact-card">
+                                <h6 class="mb-2">
+                                    <i class="bi bi-phone-vibrate"></i> {% trans "Alternative Contact (Optional)" %}
+                                </h6>
+                                <small class="text-muted d-block mb-3">
+                                    {% trans "Use a different contact number for this item (e.g., guard, helper, family member)" %}
+                                </small>
                                     
                                     <!-- Checkbox -->
                                     <div class="form-check mb-3">
                                         {{ form.use_alternative_contact }}
-                                        <label class="form-check-label" for="{{ form.use_alternative_contact.id_for_label }}" style="font-weight: 500;">
+                                        <label class="form-check-label" for="{{ form.use_alternative_contact.id_for_label }}">
                                             {{ form.use_alternative_contact.label }}
                                         </label>
                                     </div>
@@ -254,8 +575,8 @@
                         </div>
                         
                         <!-- Submit Buttons -->
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-success btn-lg">
+                        <div class="d-grid gap-3 mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg">
                                 {% if is_edit %}
                                     <i class="bi bi-check-circle"></i> {% trans "Update Item" %}
                                 {% else %}
@@ -274,8 +595,187 @@
 </div>
 
 <script>
-// Toggle price field based on item type
 document.addEventListener('DOMContentLoaded', function() {
+    // ========== Custom Dropdowns (Airbnb Style) ==========
+    function initCustomDropdown(selectId) {
+        const select = document.getElementById(selectId);
+        if (!select) return;
+        
+        const wrapper = document.createElement('div');
+        wrapper.className = 'custom-select-wrapper';
+        select.parentNode.insertBefore(wrapper, select);
+        wrapper.appendChild(select);
+        
+        // Create custom display
+        const display = document.createElement('div');
+        display.className = 'custom-select-display';
+        
+        // Get placeholder text
+        const firstOption = select.options[0];
+        const placeholderText = firstOption && firstOption.value === '' ? firstOption.text : 'Select...';
+        
+        display.innerHTML = `
+            <span class="selected-text">${select.value ? select.options[select.selectedIndex].text : placeholderText}</span>
+            <i class="bi bi-chevron-down"></i>
+        `;
+        
+        if (select.value) {
+            display.classList.add('has-value');
+        }
+        
+        wrapper.appendChild(display);
+        
+        // Create dropdown
+        const dropdown = document.createElement('div');
+        dropdown.className = 'custom-dropdown';
+        
+        // Icon mapping for different dropdowns
+        function getIcon(selectId, value, text) {
+            // Item Type icons (matching dashboard)
+            if (selectId === 'id_item_type') {
+                if (value === 'donate') return '<span class="icon">🎁</span>';
+                if (value === 'sell') return '<span class="icon">💰</span>';
+            }
+            
+            // Gender icons (matching dashboard)
+            if (selectId === 'id_baby_gender') {
+                if (value === 'boy') return '<span class="icon">👦</span>';
+                if (value === 'girl') return '<span class="icon">👧</span>';
+                if (value === 'unisex') return '<span class="icon">👶</span>';
+            }
+            
+            // Age Range icons (matching dashboard)
+            if (selectId === 'id_age_range') {
+                if (value === '0-3m') return '<span class="icon">👶</span>';
+                if (value === '3-6m') return '<span class="icon">👶</span>';
+                if (value === '6-12m') return '<span class="icon">🧸</span>';
+                if (value === '1-2y') return '<span class="icon">🎈</span>';
+                if (value === '2-3y') return '<span class="icon">🎨</span>';
+                if (value === '3-4y') return '<span class="icon">⚽</span>';
+                if (value === '4-5y') return '<span class="icon">⚽</span>';
+                if (value === '5+y') return '<span class="icon">🎯</span>';
+            }
+            
+            // Condition icons
+            if (selectId === 'id_condition') {
+                if (value === 'new') return '<span class="icon">⭐</span>';
+                if (value === 'excellent') return '<span class="icon">✨</span>';
+                if (value === 'good') return '<span class="icon">👍</span>';
+                if (value === 'fair') return '<span class="icon">👌</span>';
+            }
+            
+            // Area icons (matching dashboard)
+            if (selectId === 'id_area') {
+                return '<span class="icon">📍</span>';
+            }
+            
+            return '';
+        }
+        
+        // Populate dropdown items
+        Array.from(select.options).forEach((option, index) => {
+            if (index === 0 && option.value === '') return; // Skip placeholder
+            
+            const item = document.createElement('div');
+            item.className = 'custom-dropdown-item';
+            
+            const icon = getIcon(selectId, option.value, option.text);
+            item.innerHTML = `
+                <span>${icon} ${option.text}</span>
+                <span class="checkmark"></span>
+            `;
+            
+            item.dataset.value = option.value;
+            
+            if (option.value === select.value) {
+                item.classList.add('selected');
+            }
+            
+            item.addEventListener('click', function(e) {
+                e.stopPropagation();
+                
+                // Update select
+                select.value = this.dataset.value;
+                select.dispatchEvent(new Event('change'));
+                
+                // Update display (with icon)
+                const selectedIcon = getIcon(selectId, this.dataset.value, option.text);
+                display.querySelector('.selected-text').innerHTML = selectedIcon + ' ' + option.text;
+                display.classList.add('has-value');
+                
+                // Update selected state
+                dropdown.querySelectorAll('.custom-dropdown-item').forEach(i => {
+                    i.classList.remove('selected');
+                });
+                this.classList.add('selected');
+                
+                // Close dropdown
+                closeDropdown();
+            });
+            
+            dropdown.appendChild(item);
+        });
+        
+        wrapper.appendChild(dropdown);
+        
+        // Toggle dropdown
+        display.addEventListener('click', function(e) {
+            e.stopPropagation();
+            
+            // Close other dropdowns
+            document.querySelectorAll('.custom-dropdown.show').forEach(d => {
+                if (d !== dropdown) {
+                    d.classList.remove('show');
+                    d.previousElementSibling.classList.remove('active');
+                    d.style.opacity = '0';
+                    d.style.transform = 'translateY(-10px)';
+                }
+            });
+            
+            // Toggle current dropdown
+            if (dropdown.classList.contains('show')) {
+                closeDropdown();
+            } else {
+                openDropdown();
+            }
+        });
+        
+        function openDropdown() {
+            dropdown.classList.add('show');
+            display.classList.add('active');
+            setTimeout(() => {
+                dropdown.style.opacity = '1';
+                dropdown.style.transform = 'translateY(0)';
+            }, 10);
+        }
+        
+        function closeDropdown() {
+            dropdown.style.opacity = '0';
+            dropdown.style.transform = 'translateY(-10px)';
+            display.classList.remove('active');
+            setTimeout(() => {
+                dropdown.classList.remove('show');
+            }, 200);
+        }
+        
+        // Close on outside click
+        document.addEventListener('click', function() {
+            if (dropdown.classList.contains('show')) {
+                closeDropdown();
+            }
+        });
+    }
+    
+    // Initialize all dropdowns
+    initCustomDropdown('id_item_type');
+    initCustomDropdown('id_baby_gender');
+    initCustomDropdown('id_age_range');
+    initCustomDropdown('id_condition');
+    initCustomDropdown('id_area');
+    
+    // ========== Original Functionality ==========
+    
+    // Toggle price field based on item type
     const itemTypeSelect = document.getElementById('id_item_type');
     const priceField = document.getElementById('priceField');
     const priceInput = document.getElementById('id_price');

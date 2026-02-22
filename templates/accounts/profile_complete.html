@@ -1,144 +1,440 @@
 {% extends 'base.html' %}
 {% load i18n %}
 
-{% block title %}Complete Your Profile - LittleLoop{% endblock %}
+{% block title %}{% trans "Complete Your Profile" %} - LittleLoop{% endblock %}
+
+{% block extra_css %}
+<!-- Import Inter Font -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        background: #f7f7f7;
+    }
+    
+    .profile-form-container {
+        max-width: 700px;
+        margin: 0 auto;
+    }
+    
+    /* Profile Card */
+    .profile-form-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border: 1px solid #ebebeb;
+        overflow: hidden;
+    }
+    
+    /* Profile Header Section */
+    .profile-form-header {
+        background: linear-gradient(135deg, #FF385C 0%, #E31C5F 100%);
+        padding: 40px 32px 80px 32px;
+        position: relative;
+        text-align: center;
+    }
+    
+    .profile-form-header h2 {
+        color: white;
+        font-weight: 700;
+        font-size: 1.75rem;
+        margin: 0 0 8px 0;
+    }
+    
+    .profile-form-header p {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 0.9375rem;
+        margin: 0;
+        font-weight: 400;
+    }
+    
+    /* Profile Picture Upload Section */
+    .profile-picture-upload-section {
+        display: flex;
+        justify-content: center;
+        margin-top: -60px;
+        margin-bottom: 32px;
+    }
+    
+    .profile-picture-upload-wrapper {
+        position: relative;
+    }
+    
+    .profile-picture-preview {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        border: 4px solid white;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        object-fit: cover;
+        background: white;
+        display: none;
+    }
+    
+    .profile-picture-preview.active {
+        display: block;
+    }
+    
+    .profile-picture-placeholder {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        border: 4px solid white;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        background: linear-gradient(135deg, #f7f7f7 0%, #e5e5e5 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+    
+    .profile-picture-placeholder.hide {
+        display: none;
+    }
+    
+    .profile-picture-placeholder i {
+        font-size: 3.5rem;
+        color: #9ca3af;
+    }
+    
+    .upload-badge {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        background: #FF385C;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 3px solid white;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    
+    .upload-badge:hover {
+        background: #E31C5F;
+        transform: scale(1.1);
+    }
+    
+    .upload-badge i {
+        color: white;
+        font-size: 0.875rem;
+    }
+    
+    /* Form Section */
+    .profile-form-body {
+        padding: 0 32px 32px 32px;
+    }
+    
+    /* Form Labels */
+    .form-label {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #222222;
+        margin-bottom: 6px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    
+    .form-label i {
+        color: #FF385C;
+        font-size: 0.875rem;
+    }
+    
+    .required-star {
+        color: #e74c3c;
+        margin-left: 2px;
+        font-weight: 700;
+    }
+    
+    /* Form Controls */
+    .form-control, .form-select {
+        border: 1px solid #dddddd !important;
+        border-radius: 8px !important;
+        padding: 10px 14px !important;
+        font-size: 0.9375rem !important;
+        color: #222222 !important;
+        transition: border-color 0.2s ease !important;
+        font-family: 'Inter', sans-serif !important;
+    }
+    
+    .form-control:focus, .form-select:focus {
+        border-color: #222222 !important;
+        box-shadow: 0 0 0 1px #222222 !important;
+    }
+    
+    textarea.form-control {
+        min-height: 100px !important;
+        resize: vertical !important;
+    }
+    
+    /* File Input Styling */
+    .form-control[type="file"] {
+        font-size: 0.8125rem !important;
+        padding: 8px 12px !important;
+        cursor: pointer;
+    }
+    
+    /* Info Alert */
+    .info-alert {
+        background: #f0f9ff;
+        border: 1px solid #bae6fd;
+        border-radius: 8px;
+        padding: 12px 16px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 24px;
+    }
+    
+    .info-alert i {
+        color: #0284c7;
+        font-size: 1rem;
+    }
+    
+    .info-alert-text {
+        font-size: 0.875rem;
+        color: #075985;
+        margin: 0;
+    }
+    
+    .info-alert strong {
+        font-weight: 600;
+    }
+    
+    /* Submit Button */
+    .btn-submit {
+        background: #222222;
+        border: none;
+        color: white;
+        padding: 14px 24px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.2s ease;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+    
+    .btn-submit:hover {
+        background: #000000;
+        transform: translateY(-1px);
+        color: white;
+    }
+    
+    .btn-submit i {
+        font-size: 1.125rem;
+    }
+    
+    /* Privacy Note */
+    .privacy-note {
+        text-align: center;
+        margin-top: 20px;
+        padding: 12px;
+        background: white;
+        border-radius: 8px;
+        border: 1px solid #ebebeb;
+    }
+    
+    .privacy-note i {
+        color: #10b981;
+        font-size: 1rem;
+    }
+    
+    .privacy-note span {
+        font-size: 0.875rem;
+        color: #717171;
+        font-weight: 500;
+    }
+    
+    /* Error Messages */
+    .invalid-feedback {
+        font-size: 0.8125rem;
+        color: #e74c3c;
+        font-weight: 500;
+        margin-top: 4px;
+    }
+    
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+        .profile-form-header {
+            padding: 32px 24px 70px 24px;
+        }
+        
+        .profile-form-header h2 {
+            font-size: 1.5rem;
+        }
+        
+        .profile-form-body {
+            padding: 0 24px 24px 24px;
+        }
+        
+        .profile-picture-preview,
+        .profile-picture-placeholder {
+            width: 100px;
+            height: 100px;
+        }
+        
+        .profile-picture-placeholder i {
+            font-size: 3rem;
+        }
+        
+        .upload-badge {
+            width: 32px;
+            height: 32px;
+        }
+    }
+</style>
+{% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card mt-5">
-                <div class="card-body p-5">
-                    <!-- Profile Picture Preview at Top -->
-                    <div class="text-center mb-4" style="position: relative; min-height: 120px;">
-                        <div id="profileIconPlaceholder" {% if profile.profile_picture %}style="display: none;"{% endif %}>
-                            <i class="bi bi-person-circle text-primary" style="font-size: 120px;"></i>
-                        </div>
-                        <img id="profileImagePreview" 
-                             {% if profile.profile_picture %}src="{{ profile.profile_picture.url }}"{% endif %}
-                             alt="" 
-                             class="rounded-circle mx-auto" 
-                             style="width: 120px; height: 120px; object-fit: cover; border: 4px solid #4CAF50; {% if not profile.profile_picture %}display: none;{% endif %} position: absolute; left: 50%; top: 0; transform: translateX(-50%);">
+<div class="container py-4">
+    <div class="profile-form-container">
+        <!-- Profile Form Card -->
+        <div class="profile-form-card">
+            <!-- Profile Header with Gradient -->
+            <div class="profile-form-header">
+                <h2>{% trans "Welcome to LittleLoop!" %}</h2>
+                <p>{% trans "Let's complete your profile to get started" %}</p>
+            </div>
+            
+            <!-- Profile Picture Upload -->
+            <div class="profile-picture-upload-section">
+                <div class="profile-picture-upload-wrapper">
+                    <!-- Placeholder -->
+                    <div class="profile-picture-placeholder" id="profilePlaceholder" {% if profile.profile_picture %}style="display: none;"{% endif %}>
+                        <i class="bi bi-person-circle"></i>
                     </div>
                     
-                    <h2 class="text-center mb-3">Welcome to LittleLoop!</h2>
-                    <p class="text-center text-muted mb-4">
-                        You're almost there! Let's complete your profile to get started.
-                    </p>
+                    <!-- Preview -->
+                    <img id="profilePreview" 
+                         {% if profile.profile_picture %}src="{{ profile.profile_picture.url }}"{% endif %}
+                         alt="Profile Preview" 
+                         class="profile-picture-preview {% if profile.profile_picture %}active{% endif %}">
                     
-                    <!-- Profile Completion Form -->
-                    <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
-                        {% csrf_token %}
-                        
-                        <!-- Profile Picture -->
-                        <div class="mb-3">
-                            <label for="{{ form.profile_picture.id_for_label }}" class="form-label">
-                                <i class="bi bi-image"></i> {{ form.profile_picture.label }}
-                            </label>
-                            {{ form.profile_picture }}
-                            {% if form.profile_picture.errors %}
-                                <div class="invalid-feedback d-block">
-                                    {{ form.profile_picture.errors.0 }}
-                                </div>
-                            {% endif %}
-                        </div>
-                        
-                        <!-- Full Name -->
-                        <div class="mb-3">
-                            <label for="{{ form.full_name.id_for_label }}" class="form-label">
-                                <i class="bi bi-person"></i> {{ form.full_name.label }} <span class="text-danger">*</span>
-                            </label>
-                            {{ form.full_name }}
-                            {% if form.full_name.errors %}
-                                <div class="invalid-feedback d-block">
-                                    {{ form.full_name.errors.0 }}
-                                </div>
-                            {% endif %}
-                        </div>
-                        
-                        <!-- Email (Only show if user signed up with phone) -->
-                        {% if 'email' in form.fields %}
-                        <div class="mb-3">
-                            <label for="{{ form.email.id_for_label }}" class="form-label">
-                                <i class="bi bi-envelope"></i> {{ form.email.label }} <span class="text-danger">*</span>
-                            </label>
-                            {{ form.email }}
-                            {% if form.email.errors %}
-                                <div class="invalid-feedback d-block">
-                                    {{ form.email.errors.0 }}
-                                </div>
-                            {% endif %}
-                        </div>
+                    <!-- Upload Badge -->
+                    <label for="{{ form.profile_picture.id_for_label }}" class="upload-badge" title="{% trans 'Upload Photo' %}">
+                        <i class="bi bi-camera-fill"></i>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Form Body -->
+            <div class="profile-form-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% if next %}
+                        <input type="hidden" name="next" value="{{ next }}">
+                    {% endif %}
+                    
+                    <!-- Hidden File Input -->
+                    <div style="display: none;">
+                        {{ form.profile_picture }}
+                    </div>
+                    
+                    <!-- Full Name -->
+                    <div class="mb-3">
+                        <label for="{{ form.full_name.id_for_label }}" class="form-label">
+                            <i class="bi bi-person-fill"></i>
+                            <span>{{ form.full_name.label }}</span>
+                            <span class="required-star">*</span>
+                        </label>
+                        {{ form.full_name }}
+                        {% if form.full_name.errors %}
+                            <div class="invalid-feedback d-block">{{ form.full_name.errors.0 }}</div>
                         {% endif %}
-                        
-                        <!-- Phone Number (Only show if user signed up with email) -->
-                        {% if 'phone_number' in form.fields %}
-                        <div class="mb-3">
-                            <label for="{{ form.phone_number.id_for_label }}" class="form-label">
-                                <i class="bi bi-telephone"></i> {{ form.phone_number.label }} <span class="text-danger">*</span>
-                            </label>
-                            {{ form.phone_number }}
-                            {% if form.phone_number.errors %}
-                                <div class="invalid-feedback d-block">
-                                    {{ form.phone_number.errors.0 }}
-                                </div>
-                            {% endif %}
-                        </div>
+                    </div>
+                    
+                    <!-- Email (Only show if user signed up with phone) -->
+                    {% if 'email' in form.fields %}
+                    <div class="mb-3">
+                        <label for="{{ form.email.id_for_label }}" class="form-label">
+                            <i class="bi bi-envelope-fill"></i>
+                            <span>{{ form.email.label }}</span>
+                            <span class="required-star">*</span>
+                        </label>
+                        {{ form.email }}
+                        {% if form.email.errors %}
+                            <div class="invalid-feedback d-block">{{ form.email.errors.0 }}</div>
                         {% endif %}
-                        
-                        <!-- Location -->
-                        <div class="mb-3">
-                            <label for="{{ form.location.id_for_label }}" class="form-label">
-                                <i class="bi bi-geo-alt"></i> {{ form.location.label }} <span class="text-danger">*</span>
-                            </label>
-                            {{ form.location }}
-                            {% if form.location.errors %}
-                                <div class="invalid-feedback d-block">
-                                    {{ form.location.errors.0 }}
-                                </div>
-                            {% endif %}
-                        </div>
-                        
-                        <!-- Bio -->
-                        <div class="mb-4">
-                            <label for="{{ form.bio.id_for_label }}" class="form-label">
-                                <i class="bi bi-chat-left-text"></i> {{ form.bio.label }}
-                            </label>
-                            {{ form.bio }}
-                            {% if form.bio.errors %}
-                                <div class="invalid-feedback d-block">
-                                    {{ form.bio.errors.0 }}
-                                </div>
-                            {% endif %}
-                        </div>
-                        
-                        <!-- Current User Login Info -->
-                        <div class="alert alert-info mb-4">
-                            <i class="bi bi-info-circle"></i> 
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Phone Number (Only show if user signed up with email) -->
+                    {% if 'phone_number' in form.fields %}
+                    <div class="mb-3">
+                        <label for="{{ form.phone_number.id_for_label }}" class="form-label">
+                            <i class="bi bi-phone-fill"></i>
+                            <span>{{ form.phone_number.label }}</span>
+                            <span class="required-star">*</span>
+                        </label>
+                        {{ form.phone_number }}
+                        {% if form.phone_number.errors %}
+                            <div class="invalid-feedback d-block">{{ form.phone_number.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Location -->
+                    <div class="mb-3">
+                        <label for="{{ form.location.id_for_label }}" class="form-label">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <span>{{ form.location.label }}</span>
+                            <span class="required-star">*</span>
+                        </label>
+                        {{ form.location }}
+                        {% if form.location.errors %}
+                            <div class="invalid-feedback d-block">{{ form.location.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Bio -->
+                    <div class="mb-4">
+                        <label for="{{ form.bio.id_for_label }}" class="form-label">
+                            <i class="bi bi-file-text-fill"></i>
+                            <span>{{ form.bio.label }}</span>
+                        </label>
+                        {{ form.bio }}
+                        {% if form.bio.errors %}
+                            <div class="invalid-feedback d-block">{{ form.bio.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Current User Login Info -->
+                    <div class="info-alert">
+                        <i class="bi bi-info-circle-fill"></i>
+                        <p class="info-alert-text">
                             {% if signed_up_with_phone %}
                                 <strong>{% trans "Phone:" %}</strong> {{ user.username|slice:"6:" }}
                             {% else %}
                                 <strong>{% trans "Email:" %}</strong> {{ user.email }}
                             {% endif %}
-                        </div>
-                        
-                        <!-- Submit Button -->
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-primary btn-lg">
-                                <i class="bi bi-check-circle"></i> Complete Profile
-                            </button>
-                        </div>
-                    </form>
-                </div>
+                        </p>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-submit">
+                        <i class="bi bi-check-circle-fill"></i>
+                        <span>{% trans "Complete Profile" %}</span>
+                    </button>
+                </form>
             </div>
-            
-            <!-- Privacy Note -->
-            <div class="text-center mt-3">
-                <small class="text-muted">
-                    <i class="bi bi-shield-check"></i> 
-                    Your information is secure and private
-                </small>
-            </div>
+        </div>
+        
+        <!-- Privacy Note -->
+        <div class="privacy-note">
+            <i class="bi bi-shield-check-fill"></i>
+            <span>{% trans "Your information is secure and private" %}</span>
         </div>
     </div>
 </div>
@@ -150,19 +446,12 @@ document.getElementById('{{ form.profile_picture.id_for_label }}').addEventListe
     if (file) {
         const reader = new FileReader();
         reader.onload = function(event) {
-            const preview = document.getElementById('profileImagePreview');
-            const placeholder = document.getElementById('profileIconPlaceholder');
+            const preview = document.getElementById('profilePreview');
+            const placeholder = document.getElementById('profilePlaceholder');
             
             preview.src = event.target.result;
-            preview.style.display = 'block';
-            preview.style.position = 'relative';
-            preview.style.left = 'auto';
-            preview.style.transform = 'none';
-            preview.classList.add('d-block');
-            
-            if (placeholder) {
-                placeholder.style.display = 'none';
-            }
+            preview.classList.add('active');
+            placeholder.style.display = 'none';
         };
         reader.readAsDataURL(file);
     }

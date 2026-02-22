@@ -3,6 +3,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.utils.translation import gettext as _
+from django.urls import reverse
 from .forms import SignupForm, LoginForm, ProfileCompletionForm
 from .models import UserProfile
 
@@ -53,12 +54,15 @@ def signup_view(request):
 def login_view(request):
     """
     Login view - authenticate with email/phone + password.
-    After login, redirect to profile completion if incomplete, else homepage.
+    After login, redirect to profile completion if incomplete, else to 'next' or homepage.
     """
+    # Get the 'next' parameter from GET or POST
+    next_url = request.GET.get('next') or request.POST.get('next')
+    
     if request.user.is_authenticated:
         # Already logged in, check profile
         if hasattr(request.user, 'profile') and request.user.profile.is_complete:
-            return redirect('listings:item_list')
+            return redirect(next_url) if next_url else redirect('listings:item_list')
         else:
             return redirect('accounts:profile_complete')
     
@@ -78,16 +82,20 @@ def login_view(request):
                 # Check if profile is complete
                 if hasattr(user, 'profile') and user.profile.is_complete:
                     messages.success(request, _('Welcome back!'))
-                    return redirect('listings:item_list')
+                    # Redirect to 'next' URL or homepage
+                    return redirect(next_url) if next_url else redirect('listings:item_list')
                 else:
                     messages.info(request, _('Please complete your profile'))
+                    # Pass 'next' to profile completion
+                    if next_url:
+                        return redirect(f"{reverse('accounts:profile_complete')}?next={next_url}")
                     return redirect('accounts:profile_complete')
             else:
                 messages.error(request, _('Invalid email/phone or password'))
     else:
         form = LoginForm()
     
-    return render(request, 'accounts/login.html', {'form': form})
+    return render(request, 'accounts/login.html', {'form': form, 'next': next_url})
 
 
 def logout_view(request):
@@ -102,6 +110,9 @@ def profile_complete(request):
     View for completing user profile after signup.
     Excludes email if user signed up with email, excludes phone if signed up with phone.
     """
+    # Get the 'next' parameter
+    next_url = request.GET.get('next') or request.POST.get('next')
+    
     if not request.user.is_authenticated:
         messages.warning(request, _('Please login first'))
         return redirect('accounts:login')
@@ -128,7 +139,8 @@ def profile_complete(request):
             profile.mark_complete()  # Mark as complete and save
             
             messages.success(request, _('Profile completed successfully! Welcome to LittleLoop.'))
-            return redirect('listings:item_list')
+            # Redirect to 'next' URL or homepage
+            return redirect(next_url) if next_url else redirect('listings:item_list')
     else:
         form = ProfileCompletionForm(instance=profile, user=request.user)
     
@@ -136,6 +148,7 @@ def profile_complete(request):
         'form': form,
         'profile': profile,
         'signed_up_with_phone': request.user.username.startswith('phone_'),
+        'next': next_url,
     })
 
 
