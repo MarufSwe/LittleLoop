@@ -204,6 +204,41 @@
         border-top: 1px solid #f0f0f0;
     }
     
+    /* Mobile Modal Fixes */
+    @media (max-width: 768px) {
+        .modal-dialog {
+            margin: 1rem;
+        }
+        
+        .modal-content {
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
+        }
+        
+        .modal-footer {
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .modal-footer .btn,
+        .modal-footer form {
+            width: 100%;
+        }
+        
+        .modal-footer .btn {
+            margin: 0 !important;
+        }
+        
+        .btn-primary-custom,
+        .btn-outline-custom {
+            width: 100%;
+            padding: 12px 20px;
+            font-size: 1rem;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+    }
+    
     .price-text {
         color: #be185d;
         font-weight: 700;
@@ -340,12 +375,12 @@
                                             <p style="color: #717171; font-size: 0.875rem;">{% trans "This will remove it from the public listing." %}</p>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-outline-custom" data-bs-dismiss="modal">
+                                            <button type="button" class="btn btn-outline-custom" data-bs-dismiss="modal" aria-label="{% trans 'Cancel' %}">
                                                 {% trans "Cancel" %}
                                             </button>
-                                            <form method="post" action="{% url 'listings:item_mark_done' item.pk %}" style="display: inline;">
+                                            <form method="post" action="{% url 'listings:item_mark_done' item.pk %}">
                                                 {% csrf_token %}
-                                                <button type="submit" class="btn btn-primary-custom" style="background: #dc2626;">
+                                                <button type="submit" class="btn btn-primary-custom" style="background: #dc2626; color: white;">
                                                     <i class="bi bi-check"></i> {% trans "Mark as Done" %}
                                                 </button>
                                             </form>
