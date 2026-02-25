@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load bangla_filters %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -510,7 +511,7 @@
                                 <li>
                                     <div class="dropdown-item-text">
                                         <i class="bi bi-phone-fill"></i>
-                                        <span>{{ user.profile.phone_number }}</span>
+                                        <span>{{ user.profile.phone_number|bangla_number }}</span>
                                     </div>
                                 </li>
                                 <li><hr class="dropdown-divider"></li>

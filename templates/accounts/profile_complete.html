@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% load bangla_filters %}
 
 {% block title %}{% trans "Complete Your Profile" %} - LittleLoop{% endblock %}
 
@@ -415,7 +416,7 @@
                         <i class="bi bi-info-circle-fill"></i>
                         <p class="info-alert-text">
                             {% if signed_up_with_phone %}
-                                <strong>{% trans "Phone:" %}</strong> {{ user.username|slice:"6:" }}
+                                <strong>{% trans "Phone:" %}</strong> {{ user.username|slice:"6:"|bangla_number }}
                             {% else %}
                                 <strong>{% trans "Email:" %}</strong> {{ user.email }}
                             {% endif %}

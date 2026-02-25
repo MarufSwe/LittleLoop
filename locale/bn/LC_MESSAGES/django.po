@@ -22,7 +22,7 @@ msgstr ""
 msgid "Email"
 msgstr "ইমেইল"
 
-#: accounts/forms.py:15 accounts/forms.py:177
+#: accounts/forms.py:15 accounts/forms.py:177 templates/accounts/profile_view.html:334
 msgid "Phone Number"
 msgstr "ফোন নম্বর"
 
@@ -114,27 +114,27 @@ msgstr ""
 
 #: accounts/forms.py:170
 msgid "Tell us a little about yourself..."
-msgstr ""
+msgstr "আপনার সম্পর্কে কিছু বলুন..."
 
 #: accounts/forms.py:175
 #, fuzzy
 #| msgid "Detailed Address (Optional)"
 msgid "Profile Picture (Optional)"
-msgstr "বিস্তারিত ঠিকানা (ঐচ্ছিক)"
+msgstr "প্রোফাইল ছবি (ঐচ্ছিক)"
 
 #: accounts/forms.py:176
 msgid "Full Name"
-msgstr ""
+msgstr "পুরো নাম"
 
 #: accounts/forms.py:178
 msgid "Location (City/Area)"
-msgstr ""
+msgstr "এলাকা (শহর/এলাকা)"
 
 #: accounts/forms.py:179
 #, fuzzy
 #| msgid "Alternative Contact (Optional)"
 msgid "About You (Optional)"
-msgstr "বিকল্প যোগাযোগ (ঐচ্ছিক)"
+msgstr "আপনার সম্পর্কে (ঐচ্ছিক)"
 
 #: accounts/views.py:45
 #, fuzzy
@@ -235,13 +235,22 @@ msgstr "ছবি ৩ আপলোড করুন (ঐচ্ছিক)"
 msgid "Gender"
 msgstr "লিঙ্গ"
 
+#: templates/listings/item_list.html:446
+msgid "Any gender"
+msgstr "যেকোনো লিঙ্গ"
+
 #: listings/forms.py:96 templates/listings/item_detail.html:148
 msgid "Age Range"
 msgstr "বয়স"
 
+#: listings/forms.py:96 templates/listings/item_detail.html:148
+msgid "Any age"
+msgstr "যেকোনো বয়স"
+
 #: listings/forms.py:97 templates/listings/item_detail.html:154
 msgid "Size"
 msgstr "সাইজ"
+
 
 #: listings/forms.py:98 templates/listings/item_detail.html:160
 msgid "Condition"
@@ -427,7 +436,7 @@ msgstr "ফোন:"
 
 #: templates/accounts/profile_complete.html:121
 msgid "Email:"
-msgstr ""
+msgstr "ইমেইল:"
 
 #: templates/accounts/signup.html:17 templates/accounts/signup.html:98
 msgid "Create Account"
@@ -526,9 +535,13 @@ msgid "Home"
 msgstr "হোম"
 
 #: templates/listings/item_detail.html:166
-#: templates/listings/item_list.html:472
+#: templates/listings/item_list.html:472 templates/accounts/profile_view.html:343
 msgid "Location"
 msgstr "এলাকা"
+
+msgid "Anywhere"
+msgstr "যেকোনো জায়গা"
+
 
 #: templates/listings/item_detail.html:187
 msgid "Contact Owner"
@@ -602,6 +615,10 @@ msgstr "আশেপাশের অভিভাবকদের কাছ থে
 msgid "Type"
 msgstr "ধরন"
 
+#: templates/listings/item_list.html:433
+msgid "Any type"
+msgstr "যেকোনো ধরন"
+
 #: templates/listings/item_list.html:436 templates/listings/item_list.html:449
 #: templates/listings/item_list.html:462 templates/listings/item_list.html:475
 msgid "All"
@@ -642,6 +659,15 @@ msgstr "কোন আইটেম পাওয়া যায়নি"
 #: templates/listings/item_list.html:611
 msgid "Try adjusting your filters or be the first to post!"
 msgstr "আপনার ফিল্টার সামঞ্জস্য করুন বা প্রথম পোস্ট করুন!"
+
+
+#: templates/listings/item_list.html:614
+msgid "No Items Yet"
+msgstr "এখনও কোনও আইটেম নেই"
+
+#: templates/listings/item_list.html:614
+msgid "You haven't posted any items yet. Start sharing!"
+msgstr "আপনি এখনও কোনও আইটেম পোস্ট করেননি। শেয়ার করা শুরু করুন!"
 
 #: templates/listings/item_list.html:614
 msgid "Post Your First Item"
@@ -1823,6 +1849,47 @@ msgstr ""
 
 #: venv/lib/python3.11/site-packages/django/views/static.py:68
 #: venv/lib/python3.11/site-packages/django/views/templates/directory_index.html:8
+#: templates/accounts/profile_view.html:305
+msgid "Profile Information"
+msgstr "প্রোফাইল তথ্য"
+
+#: templates/accounts/profile_view.html:312
+msgid "Profile Picture"
+msgstr "প্রোফাইল ছবি"
+
+#: templates/accounts/profile_view.html:325 templates/accounts/profile_view.html:336
+#: templates/accounts/profile_view.html:345
+msgid "Not set"
+msgstr "সেট করা হয়নি"
+
+#: templates/accounts/profile_view.html:354
+msgid "About Me"
+msgstr "আমার সম্পর্কে"
+
+#: templates/accounts/profile_view.html:364
+msgid "Edit Profile"
+msgstr "প্রোফাইল সম্পাদনা"
+
+#: templates/accounts/profile_view.html:368
+msgid "Back to Home"
+msgstr "হোমে ফিরে যান"
+
+#: templates/accounts/profile_complete.html:308
+msgid "Welcome to LittleLoop!"
+msgstr "লিটেল-লুপ এ স্বাগতম!"
+
+#: templates/accounts/profile_complete.html:309
+msgid "Let's complete your profile to get started"
+msgstr "শুরু করতে আপনার প্রোফাইল সম্পন্ন করুন"
+
+#: templates/accounts/profile_complete.html:327
+msgid "Upload Photo"
+msgstr "ছবি আপলোড করুন"
+
+#: templates/accounts/profile_complete.html:438
+msgid "Your information is secure and private"
+msgstr "আপনার তথ্য নিরাপদ এবং গোপনীয়"
+
 #: venv/lib/python3.11/site-packages/django/views/templates/directory_index.html:11
 #, python-format
 msgid "Index of %(directory)s"

@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% load bangla_filters %}
 
 {% block title %}{% trans "My Items" %} - LittleLoop{% endblock %}
 
@@ -313,7 +314,7 @@
                                 <!-- Price -->
                                 <td>
                                     {% if item.item_type == 'sell' and item.price %}
-                                        <span class="price-text">৳{{ item.price }}</span>
+                                        <span class="price-text">৳{{ item.price|bangla_number }}</span>
                                     {% else %}
                                         <span class="price-text">{% trans "Free" %}</span>
                                     {% endif %}
@@ -349,9 +350,8 @@
                                                class="btn btn-action" title="{% trans 'Edit' %}">
                                                 <i class="bi bi-pencil"></i>
                                             </a>
-                                            <button type="button" class="btn btn-action btn-action-danger" 
-                                                    data-bs-toggle="modal" 
-                                                    data-bs-target="#markDoneModal{{ item.pk }}"
+                                            <button type="button" class="btn btn-action btn-action-danger"
+                                                    onclick="confirmMarkDone('{{ item.pk }}', '{{ item.title|escapejs }}')"
                                                     title="{% trans 'Mark as Done' %}">
                                                 <i class="bi bi-check"></i>
                                             </button>
@@ -359,35 +359,6 @@
                                     </div>
                                 </td>
                             </tr>
-                            
-                            <!-- Mark Done Modal -->
-                            <div class="modal fade" id="markDoneModal{{ item.pk }}" tabindex="-1">
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" style="font-weight: 600; color: #222222;">
-                                                <i class="bi bi-exclamation-triangle" style="color: #f59e0b;"></i> {% trans "Confirm Action" %}
-                                            </h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <p style="color: #222222;">{% trans "Are you sure you want to mark" %} <strong>"{{ item.title }}"</strong> {% trans "as done?" %}</p>
-                                            <p style="color: #717171; font-size: 0.875rem;">{% trans "This will remove it from the public listing." %}</p>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-outline-custom" data-bs-dismiss="modal" aria-label="{% trans 'Cancel' %}">
-                                                {% trans "Cancel" %}
-                                            </button>
-                                            <form method="post" action="{% url 'listings:item_mark_done' item.pk %}">
-                                                {% csrf_token %}
-                                                <button type="submit" class="btn btn-primary-custom" style="background: #dc2626; color: white;">
-                                                    <i class="bi bi-check"></i> {% trans "Mark as Done" %}
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             {% endfor %}
                         </tbody>
                     </table>
@@ -444,4 +415,198 @@
         </a>
     </div>
 </div>
+
+<!-- Custom iOS-Friendly Confirmation Modal -->
+<div id="customConfirmModal" class="custom-modal" style="display: none;">
+    <div class="custom-modal-overlay" onclick="closeCustomModal()"></div>
+    <div class="custom-modal-content">
+        <div class="custom-modal-header">
+            <i class="bi bi-exclamation-triangle"></i>
+            <h5>{% trans "Confirm Action" %}</h5>
+        </div>
+        <div class="custom-modal-body">
+            <p id="confirmMessage"></p>
+            <small>{% trans "This will remove it from the public listing." %}</small>
+        </div>
+        <div class="custom-modal-footer">
+            <button type="button" class="custom-btn custom-btn-cancel" onclick="closeCustomModal()">
+                {% trans "Cancel" %}
+            </button>
+            <form id="confirmForm" method="post" action="" style="margin: 0;">
+                {% csrf_token %}
+                <button type="submit" class="custom-btn custom-btn-confirm">
+                    <i class="bi bi-check"></i> {% trans "Mark as Done" %}
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Custom Modal Styles - iOS Optimized */
+.custom-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    -webkit-overflow-scrolling: touch;
+}
+
+.custom-modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    -webkit-tap-highlight-color: transparent;
+}
+
+.custom-modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    -webkit-transform: translate(-50%, -50%);
+}
+
+.custom-modal-header {
+    padding: 20px;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.custom-modal-header i {
+    font-size: 1.5rem;
+    color: #f59e0b;
+}
+
+.custom-modal-header h5 {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #222222;
+}
+
+.custom-modal-body {
+    padding: 20px;
+}
+
+.custom-modal-body p {
+    margin: 0 0 8px 0;
+    font-size: 0.9375rem;
+    color: #222222;
+}
+
+.custom-modal-body small {
+    font-size: 0.8125rem;
+    color: #717171;
+}
+
+.custom-modal-footer {
+    padding: 16px 20px;
+    border-top: 1px solid #f0f0f0;
+    display: flex;
+    gap: 12px;
+}
+
+.custom-btn {
+    flex: 1;
+    padding: 14px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.custom-btn-cancel {
+    background: #f7f7f7;
+    color: #222222;
+}
+
+.custom-btn-cancel:active {
+    background: #ebebeb;
+}
+
+.custom-btn-confirm {
+    background: #dc2626;
+    color: white;
+}
+
+.custom-btn-confirm:active {
+    background: #b91c1c;
+}
+
+@media (max-width: 576px) {
+    .custom-modal-content {
+        width: 95%;
+        border-radius: 20px;
+    }
+    
+    .custom-modal-footer {
+        flex-direction: column;
+    }
+    
+    .custom-btn {
+        width: 100%;
+        padding: 16px;
+    }
+}
+</style>
+
+<script>
+// iOS-Friendly Confirmation Modal
+function confirmMarkDone(itemId, itemTitle) {
+    const modal = document.getElementById('customConfirmModal');
+    const message = document.getElementById('confirmMessage');
+    const form = document.getElementById('confirmForm');
+    
+    // Set message and form action (URLs are at root, not /listings/)
+    message.innerHTML = '{% trans "Are you sure you want to mark" %} <strong>"' + itemTitle + '"</strong> {% trans "as done?" %}';
+    form.action = '/' + itemId + '/mark-done/';
+    
+    // Show modal
+    modal.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+    
+    // Prevent body scroll on iOS
+    modal.addEventListener('touchmove', function(e) {
+        if (e.target === modal) {
+            e.preventDefault();
+        }
+    }, { passive: false });
+}
+
+function closeCustomModal() {
+    const modal = document.getElementById('customConfirmModal');
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+}
+
+// Close modal on ESC key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeCustomModal();
+    }
+});
+</script>
+
 {% endblock %}

@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% load bangla_filters %}
 
 {% block title %}{{ item.title }} - LittleLoop{% endblock %}
 
@@ -286,7 +287,7 @@
                         
                         <!-- Price -->
                         {% if item.item_type == 'sell' and item.price %}
-                            <h3 class="price-tag sell mb-0">৳{{ item.price }}</h3>
+                            <h3 class="price-tag sell mb-0">৳{{ item.price|bangla_number }}</h3>
                         {% else %}
                             <h3 class="price-tag free mb-0">{% trans "Free" %}</h3>
                         {% endif %}
@@ -351,7 +352,7 @@
                                     <p class="mb-1" style="font-size: 0.875rem; font-weight: 500;">
                                         <strong>{{ item.alternative_contact_name }}</strong><br>
                                         <a href="tel:{{ item.alternative_contact_phone }}">
-                                            {{ item.alternative_contact_phone }}
+                                            {{ item.alternative_contact_phone|bangla_number}}
                                         </a>
                                     </p>
                                     <small style="font-size: 0.75rem; opacity: 0.9;">
@@ -361,7 +362,7 @@
                                     <p class="mb-1" style="font-size: 0.875rem; font-weight: 500;">
                                         <strong>{{ item.owner.profile.full_name }}</strong><br>
                                         <a href="tel:{{ item.owner.profile.phone_number }}">
-                                            {{ item.owner.profile.phone_number }}
+                                            {{ item.owner.profile.phone_number|bangla_number }}
                                         </a>
                                     </p>
                                 {% endif %}

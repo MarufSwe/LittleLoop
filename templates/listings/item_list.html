@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% load bangla_filters %}
 
 {% block title %}{% trans "Browse Baby Clothes - LittleLoop" %}{% endblock %}
 
@@ -1002,7 +1003,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <!-- Price -->
                                 <div class="item-price{% if item.item_type == 'donate' %} free{% else %} sell{% endif %}">
                                     {% if item.item_type == 'sell' and item.price %}
-                                        ৳{{ item.price }}
+                                        ৳{{ item.price|bangla_number }}
                                     {% else %}
                                         {% trans "Free" %}
                                     {% endif %}

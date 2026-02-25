@@ -6,7 +6,7 @@ from .models import Item
 class ItemAdmin(admin.ModelAdmin):
     """Admin interface for Item model"""
     
-    list_display = ['title', 'owner', 'item_type', 'baby_gender', 'age_range', 
+    list_display = ['id', 'title', 'owner', 'item_type', 'baby_gender', 'age_range', 
                     'area', 'price', 'status', 'created_at']
     list_filter = ['item_type', 'baby_gender', 'age_range', 'condition', 'status', 'created_at']
     search_fields = ['title', 'description', 'area', 'owner__email']
